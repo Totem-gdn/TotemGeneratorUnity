@@ -19,11 +19,10 @@ public class TotemGenerator: MonoBehaviour
             ColorEntity = ColorEntity(red=(float)Random.Range(0, 255), green=(float)Random.Range(0, 255), blue=(float)Random.Range(0, 255), alpha=1.0);
         }
         if (Range == null) {
-            int _random = Random.Range(0, 101);
-            Range = (float) Mathf.Ceil(100 * Mathf.Pow(Random.Range(0, 101), 2));
+            Range = (float) 100 * (1 - Mathf.sqrt(Random.Range(0, 101)));
         } 
         if (Damage == null) {
-            Range = (float) Mathf.Ceil(100 * Mathf.Pow(Random.Range(0, 101), 2));
+            Damage = (float) 100 * (1 - Mathf.sqrt(Random.Range(0, 101)));
         }
         return TotemSpear(Tip, Element, ShaftColor, Range, Damage);
     }
