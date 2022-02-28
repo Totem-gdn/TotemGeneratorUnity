@@ -6,24 +6,31 @@ using UnityEngine.Serialization;
 
 public class TotemGenerator: MonoBehaviour
 {
-    public TotemSpear generateItem(TipMaterialEnum Tip=null, ElementEnum Element=null, ColorEntity ShaftColor=null, float Range=null, float Damage=null) {
+    static public TotemSpear generateItem(TipMaterialEnum? Tip=null, ElementEnum? Element=null, ColorEntity ShaftColor = null, float? Range=null, float? Damage=null) {
         if (Tip == null) {
-            var values = Enum.GetValues(typeof(TipMaterialEnum));
-            Tip = (TipMaterialEnum)values[Random.Range(0, values.Length)];
+            Tip = TotemGenerator.GetRandomEnum<TipMaterialEnum>();
         }
-        if (ElementEnum == null) {
-            var values = Enum.GetValues(typeof(ElementEnum));
-            Tip = (ElementEnum)values[Random.Range(0, values.Length)];
+        if (Element == null) {
+            Element = TotemGenerator.GetRandomEnum<ElementEnum>();
         }
-        if (ColorEntity == null) {
-            ColorEntity = ColorEntity(red=(float)Random.Range(0, 255), green=(float)Random.Range(0, 255), blue=(float)Random.Range(0, 255), alpha=1.0);
+        if (ShaftColor == null) {
+            ShaftColor = new ColorEntity((float)Random.Range(0, 255), (float)Random.Range(0, 255), (float)Random.Range(0, 255));
         }
         if (Range == null) {
-            Range = (float) 100 * (1 - Mathf.sqrt(Random.Range(0, 101)));
+            float RandomNumber = Random.Range(0f, 100f);
+            Range = RandomNumber;
         } 
         if (Damage == null) {
-            Damage = (float) 100 * (1 - Mathf.sqrt(Random.Range(0, 101)));
+            float RandomNumber = Random.Range(0f, 100f);
+            Damage = RandomNumber;
         }
-        return TotemSpear(Tip, Element, ShaftColor, Range, Damage);
+        return new TotemSpear((TipMaterialEnum)Tip, (ElementEnum)Element, ShaftColor, (float)Range, (float)Damage);
+    }
+
+    static T GetRandomEnum<T>()
+    {
+        System.Array A = System.Enum.GetValues(typeof(T));
+        T V = (T)A.GetValue(UnityEngine.Random.Range(0,A.Length));
+        return V;
     }
 }
