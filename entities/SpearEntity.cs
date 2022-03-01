@@ -20,6 +20,6 @@ public class TotemSpear
     }
 
     override public string ToString() {
-        return $"{TipMaterial} {Element} {ShaftColor} {Range} {Damage}";
+        return $"Tip:{TipMaterial},Element:{Element},ShaftColor:{ShaftColor},Range:{Range},Damage:{Damage}";
     }
 }

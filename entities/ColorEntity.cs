@@ -12,4 +12,8 @@ public class ColorEntity
         blue=Blue;
         alpha=1f;
     }
+
+    override public string ToString() { 
+        return $"(r:{red},g:{green},b:{blue},a:{alpha})";
+    }
 }

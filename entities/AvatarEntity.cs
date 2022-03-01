@@ -23,4 +23,7 @@ public class TotemAvatar
         BodyMuscles = aBodyMuscles;
     }
 
+    override public string ToString() {
+        return $"Sex:{Sex},SkinColor:{SkinColor}HairColor:{HairColor},HairStyle:{HairStyle},EyeColor:{EyeColor},BodyFat:{BodyFat},BodyMuscles:{BodyMuscles}";
+    }
 }
