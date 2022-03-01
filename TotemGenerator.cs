@@ -6,7 +6,7 @@ using UnityEngine.Serialization;
 
 public class TotemGenerator: MonoBehaviour
 {
-    static public TotemSpear generateItem(TipMaterialEnum? Tip=null, ElementEnum? Element=null, ColorEntity ShaftColor = null, float? Range=null, float? Damage=null) {
+    static public TotemSpear generateSpear(TipMaterialEnum? Tip=null, ElementEnum? Element=null, ColorEntity ShaftColor = null, float? Range=null, float? Damage=null) {
         if (Tip == null) {
             Tip = TotemGenerator.GetRandomEnum<TipMaterialEnum>();
         }
