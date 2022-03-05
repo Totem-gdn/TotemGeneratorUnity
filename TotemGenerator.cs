@@ -6,8 +6,9 @@ using Random = UnityEngine.Random;
 
 public class TotemGenerator: MonoBehaviour
 {
-    public static TotemSpear GenerateSpear(TipMaterialEnum? tip=null, ElementEnum? element=null, ColorEntity shaftColor = null, float? range=null, float? damage=null) {
-        tip ??= (TipMaterialEnum)ExponentialRandom(0, 3);
+    public static TotemSpear GenerateSpear(TipMaterialEnum? tip=null, ElementEnum? element=null, ColorEntity shaftColor = null, float? range=null, float? damage=null)
+    {
+        tip ??= (TipMaterialEnum) (4 * ExponentialRandom(0, 1));
         element ??= GetRandomEnum<ElementEnum>();
         shaftColor ??=
             new ColorEntity(Random.Range(0, 255), Random.Range(0, 255), Random.Range(0, 255));
@@ -70,9 +71,9 @@ public class TotemGenerator: MonoBehaviour
         return Mathf.Clamp(std * sigma + mean, min, max);
     }
 
-    private static float ExponentialRandom(int min, int max)
+    public static float ExponentialRandom(float a, float b, float rate=2f)
     {
-        var expRate = Mathf.Exp(-min);
-        return (int)(-Mathf.Log(expRate - Random.value * (expRate - Mathf.Exp(-max))));
+        var expRate = Mathf.Exp(- rate * a);
+        return (float)-Math.Log(expRate - Random.value * (expRate - Mathf.Exp(-rate * b))) / rate;
     }
 }
