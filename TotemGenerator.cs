@@ -5,7 +5,7 @@ using UnityEngine;
 public class TotemGenerator: MonoBehaviour
 {
     public static TotemSpear GenerateSpear(TipMaterialEnum? tip=null, ElementEnum? element=null, ColorEntity shaftColor = null, float? range=null, float? damage=null) {
-        tip ??= GetRandomEnum<TipMaterialEnum>();
+        tip ??= (TipMaterialEnum)ExponentialRandom(0, 3);
         element ??= GetRandomEnum<ElementEnum>();
         shaftColor ??=
             new ColorEntity(Random.Range(0, 255), Random.Range(0, 255), Random.Range(0, 255));
@@ -66,5 +66,11 @@ public class TotemGenerator: MonoBehaviour
         var mean = (min + max) / 2.0f;
         var sigma = (max - mean) / 3.0f;
         return Mathf.Clamp(std * sigma + mean, min, max);
+    }
+
+    private static float ExponentialRandom(int min, int max)
+    {
+        var r = Random.Range(min, max);
+        return (int) (min + Mathf.Log(1 - r));
     }
 }
