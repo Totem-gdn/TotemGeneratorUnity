@@ -3,25 +3,26 @@ using System.Collections.Generic;
 using entities;
 using enums;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [Serializable]
 public class TotemSpear
 {
-    public TipMaterialEnum TipMaterial;
-    public ElementEnum Element;
-    public ColorEntity ShaftColor;
-    public float Range;
-    public float Damage;
+    public TipMaterialEnum tipMaterial;
+    public ElementEnum element;
+    public Color shaftColor;
+    public float range;
+    public float damage;
 
-    public TotemSpear(TipMaterialEnum aTip, ElementEnum aElement, ColorEntity aShaftColor, float aRange, float aDamage) {
-        TipMaterial = aTip;
-        Element = aElement;
-        ShaftColor = aShaftColor;
-        Range = aRange;
-        Damage = aDamage;
+    public TotemSpear(TipMaterialEnum aTip, ElementEnum aElement, Color aShaftColor, float aRange, float aDamage) {
+        tipMaterial = aTip;
+        element = aElement;
+        shaftColor = aShaftColor;
+        range = aRange;
+        damage = aDamage;
     }
 
-    override public string ToString() {
-        return $"Tip:{TipMaterial},Element:{Element},ShaftColor:{ShaftColor},Range:{Range},Damage:{Damage}";
+    public override string ToString() {
+        return $"Tip:{tipMaterial},Element:{element},ShaftColor:{shaftColor},Range:{range},Damage:{damage}";
     }
 }

@@ -8,12 +8,12 @@ using Random = UnityEngine.Random;
 
 public class TotemGenerator: MonoBehaviour
 {
-    public static TotemSpear GenerateSpear(TipMaterialEnum? tip=null, ElementEnum? element=null, ColorEntity shaftColor = null, float? range=null, float? damage=null)
+    public static TotemSpear GenerateSpear(TipMaterialEnum? tip=null, ElementEnum? element=null, Color? shaftColor = null, float? range=null, float? damage=null)
     {
         tip ??= (TipMaterialEnum) (4 * ExponentialRandom(0, 1));
         element ??= GetRandomEnum<ElementEnum>();
         shaftColor ??=
-            new ColorEntity(Random.Range(0, 255), Random.Range(0, 255), Random.Range(0, 255));
+            new Color(Random.Range(0, 255), Random.Range(0, 255), Random.Range(0, 255));
         if (range == null) {
             var randomNumber = NormalizedRandom(0f, 100f);
             range = randomNumber;
@@ -22,7 +22,7 @@ public class TotemGenerator: MonoBehaviour
             var randomNumber = NormalizedRandom(0f, 100f);
             damage = randomNumber;
         }
-        return new TotemSpear((TipMaterialEnum)tip, (ElementEnum)element, shaftColor, (float)range, (float)damage);
+        return new TotemSpear((TipMaterialEnum)tip, (ElementEnum)element, (Color) shaftColor, (float)range, (float)damage);
     }
 
     public static TotemAvatar GenerateAvatar(SexEnum? sex=null, Color? skinColor=null, Color? hairColor=null, HairStyleEnum? hairStyle=null, Color? eyeColor=null, BodyFatEnum? bodyFat=null, BodyMusclesEnum? bodyMuscles=null) {
