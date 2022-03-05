@@ -1,6 +1,8 @@
+using System;
 using entities;
 using enums;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class TotemGenerator: MonoBehaviour
 {
@@ -70,7 +72,7 @@ public class TotemGenerator: MonoBehaviour
 
     private static float ExponentialRandom(int min, int max)
     {
-        var r = Random.Range(min, max);
-        return (int) (min + Mathf.Log(1 - r));
+        var expRate = Mathf.Exp(-min);
+        return (int)(-Mathf.Log(expRate - Random.Range(min, max) * (expRate - Mathf.Exp(-max))));
     }
 }
