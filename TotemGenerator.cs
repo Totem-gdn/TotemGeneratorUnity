@@ -73,6 +73,6 @@ public class TotemGenerator: MonoBehaviour
     private static float ExponentialRandom(int min, int max)
     {
         var expRate = Mathf.Exp(-min);
-        return (int)(-Mathf.Log(expRate - Random.Range(min, max) * (expRate - Mathf.Exp(-max))));
+        return (int)(-Mathf.Log(expRate - Random.value * (expRate - Mathf.Exp(-max))));
     }
 }
