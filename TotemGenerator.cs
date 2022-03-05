@@ -1,4 +1,6 @@
 using System;
+using consts;
+using DefaultNamespace;
 using entities;
 using enums;
 using UnityEngine;
@@ -23,20 +25,20 @@ public class TotemGenerator: MonoBehaviour
         return new TotemSpear((TipMaterialEnum)tip, (ElementEnum)element, shaftColor, (float)range, (float)damage);
     }
 
-    public static TotemAvatar GenerateAvatar(SexEnum? sex=null, ColorEntity skinColor=null, ColorEntity hairColor=null, HairStyleEnum? hairStyle=null, ColorEntity eyeColor=null, BodyFatEnum? bodyFat=null, BodyMusclesEnum? bodyMuscles=null) {
+    public static TotemAvatar GenerateAvatar(SexEnum? sex=null, Color? skinColor=null, Color? hairColor=null, HairStyleEnum? hairStyle=null, Color? eyeColor=null, BodyFatEnum? bodyFat=null, BodyMusclesEnum? bodyMuscles=null) {
         sex ??= GetRandomEnum<SexEnum>();
-        skinColor ??= new ColorEntity(Random.Range(0, 255), Random.Range(0, 255), Random.Range(0, 255));
-        hairColor ??= new ColorEntity(Random.Range(0, 255), Random.Range(0, 255), Random.Range(0, 255));
-        hairStyle ??= GetRandomEnum<HairStyleEnum>(); 
-        eyeColor ??= new ColorEntity(Random.Range(0, 255), Random.Range(0, 255), Random.Range(0, 255));
+        skinColor ??= NaturalSkinColors.GetRandom();
+        hairColor ??= NaturalHairColors.GetRandom();
+        hairStyle ??= GetRandomEnum<HairStyleEnum>();
+        eyeColor ??= NaturalEyeColors.GetRandom();
         bodyFat ??= GetRandomEnum<BodyFatEnum>();
         bodyMuscles ??= GetRandomEnum<BodyMusclesEnum>();
         return new TotemAvatar(
             (SexEnum)sex, 
-            skinColor, 
-            hairColor, 
+            (Color) skinColor, 
+            (Color) hairColor, 
             (HairStyleEnum)hairStyle, 
-            eyeColor,  
+            (Color) eyeColor,  
             (BodyFatEnum)bodyFat,
             (BodyMusclesEnum)bodyMuscles);
     }
@@ -71,7 +73,7 @@ public class TotemGenerator: MonoBehaviour
         return Mathf.Clamp(std * sigma + mean, min, max);
     }
 
-    public static float ExponentialRandom(float a, float b, float rate=2f)
+    private static float ExponentialRandom(float a, float b, float rate=2f)
     {
         var expRate = Mathf.Exp(- rate * a);
         return (float)-Math.Log(expRate - Random.value * (expRate - Mathf.Exp(-rate * b))) / rate;

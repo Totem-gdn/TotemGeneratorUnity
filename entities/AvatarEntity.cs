@@ -1,5 +1,6 @@
 using System;
 using enums;
+using UnityEngine;
 
 namespace entities
 {
@@ -7,14 +8,14 @@ namespace entities
     public class TotemAvatar 
     {
         public SexEnum sex;
-        public ColorEntity skinColor;
-        public ColorEntity hairColor;
+        public Color skinColor;
+        public Color hairColor;
         public HairStyleEnum hairStyle;
-        public ColorEntity eyeColor;
+        public Color eyeColor;
         public BodyFatEnum bodyFat;
         public BodyMusclesEnum bodyMuscles;
 
-        public TotemAvatar(SexEnum aSex, ColorEntity aSkinColor, ColorEntity aHairColor, HairStyleEnum aHairStyle, ColorEntity aEyeColor, BodyFatEnum aBodyFat, BodyMusclesEnum aBodyMuscles) {
+        public TotemAvatar(SexEnum aSex, Color aSkinColor, Color aHairColor, HairStyleEnum aHairStyle, Color aEyeColor, BodyFatEnum aBodyFat, BodyMusclesEnum aBodyMuscles) {
             sex = aSex;
             skinColor = aSkinColor;
             hairColor = aHairColor;

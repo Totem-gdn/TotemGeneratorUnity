@@ -1,20 +1,24 @@
+using System.Collections.Generic;
+using UnityEngine;
+
 namespace DefaultNamespace
 {
-    public class NaturalEyeColors
+    public static class NaturalEyeColors
     {
-        private static List<string> _eyeColors =
+        private static readonly List<string> EyeColors = new List<string>
         {
             "b1b1b1", "070504", "341c0d", "62422e", "914329", "cd622b", "ad7b41", "e4b877"
         };
         
         public static List<string> GetOptions()
         {
-            return _eyeColors;
+            return EyeColors;
         }
-        public string GetRandom()
+        public static Color GetRandom()
         {
-            var r = Random.Range(0, _skinColors.Count);
-            return _eyeColors[r];
+            var index = Random.Range(0, (int) (EyeColors.Count - 1));
+            ColorUtility.TryParseHtmlString($"#{EyeColors[index]}", out var c);
+            return c;
         }
     }
 }
