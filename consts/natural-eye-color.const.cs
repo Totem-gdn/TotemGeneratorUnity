@@ -1,17 +1,20 @@
-using System.Collections.Generic;
-
-namespace consts
+namespace DefaultNamespace
 {
-    public class NaturalEyeColorConst
+    public class NaturalEyeColors
     {
-        private static List<string> _sColors = new List<string>
+        private static List<string> _eyeColors =
         {
-            "b5d6e0", "90b4ca", "a7ad7f", "7c8b4f", "c4a05f", "a97e33", "7a3411", "3d0d04"
+            "b1b1b1", "070504", "341c0d", "62422e", "914329", "cd622b", "ad7b41", "e4b877"
         };
-
+        
         public static List<string> GetOptions()
         {
-            return _sColors;
+            return _eyeColors;
+        }
+        public string GetRandom()
+        {
+            var r = Random.Range(0, _skinColors.Count);
+            return _eyeColors[r];
         }
     }
 }
