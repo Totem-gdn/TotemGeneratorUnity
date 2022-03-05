@@ -1,12 +1,9 @@
 namespace enums
 {
     public enum ElementEnum {
-        Fire, 
-        Wood,
-        Metal,
-        Water,
+        Air, 
         Earth,
-        Wind,
-        Frost
+        Water,
+        Fire,
     }
 }
