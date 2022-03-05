@@ -1,4 +1,7 @@
-public enum SexEnum {
-    Male,
-    Female,
+namespace enums
+{
+    public enum SexEnum {
+        Male,
+        Female,
+    }
 }

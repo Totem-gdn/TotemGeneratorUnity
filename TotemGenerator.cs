@@ -1,83 +1,70 @@
-using System.Collections.Generic;
-using System.IO;
-using System.Net;
+using entities;
+using enums;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class TotemGenerator: MonoBehaviour
 {
-    static public TotemSpear generateSpear(TipMaterialEnum? Tip=null, ElementEnum? Element=null, ColorEntity ShaftColor = null, float? Range=null, float? Damage=null) {
-        if (Tip == null) {
-            Tip = TotemGenerator.GetRandomEnum<TipMaterialEnum>();
-        }
-        if (Element == null) {
-            Element = TotemGenerator.GetRandomEnum<ElementEnum>();
-        }
-        if (ShaftColor == null) {
-            ShaftColor = new ColorEntity((float)Random.Range(0, 255), (float)Random.Range(0, 255), (float)Random.Range(0, 255));
-        }
-        if (Range == null) {
-            float RandomNumber = TotemGenerator.NormalizedRandom(0f, 100f);
-            Range = RandomNumber;
+    public static TotemSpear GenerateSpear(TipMaterialEnum? tip=null, ElementEnum? element=null, ColorEntity shaftColor = null, float? range=null, float? damage=null) {
+        tip ??= GetRandomEnum<TipMaterialEnum>();
+        element ??= GetRandomEnum<ElementEnum>();
+        shaftColor ??=
+            new ColorEntity(Random.Range(0, 255), Random.Range(0, 255), Random.Range(0, 255));
+        if (range == null) {
+            var randomNumber = NormalizedRandom(0f, 100f);
+            range = randomNumber;
         } 
-        if (Damage == null) {
-            float RandomNumber = TotemGenerator.NormalizedRandom(0f, 100f);
-            Damage = RandomNumber;
+        if (damage == null) {
+            var randomNumber = NormalizedRandom(0f, 100f);
+            damage = randomNumber;
         }
-        return new TotemSpear((TipMaterialEnum)Tip, (ElementEnum)Element, ShaftColor, (float)Range, (float)Damage);
+        return new TotemSpear((TipMaterialEnum)tip, (ElementEnum)element, shaftColor, (float)range, (float)damage);
     }
 
-    static public TotemAvatar generateAvatar(SexEnum? Sex=null, ColorEntity SkinColor=null, ColorEntity HairColor=null, HairStyleEnum? HairStyle=null, ColorEntity EyeColor=null, bool? BodyFat=null, bool? BodyMuscles=null) {
-        if (Sex == null) {
-            Sex = TotemGenerator.GetRandomEnum<SexEnum>();
-        }
-        if (SkinColor == null) {
-            SkinColor = new ColorEntity((float)Random.Range(0, 255), (float)Random.Range(0, 255), (float)Random.Range(0, 255));
-        }
-        if (HairColor == null) {
-            HairColor = new ColorEntity((float)Random.Range(0, 255), (float)Random.Range(0, 255), (float)Random.Range(0, 255));
-        }
-        if (HairStyle == null) {
-            HairStyle = TotemGenerator.GetRandomEnum<HairStyleEnum>();
-        } 
-        if (EyeColor == null) {
-            EyeColor = new ColorEntity((float)Random.Range(0, 255), (float)Random.Range(0, 255), (float)Random.Range(0, 255));
-        }
-        if (BodyFat == null) {
-            BodyFat = Random.Range(0, 1) == 1 ? true: false;
-        }
-        if (BodyMuscles == null) {
-            BodyMuscles = Random.Range(0, 1) == 1 ? true: false;
-        }
-        return new TotemAvatar((SexEnum)Sex, (ColorEntity)SkinColor, (ColorEntity)HairColor, (HairStyleEnum)HairStyle, (ColorEntity)EyeColor, (bool)BodyFat, (bool)BodyMuscles);
+    public static TotemAvatar GenerateAvatar(SexEnum? sex=null, ColorEntity skinColor=null, ColorEntity hairColor=null, HairStyleEnum? hairStyle=null, ColorEntity eyeColor=null, BodyFatEnum? bodyFat=null, BodyMusclesEnum? bodyMuscles=null) {
+        sex ??= GetRandomEnum<SexEnum>();
+        skinColor ??= new ColorEntity(Random.Range(0, 255), Random.Range(0, 255), Random.Range(0, 255));
+        hairColor ??= new ColorEntity(Random.Range(0, 255), Random.Range(0, 255), Random.Range(0, 255));
+        hairStyle ??= GetRandomEnum<HairStyleEnum>(); 
+        eyeColor ??= new ColorEntity(Random.Range(0, 255), Random.Range(0, 255), Random.Range(0, 255));
+        bodyFat ??= GetRandomEnum<BodyFatEnum>();
+        bodyMuscles ??= GetRandomEnum<BodyMusclesEnum>();
+        return new TotemAvatar(
+            (SexEnum)sex, 
+            skinColor, 
+            hairColor, 
+            (HairStyleEnum)hairStyle, 
+            eyeColor,  
+            (BodyFatEnum)bodyFat,
+            (BodyMusclesEnum)bodyMuscles);
     }
 
-    static T GetRandomEnum<T>()
+    private static T GetRandomEnum<T>()
     {
-        System.Array A = System.Enum.GetValues(typeof(T));
-        T V = (T)A.GetValue(UnityEngine.Random.Range(0,A.Length));
-        return V;
+        var a = System.Enum.GetValues(typeof(T));
+        var v = (T)a.GetValue(Random.Range(0,a.Length));
+        return v;
     }
 
-    static float NormalizedRandom(float min, float max) 
+    private static float NormalizedRandom(float min, float max) 
     {
-        float u, v, S;
- 
+        float u; 
+        float s;
+
         do
         {
-            u = 2.0f * UnityEngine.Random.value - 1.0f;
-            v = 2.0f * UnityEngine.Random.value - 1.0f;
-            S = u * u + v * v;
+            u = 2.0f * Random.value - 1.0f;
+            var v = 2.0f * Random.value - 1.0f;
+            s = u * u + v * v;
         }
-        while (S >= 1.0f);
+        while (s >= 1.0f);
     
         // Standard Normal Distribution
-        float std = u * Mathf.Sqrt(-2.0f * Mathf.Log(S) / S);
+        var std = u * Mathf.Sqrt(-2.0f * Mathf.Log(s) / s);
     
         // Normal Distribution centered between the min and max value
         // and clamped following the "three-sigma rule"
-        float mean = (min + max) / 2.0f;
-        float sigma = (max - mean) / 3.0f;
+        var mean = (min + max) / 2.0f;
+        var sigma = (max - mean) / 3.0f;
         return Mathf.Clamp(std * sigma + mean, min, max);
     }
 }

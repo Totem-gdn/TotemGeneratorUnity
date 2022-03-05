@@ -1,7 +1,10 @@
-public enum HairStyleEnum {
-    Curly,
-    Straight,
-    Bald,
-    BuzzCut,
-    Afro,
+namespace enums
+{
+    public enum HairStyleEnum {
+        Curly,
+        Straight,
+        Bald,
+        BuzzCut,
+        Afro,
+    }
 }

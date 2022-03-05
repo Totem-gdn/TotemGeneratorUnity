@@ -1,29 +1,31 @@
 using System;
-using System.Collections.Generic;
-using UnityEngine;
+using enums;
 
-[Serializable]
-public class TotemAvatar 
+namespace entities
 {
-    public SexEnum Sex;
-    public ColorEntity SkinColor;
-    public ColorEntity HairColor;
-    public HairStyleEnum HairStyle;
-    public ColorEntity EyeColor;
-    public bool BodyFat;
-    public bool BodyMuscles;
+    [Serializable]
+    public class TotemAvatar 
+    {
+        public SexEnum sex;
+        public ColorEntity skinColor;
+        public ColorEntity hairColor;
+        public HairStyleEnum hairStyle;
+        public ColorEntity eyeColor;
+        public BodyFatEnum bodyFat;
+        public BodyMusclesEnum bodyMuscles;
 
-    public TotemAvatar(SexEnum aSex, ColorEntity aSkinColor, ColorEntity aHairColor, HairStyleEnum aHairStyle, ColorEntity aEyeColor, bool aBodyFat, bool aBodyMuscles) {
-        Sex = aSex;
-        SkinColor = aSkinColor;
-        HairColor = aHairColor;
-        HairStyle = aHairStyle;
-        EyeColor = aEyeColor;
-        BodyFat = aBodyFat;
-        BodyMuscles = aBodyMuscles;
-    }
+        public TotemAvatar(SexEnum aSex, ColorEntity aSkinColor, ColorEntity aHairColor, HairStyleEnum aHairStyle, ColorEntity aEyeColor, BodyFatEnum aBodyFat, BodyMusclesEnum aBodyMuscles) {
+            sex = aSex;
+            skinColor = aSkinColor;
+            hairColor = aHairColor;
+            hairStyle = aHairStyle;
+            eyeColor = aEyeColor;
+            bodyFat = aBodyFat;
+            bodyMuscles = aBodyMuscles;
+        }
 
-    override public string ToString() {
-        return $"Sex:{Sex},SkinColor:{SkinColor}HairColor:{HairColor},HairStyle:{HairStyle},EyeColor:{EyeColor},BodyFat:{BodyFat},BodyMuscles:{BodyMuscles}";
+        public override string ToString() {
+            return $"Sex:{sex},SkinColor:{skinColor}HairColor:{hairColor},HairStyle:{hairStyle},EyeColor:{eyeColor},BodyFat:{bodyFat},BodyMuscles:{bodyMuscles}";
+        }
     }
 }
