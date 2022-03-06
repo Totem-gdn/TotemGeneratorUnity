@@ -1,13 +1,26 @@
 using System.Collections.Generic;
+using consts;
+using DefaultNamespace;
 using entities;
+using enums;
+using UnityEngine;
 using UnityEngine.Assertions;
 
 public class TotemGeneratorMockDB
 {
     private List<TotemSpear> _spears = new List<TotemSpear>();
     private List<TotemAvatar> _avatars = new List<TotemAvatar>();
-    
-    public TotemGeneratorMockDB() {}
+
+    public TotemGeneratorMockDB()
+    {
+        _spears.Add(new TotemSpear(TipMaterialEnum.Wood, ElementEnum.Earth, Color.black, 1, 1));
+        _spears.Add(new TotemSpear(TipMaterialEnum.Flint, ElementEnum.Air, Color.black, 10, 25));
+        _spears.Add(new TotemSpear(TipMaterialEnum.Obsidian, ElementEnum.Fire, Color.black, 100, 100));
+        
+        _avatars.Add(new TotemAvatar(SexEnum.Male, NaturalSkinColors.GetRandom(), NaturalHairColors.GetRandom(), HairStyleEnum.Buzz, NaturalEyeColors.GetRandom(), BodyFatEnum.Thin, BodyMusclesEnum.Wimp));
+        _avatars.Add(new TotemAvatar(SexEnum.Female, NaturalSkinColors.GetRandom(), NaturalHairColors.GetRandom(), HairStyleEnum.Buzz, NaturalEyeColors.GetRandom(), BodyFatEnum.Fat, BodyMusclesEnum.Wimp));
+        _avatars.Add(new TotemAvatar(SexEnum.Female, NaturalSkinColors.GetRandom(), NaturalHairColors.GetRandom(), HairStyleEnum.Buzz, NaturalEyeColors.GetRandom(), BodyFatEnum.Thin, BodyMusclesEnum.Muscular));
+    }
 
     public void AddSpear(TotemSpear s)
     {
