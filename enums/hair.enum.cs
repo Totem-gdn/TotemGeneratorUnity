@@ -2,7 +2,7 @@ namespace enums
 {
     public enum HairStyleEnum {
         Afro,
-        Assymetrical,
+        Asymmetrical,
         Braids,
         Dreadlocks,
         Buzz,

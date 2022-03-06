@@ -42,9 +42,9 @@ public class test : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        TotemSpear item = TotemGenerator.generateSpear();
+        TotemSpear item = TotemGenerator.GenerateSpear();
         Debug.Log("Got the spear: " + item);
-        TotemAvatar avatar = TotemGenerator.generateAvatar();
+        TotemAvatar avatar = TotemGenerator.GenerateAvatar();
         Debug.Log("Got the avatar: " + avatar);
     }
 }
@@ -58,11 +58,11 @@ public class TotemSpear
 {
     public TipMaterialEnum TipMaterial;
     public ElementEnum Element;
-    public ColorEntity ShaftColor;
+    public Color ShaftColor;
     public float Range;
     public float Damage;
 
-    public TotemSpear(TipMaterialEnum aTip, ElementEnum aElement, ColorEntity aShaftColor, float aRange, float aDamage) {
+    public TotemSpear(TipMaterialEnum aTip, ElementEnum aElement, Color aShaftColor, float aRange, float aDamage) {
         ...
     }
 
@@ -77,14 +77,14 @@ public class TotemSpear
 public class TotemAvatar 
 {
     public SexEnum Sex;
-    public ColorEntity SkinColor;
-    public ColorEntity HairColor;
+    public Color SkinColor;
+    public Color HairColor;
     public HairStyleEnum HairStyle;
-    public ColorEntity EyeColor;
-    public bool BodyFat;
-    public bool BodyMuscles;
+    public Color EyeColor;
+    public BodyFatEnum BodyFat;
+    public BodyMusclesEnum BodyMuscles;
 
-    public TotemAvatar(SexEnum aSex, ColorEntity aSkinColor, ColorEntity aHairColor, HairStyleEnum aHairStyle, ColorEntity aEyeColor, bool aBodyFat, bool aBodyMuscles) {
+    public TotemAvatar(SexEnum aSex, Color aSkinColor, Color aHairColor, HairStyleEnum aHairStyle, Color aEyeColor, BodyFatEnum aBodyFat, BodyMuscles aBodyMuscles) {
         ...
     }
 
@@ -97,24 +97,25 @@ public class TotemAvatar
 ### ElementEnum:
 ```csharp
 public enum ElementEnum {
-    Fire, 
-    Wood,
-    Metal,
-    Water,
+    Air, 
     Earth,
-    Wind,
-    Frost
+    Water,
+    Fire,
 }
 ```
 
 ### HairStyleEnum:
 ```csharp
 public enum HairStyleEnum {
-    Curly,
-    Straight,
-    Bald,
-    BuzzCut,
     Afro,
+    Asymmetrical,
+    Braids,
+    Dreadlocks,
+    Buzz,
+    Cut,
+    Long,
+    Ponytail,
+    Short
 }
 ```
 
@@ -129,19 +130,25 @@ public enum SexEnum {
 ### TipMaterialEnum:
 ```csharp
 public enum TipMaterialEnum {
-    Stone,
-    Wood,
-    Metal,
-    Lasers
+    Wood=0,
+    Bone=1,
+    Flint=2,
+    Obsidian=3
 }
 ```
 
-### ColorEntity:
+### BodyFatEnum
 ```csharp
-public class ColorEntity {
-    public float red;
-    public float green;
-    public float blue;
-    public float alpha;
+public enum BodyFatEnum {
+    Thin,
+    Fat
+}
+```
+
+### BodyMusclesEnum
+```csharp
+public enum BodyMusclesEnum {
+    Wimp,
+    Muscular
 }
 ```
