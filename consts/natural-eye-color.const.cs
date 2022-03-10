@@ -7,7 +7,7 @@ namespace DefaultNamespace
 {
     public static class NaturalEyeColors
     {
-        private static List<string> EyeColors { get; } = new()
+        private static List<string> EyeColors { get; } = new List<string>
         {
             "b1b1b1", "070504", "341c0d", "62422e", "914329", "cd622b", "ad7b41", "e4b877"
         };
