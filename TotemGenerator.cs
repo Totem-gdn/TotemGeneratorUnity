@@ -10,10 +10,18 @@ public class TotemGenerator: MonoBehaviour
 {
     public static TotemSpear GenerateSpear(TipMaterialEnum? tip=null, ElementEnum? element=null, Color? shaftColor = null, float? range=null, float? damage=null)
     {
-        tip ??= (TipMaterialEnum) (4 * ExponentialRandom(0, 1));
-        element ??= GetRandomEnum<ElementEnum>();
-        shaftColor ??=
-            new Color(Random.Range(0, 255), Random.Range(0, 255), Random.Range(0, 255));
+        if (tip == null)
+        {
+            tip = (TipMaterialEnum) (4 * ExponentialRandom(0, 1));
+        }
+        if (element == null)
+        {
+            element = GetRandomEnum<ElementEnum>();
+        }
+        if (shaftColor == null)
+        {
+            shaftColor = new Color(Random.Range(0, 255), Random.Range(0, 255), Random.Range(0, 255));
+        }
         if (range == null) {
             var randomNumber = NormalizedRandom(0f, 100f);
             range = randomNumber;
@@ -26,13 +34,34 @@ public class TotemGenerator: MonoBehaviour
     }
 
     public static TotemAvatar GenerateAvatar(SexEnum? sex=null, Color? skinColor=null, Color? hairColor=null, HairStyleEnum? hairStyle=null, Color? eyeColor=null, BodyFatEnum? bodyFat=null, BodyMusclesEnum? bodyMuscles=null) {
-        sex ??= GetRandomEnum<SexEnum>();
-        skinColor ??= NaturalSkinColors.GetRandom();
-        hairColor ??= NaturalHairColors.GetRandom();
-        hairStyle ??= GetRandomEnum<HairStyleEnum>();
-        eyeColor ??= NaturalEyeColors.GetRandom();
-        bodyFat ??= GetRandomEnum<BodyFatEnum>();
-        bodyMuscles ??= GetRandomEnum<BodyMusclesEnum>();
+        if (sex == null)
+        {
+            sex = GetRandomEnum<SexEnum>();
+        }
+        if (skinColor == null)
+        {
+            skinColor = NaturalSkinColors.GetRandom();
+        }
+        if (hairColor == null)
+        {
+            hairColor = NaturalHairColors.GetRandom();
+        }
+        if (hairStyle == null)
+        {
+            hairStyle = GetRandomEnum<HairStyleEnum>();
+        }
+        if (eyeColor == null)
+        {
+            eyeColor = NaturalEyeColors.GetRandom();
+        }
+        if (bodyFat == null)
+        {
+            bodyFat = GetRandomEnum<BodyFatEnum>();
+        }
+        if (bodyMuscles == null)
+        {
+            bodyMuscles = GetRandomEnum<BodyMusclesEnum>();
+        }
         return new TotemAvatar(
             (SexEnum)sex, 
             (Color) skinColor, 
