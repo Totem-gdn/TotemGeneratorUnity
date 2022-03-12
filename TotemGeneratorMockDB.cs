@@ -17,9 +17,9 @@ public class TotemGeneratorMockDB
         _spears.Add(new TotemSpear(TipMaterialEnum.Flint, ElementEnum.Air, Color.black, 10, 25));
         _spears.Add(new TotemSpear(TipMaterialEnum.Obsidian, ElementEnum.Fire, Color.black, 100, 100));
         
-        _avatars.Add(new TotemAvatar(SexEnum.Male, NaturalSkinColors.GetRandom(), NaturalHairColors.GetRandom(), HairStyleEnum.Buzz, NaturalEyeColors.GetRandom(), BodyFatEnum.Thin, BodyMusclesEnum.Wimp));
-        _avatars.Add(new TotemAvatar(SexEnum.Female, NaturalSkinColors.GetRandom(), NaturalHairColors.GetRandom(), HairStyleEnum.Buzz, NaturalEyeColors.GetRandom(), BodyFatEnum.Fat, BodyMusclesEnum.Wimp));
-        _avatars.Add(new TotemAvatar(SexEnum.Female, NaturalSkinColors.GetRandom(), NaturalHairColors.GetRandom(), HairStyleEnum.Buzz, NaturalEyeColors.GetRandom(), BodyFatEnum.Thin, BodyMusclesEnum.Muscular));
+        _avatars.Add(new TotemAvatar(SexEnum.Male, NaturalSkinColors.GetRandom(), NaturalHairColors.GetRandom(), HairStyleEnum.BuzzCut, NaturalEyeColors.GetRandom(), BodyFatEnum.Thin, BodyMusclesEnum.Wimp));
+        _avatars.Add(new TotemAvatar(SexEnum.Female, NaturalSkinColors.GetRandom(), NaturalHairColors.GetRandom(), HairStyleEnum.BuzzCut, NaturalEyeColors.GetRandom(), BodyFatEnum.Fat, BodyMusclesEnum.Wimp));
+        _avatars.Add(new TotemAvatar(SexEnum.Female, NaturalSkinColors.GetRandom(), NaturalHairColors.GetRandom(), HairStyleEnum.BuzzCut, NaturalEyeColors.GetRandom(), BodyFatEnum.Thin, BodyMusclesEnum.Muscular));
     }
 
     public void AddSpear(TotemSpear s)

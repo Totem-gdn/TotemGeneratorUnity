@@ -5,8 +5,7 @@ namespace enums
         Asymmetrical,
         Braids,
         Dreadlocks,
-        Buzz,
-        Cut,
+        BuzzCut,
         Long,
         Ponytail,
         Short
