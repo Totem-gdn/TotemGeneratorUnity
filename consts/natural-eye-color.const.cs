@@ -14,7 +14,7 @@ namespace DefaultNamespace
         
         public static Color GetRandom()
         {
-            var index = Random.Range(0, (int) (EyeColors.Count - 1));
+            var index = Random.Range(0, EyeColors.Count);
             ColorUtility.TryParseHtmlString($"#{EyeColors[index]}", out var c);
             return c;
         }

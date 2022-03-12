@@ -12,7 +12,7 @@ namespace consts
         
         public static Color GetRandom()
         {
-            var index = Random.Range(0, (int) (HColors.Count - 1));
+            var index = Random.Range(0, HColors.Count);
             ColorUtility.TryParseHtmlString($"#{HColors[index]}", out var c);
             return c;
         }
