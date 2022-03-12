@@ -7,8 +7,7 @@ namespace consts
     {
         private static List<string> HColors { get; } = new List<string>
         {
-            "f9d4ab", "efd2c4", "e2c6c2", "e0d0bb", "ebb77d", "dca788", "cda093", "ccab80", "c58351", 
-            "b37652", "81574b", "8a6743", "7a3e10", "5c2a19", "472422", "362714"
+            "b1b1b1", "070504", "341c0d", "62422e", "914329", "cd622b", "ad7b41", "e4b877"
         };
         
         public static Color GetRandom()
