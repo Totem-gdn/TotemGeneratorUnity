@@ -7,7 +7,8 @@ namespace consts
     {
         private static List<string> SkinColors { get; } = new List<string>
         {
-            "b5d6e0", "90b4ca", "a7ad7f", "7c8b4f", "c4a05f", "a97e33", "7a3411", "3d0d04"
+            "f9d4ab", "efd2c4", "e2c6c2", "e0d0bb", "ebb77d", "dca788", "cda093", "ccab80", "c58351", 
+            "b37652", "81574b", "8a6743", "7a3e10", "5c2a19", "472422", "362714"
         };
         
         public static Color GetRandom()

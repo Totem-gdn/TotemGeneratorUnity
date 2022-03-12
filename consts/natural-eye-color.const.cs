@@ -9,7 +9,7 @@ namespace DefaultNamespace
     {
         private static List<string> EyeColors { get; } = new List<string>
         {
-            "b1b1b1", "070504", "341c0d", "62422e", "914329", "cd622b", "ad7b41", "e4b877"
+            "b5d6e0", "90b4ca", "a7ad7f", "7c8b4f", "c4a05f", "a97e33", "7a3411", "3d0d04"
         };
         
         public static Color GetRandom()
