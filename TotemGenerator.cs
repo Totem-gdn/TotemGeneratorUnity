@@ -20,7 +20,7 @@ public class TotemGenerator: MonoBehaviour
         }
         if (shaftColor == null)
         {
-            shaftColor = new Color(Random.Range(0, 255), Random.Range(0, 255), Random.Range(0, 255));
+            shaftColor = new Color(Random.value, Random.value, Random.value, 1f);
         }
         if (range == null) {
             var randomNumber = NormalizedRandom(0f, 100f);
