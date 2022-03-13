@@ -1,5 +1,8 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Debug = System.Diagnostics.Debug;
+using Random = UnityEngine.Random;
 
 namespace consts
 {
@@ -16,6 +19,15 @@ namespace consts
             var index = Random.Range(0, SkinColors.Count);
             ColorUtility.TryParseHtmlString($"#{SkinColors[index]}", out var c);
             return c;
+        }
+
+        public static Color GetColorByString(string colorHex)
+        {
+            Debug.Assert(colorHex != null, nameof(colorHex) + " != null");
+            var c = SkinColors.Find(c=> c == colorHex);
+            Debug.Assert(c != null, nameof(colorHex) + " isn't a valid skin color!");
+            ColorUtility.TryParseHtmlString($"#{c}", out var outColor);
+            return outColor;
         }
     }
 }
