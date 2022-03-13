@@ -13,13 +13,28 @@ public class TotemGeneratorMockDB
 
     public TotemGeneratorMockDB()
     {
-        _spears.Add(new TotemSpear(TipMaterialEnum.Wood, ElementEnum.Earth, Color.black, 1, 1));
-        _spears.Add(new TotemSpear(TipMaterialEnum.Flint, ElementEnum.Air, Color.black, 10, 25));
-        _spears.Add(new TotemSpear(TipMaterialEnum.Obsidian, ElementEnum.Fire, Color.black, 100, 100));
+        ColorUtility.TryParseHtmlString("#5127FC", out var exampleShaft1);
+        ColorUtility.TryParseHtmlString("#14984E", out var exampleShaft2);
         
-        _avatars.Add(new TotemAvatar(SexEnum.Male, NaturalSkinColors.GetRandom(), NaturalHairColors.GetRandom(), HairStyleEnum.BuzzCut, NaturalEyeColors.GetRandom(), BodyFatEnum.Thin, BodyMusclesEnum.Wimp));
-        _avatars.Add(new TotemAvatar(SexEnum.Female, NaturalSkinColors.GetRandom(), NaturalHairColors.GetRandom(), HairStyleEnum.BuzzCut, NaturalEyeColors.GetRandom(), BodyFatEnum.Fat, BodyMusclesEnum.Wimp));
-        _avatars.Add(new TotemAvatar(SexEnum.Female, NaturalSkinColors.GetRandom(), NaturalHairColors.GetRandom(), HairStyleEnum.BuzzCut, NaturalEyeColors.GetRandom(), BodyFatEnum.Thin, BodyMusclesEnum.Muscular));
+        _spears.Add(new TotemSpear(TipMaterialEnum.Bone, ElementEnum.Water, exampleShaft1, 63.4f, 52.3f));
+        _spears.Add(new TotemSpear(TipMaterialEnum.Obsidian, ElementEnum.Earth, exampleShaft2, 44.9f, 70.1f));
+        _spears.Add(new TotemSpear(TipMaterialEnum.Obsidian, ElementEnum.Fire, Color.black, 100, 100));
+
+        var skinColor1 = NaturalSkinColors.GetColorByString("8a6743");
+        var hairColor1 = NaturalHairColors.GetColorByString("b1b1b1");
+        var eyeColor1 = NaturalEyeColors.GetColorByString("b5d6e0");
+        
+        var skinColor2 = NaturalSkinColors.GetColorByString("ebb77d");
+        var hairColor2 = NaturalHairColors.GetColorByString("cd622b");
+        var eyeColor2 = NaturalEyeColors.GetColorByString("c4a05f");
+        
+        var skinColor3 = NaturalSkinColors.GetColorByString("7a3e10");
+        var hairColor3 = NaturalHairColors.GetColorByString("62422e");
+        var eyeColor3 = NaturalEyeColors.GetColorByString("7c8b4f");
+        
+        _avatars.Add(new TotemAvatar(SexEnum.Female, skinColor1, hairColor1, HairStyleEnum.Ponytail, eyeColor1, BodyFatEnum.Fat, BodyMusclesEnum.Muscular));
+        _avatars.Add(new TotemAvatar(SexEnum.Male, skinColor2, hairColor2, HairStyleEnum.Dreadlocks, eyeColor2, BodyFatEnum.Thin, BodyMusclesEnum.Wimp));
+        _avatars.Add(new TotemAvatar(SexEnum.Female, skinColor3, hairColor3, HairStyleEnum.BuzzCut, eyeColor3, BodyFatEnum.Thin, BodyMusclesEnum.Muscular));
     }
 
     public void AddSpear(TotemSpear s)

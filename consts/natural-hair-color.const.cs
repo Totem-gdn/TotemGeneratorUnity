@@ -16,5 +16,14 @@ namespace consts
             ColorUtility.TryParseHtmlString($"#{HColors[index]}", out var c);
             return c;
         }
+        
+        public static Color GetColorByString(string colorHex)
+        {
+            Debug.Assert(colorHex != null, nameof(colorHex) + " != null");
+            var c = HColors.Find(c=> c == colorHex);
+            Debug.Assert(c != null, nameof(colorHex) + " isn't a valid hair color!");
+            ColorUtility.TryParseHtmlString($"#{c}", out var outColor);
+            return outColor;
+        }
     }
 }
