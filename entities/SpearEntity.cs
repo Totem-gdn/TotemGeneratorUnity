@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using entities;
+using TotemEntities;
 using enums;
 using UnityEngine;
 using UnityEngine.Serialization;
