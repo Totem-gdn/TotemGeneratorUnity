@@ -2,7 +2,7 @@ using System;
 using enums;
 using UnityEngine;
 
-namespace entities
+namespace TotemEntities
 {
     [Serializable]
     public class TotemAvatar 

@@ -1,7 +1,7 @@
 using System;
 using consts;
 using DefaultNamespace;
-using entities;
+using TotemEntities;
 using enums;
 using UnityEngine;
 using Random = UnityEngine.Random;

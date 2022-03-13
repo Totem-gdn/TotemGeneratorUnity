@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using consts;
 using DefaultNamespace;
-using entities;
+using TotemEntities;
 using enums;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -47,24 +47,32 @@ public class TotemGeneratorMockDB
         _avatars.Add(a);
     }
 
-    public List<TotemSpear> GetSpears(int index = -1)
+    public List<TotemSpear> GetSpears(int? index)
     {
+        if (index == null)
+        {
+            return _spears;
+        }
         if (index >= _spears.Count)
         {
             // TODO: Check if this is the valid way
             throw new AssertionException("[MockDB.GetSpears]", "Index out of range");
         }
-        return index < 0 ? _spears : new List<TotemSpear>() {_spears[index]};
+        return new List<TotemSpear>() {_spears[(int) index]};
     }
     
-    public List<TotemAvatar> GetAvatars(int index = -1)
+    public List<TotemAvatar> GetAvatars(int? index)
     {
+        if (index == null)
+        {
+            return _avatars;
+        }
         if (index >= _avatars.Count)
         {
             // TODO: Check if this is the valid way
             throw new AssertionException("[MockDB.GetAvatars]", "Index out of range");
         }
-        return index < 0 ? _avatars : new List<TotemAvatar>() {_avatars[index]};
+        return new List<TotemAvatar>() {_avatars[(int) index]};
     }
 
     public TotemSpear GetCommonSpear()
