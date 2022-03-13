@@ -36,16 +36,28 @@ Download the requested version .unitypackage.
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TotemEntities; // (avatar, spear)
 
 public class test : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
     {
+        // Generator to create new items
         TotemSpear item = TotemGenerator.GenerateSpear();
         Debug.Log("Got the spear: " + item);
         TotemAvatar avatar = TotemGenerator.GenerateAvatar();
         Debug.Log("Got the avatar: " + avatar);
+        
+        // Mock DB with presets and examples
+        TotemGeneratorMockDB mockDB = new TotemGeneratorMockDB();
+        var spears = mockDB.GetSpears();
+        var avatars = mockDB.GetAvatars();
+        mockDB.AddSpear(item);
+        mockDB.AddAvatar(avatar);
+        
+        var exampleSpear = mockDB.GetRareSpear();
+        var exampleAvatar = mockDB.GetEpicAvatar();
     }
 }
 ```
@@ -56,18 +68,18 @@ public class test : MonoBehaviour
 ```csharp
 public class TotemSpear
 {
-    public TipMaterialEnum TipMaterial;
-    public ElementEnum Element;
-    public Color ShaftColor;
-    public float Range;
-    public float Damage;
+    public TipMaterialEnum tipMaterial;
+    public ElementEnum element;
+    public Color shaftColor;
+    public float range;
+    public float damage;
 
     public TotemSpear(TipMaterialEnum aTip, ElementEnum aElement, Color aShaftColor, float aRange, float aDamage) {
         ...
     }
 
-    override public string ToString() {
-        return $"Tip:{TipMaterial},Element:{Element},ShaftColor:{ShaftColor},Range:{Range},Damage:{Damage}";
+    public override string ToString() {
+        return $"Tip:{tipMaterial},Element:{element},ShaftColor:{shaftColor},Range:{range},Damage:{damage}";
     }
 }
 ```
@@ -76,21 +88,22 @@ public class TotemSpear
 ```csharp
 public class TotemAvatar 
 {
-    public SexEnum Sex;
-    public Color SkinColor;
-    public Color HairColor;
-    public HairStyleEnum HairStyle;
-    public Color EyeColor;
-    public BodyFatEnum BodyFat;
-    public BodyMusclesEnum BodyMuscles;
+    public SexEnum sex;
+    public Color skinColor;
+    public Color hairColor;
+    public HairStyleEnum hairStyle;
+    public Color eyeColor;
+    public BodyFatEnum bodyFat;
+    public BodyMusclesEnum bodyMuscles;
 
-    public TotemAvatar(SexEnum aSex, Color aSkinColor, Color aHairColor, HairStyleEnum aHairStyle, Color aEyeColor, BodyFatEnum aBodyFat, BodyMuscles aBodyMuscles) {
+    public TotemAvatar(SexEnum aSex, Color aSkinColor, Color aHairColor, HairStyleEnum aHairStyle, Color aEyeColor, BodyFatEnum aBodyFat, BodyMusclesEnum aBodyMuscles) {
         ...
     }
 
-    override public string ToString() {
-        return $"Sex:{Sex},SkinColor:{SkinColor}HairColor:{HairColor},HairStyle:{HairStyle},EyeColor:{EyeColor},BodyFat:{BodyFat},BodyMuscles:{BodyMuscles}";
+    public override string ToString() {
+        return $"Sex:{sex},SkinColor:{skinColor}HairColor:{hairColor},HairStyle:{hairStyle},EyeColor:{eyeColor},BodyFat:{bodyFat},BodyMuscles:{bodyMuscles}";
     }
+}
 ```
 
 ## Enums:
@@ -111,8 +124,7 @@ public enum HairStyleEnum {
     Asymmetrical,
     Braids,
     Dreadlocks,
-    Buzz,
-    Cut,
+    BuzzCut,
     Long,
     Ponytail,
     Short
@@ -151,4 +163,67 @@ public enum BodyMusclesEnum {
     Wimp,
     Muscular
 }
+```
+
+## Eye, Skin and Hair Colors:
+These values can be shown and selected with their own const files that look like that:
+### NaturalEyeColors
+```csharp
+    public static class NaturalEyeColors
+    {
+        private static List<string> EyeColors { get; } = new List<string>
+        {
+            "b5d6e0", "90b4ca", "a7ad7f", "7c8b4f", "c4a05f", "a97e33", "7a3411", "3d0d04"
+        };
+        
+        public static Color GetRandom()
+        {
+            ...
+        }
+        
+        public static Color GetColorByString(string colorHex)
+        {
+            ...
+        }
+    }
+```
+### NaturalSkinColors
+```csharp
+    public static class NaturalSkinColors 
+    {
+        private static List<string> HColors { get; } = new List<string>
+        {
+            "b1b1b1", "070504", "341c0d", "62422e", "914329", "cd622b", "ad7b41", "e4b877"
+        };
+        
+        public static Color GetRandom()
+        {
+            ...
+        }
+        
+        public static Color GetColorByString(string colorHex)
+        {
+            ...
+        }
+    }
+```
+### NaturalHairColors
+```csharp
+    public static class NaturalHairColors
+    {
+        private static List<string> HColors { get; } = new List<string>
+        {
+            "b1b1b1", "070504", "341c0d", "62422e", "914329", "cd622b", "ad7b41", "e4b877"
+        };
+        
+        public static Color GetRandom()
+        {
+            ...
+        }
+        
+        public static Color GetColorByString(string colorHex)
+        {
+            ...
+        }
+    }
 ```
