@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Codice.Client.Common;
 using JetBrains.Annotations;
 using TotemEntities;
 
@@ -41,6 +42,24 @@ namespace DefaultNamespace
         public TotemUser GetUser(string uName)
         {
             return _users.Find(u => u.GetUserName() == uName);
+        }
+
+        public void AddAvatarToUser(string userName, TotemAvatar a)
+        {
+            var currUser = _users.Find(user => user.GetUserName() == a.GetCurrentOwner().GetUserName());
+            var user = _users.Find(user => user.GetUserName() == userName);
+            currUser.RemoveAvatar(a);
+            a.SetOwner(user);
+            user.AddAvatar(a);
+        }
+        
+        public void AddSpearToUser(string userName, TotemSpear s)
+        {
+            var currUser = _users.Find(user => user.GetUserName() == s.GetCurrentOwner().GetUserName());
+            var user = _users.Find(user => user.GetUserName() == userName);
+            currUser.RemoveSpear(s);
+            s.SetOwner(user);
+            user.AddSpear(s);
         }
     } 
 }

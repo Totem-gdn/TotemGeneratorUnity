@@ -1,47 +1,48 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using TotemEntities;
 using enums;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-[Serializable]
-public class TotemSpear
+namespace TotemEntities
 {
-    private List<TotemUser> _owners;
-    public TipMaterialEnum tipMaterial;
-    public ElementEnum element;
-    public Color shaftColor;
-    public float range;
-    public float damage;
-
-    public TotemSpear(TipMaterialEnum aTip, ElementEnum aElement, Color aShaftColor, float aRange, float aDamage)
+    [Serializable]
+    public class TotemSpear
     {
-        _owners = new List<TotemUser>();
-        tipMaterial = aTip;
-        element = aElement;
-        shaftColor = aShaftColor;
-        range = aRange;
-        damage = aDamage;
-    }
+        private List<TotemUser> _owners;
+        public TipMaterialEnum tipMaterial;
+        public ElementEnum element;
+        public Color shaftColor;
+        public float range;
+        public float damage;
 
-    public List<TotemUser> GetOwners()
-    {
-        return _owners;
-    }
+        public TotemSpear(TipMaterialEnum aTip, ElementEnum aElement, Color aShaftColor, float aRange, float aDamage)
+        {
+            _owners = new List<TotemUser>();
+            tipMaterial = aTip;
+            element = aElement;
+            shaftColor = aShaftColor;
+            range = aRange;
+            damage = aDamage;
+        }
 
-    public TotemUser GetCurrentOwner()
-    {
-        return _owners.Last();
-    }
+        public List<TotemUser> GetOwners()
+        {
+            return _owners;
+        }
 
-    public void SetOwner(TotemUser owner)
-    {
-        _owners.Add(owner);
-    }
+        public TotemUser GetCurrentOwner()
+        {
+            return _owners.Last();
+        }
 
-    public override string ToString() {
-        return $"Tip:{tipMaterial},Element:{element},ShaftColor:{shaftColor},Range:{range},Damage:{damage}";
+        public void SetOwner(TotemUser owner)
+        {
+            _owners.Add(owner);
+        }
+
+        public override string ToString() {
+            return $"Tip:{tipMaterial},Element:{element},ShaftColor:{shaftColor},Range:{range},Damage:{damage}";
+        }
     }
 }
