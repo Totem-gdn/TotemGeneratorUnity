@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace TotemEntities
@@ -56,6 +57,16 @@ namespace TotemEntities
                 Debug.Log($"User {_name} doesn't own this spear");    
             }
             return result != null;
+        }
+        
+        public override string ToString()
+        {
+            var tempAvatars = OwnedAvatars.Aggregate("", (current, ownedAvatar) =>
+                (current == "" ? current : current + ", ") + "{" + ownedAvatar + "}");
+            var tempSpears = OwnedSpears.Aggregate("", (current, ownedSpear) =>
+                (current == "" ? current : current + ", ") + "{" + ownedSpear + "}");
+
+            return $"Name:{GetUserName()}, Avatars: [{tempAvatars}], Spears: [{tempSpears}]";
         }
     }
 }

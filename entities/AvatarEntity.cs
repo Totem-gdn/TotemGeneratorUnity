@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using enums;
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace TotemEntities
@@ -35,10 +36,11 @@ namespace TotemEntities
         {
             return _owners;
         }
-
+        
+        [CanBeNull]
         public TotemUser GetCurrentOwner()
         {
-            return _owners.Last();
+            return _owners.Count == 0 ? null : _owners.Last();
         }
 
         public void SetOwner(TotemUser owner)

@@ -47,7 +47,7 @@ public class TotemGeneratorMockDB
         _avatars.Add(a);
     }
 
-    public List<TotemSpear> GetSpears(int? index)
+    public List<TotemSpear> GetSpears(int? index = null)
     {
         if (index == null)
         {
@@ -61,7 +61,7 @@ public class TotemGeneratorMockDB
         return new List<TotemSpear>() {_spears[(int) index]};
     }
     
-    public List<TotemAvatar> GetAvatars(int? index)
+    public List<TotemAvatar> GetAvatars(int? index = null)
     {
         if (index == null)
         {
