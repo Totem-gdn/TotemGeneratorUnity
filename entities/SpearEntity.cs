@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using TotemEntities;
 using enums;
 using UnityEngine;
@@ -8,18 +9,36 @@ using UnityEngine.Serialization;
 [Serializable]
 public class TotemSpear
 {
+    private List<TotemUser> _owners;
     public TipMaterialEnum tipMaterial;
     public ElementEnum element;
     public Color shaftColor;
     public float range;
     public float damage;
 
-    public TotemSpear(TipMaterialEnum aTip, ElementEnum aElement, Color aShaftColor, float aRange, float aDamage) {
+    public TotemSpear(TipMaterialEnum aTip, ElementEnum aElement, Color aShaftColor, float aRange, float aDamage)
+    {
+        _owners = new List<TotemUser>();
         tipMaterial = aTip;
         element = aElement;
         shaftColor = aShaftColor;
         range = aRange;
         damage = aDamage;
+    }
+
+    public List<TotemUser> GetOwners()
+    {
+        return _owners;
+    }
+
+    public TotemUser GetCurrentOwner()
+    {
+        return _owners.Last();
+    }
+
+    public void SetOwner(TotemUser owner)
+    {
+        _owners.Add(owner);
     }
 
     public override string ToString() {
