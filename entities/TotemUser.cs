@@ -41,22 +41,12 @@ namespace TotemEntities
 
         public bool RemoveAvatar(TotemAvatar a)
         {
-            var result = OwnedAvatars.Find(av => av.Equals(a));
-            if (result == null)
-            {
-                Debug.Log($"User {_name} doesn't own this avatar");    
-            }
-            return result != null;
+            return OwnedAvatars.Remove(a);
         }
         
         public bool RemoveSpear(TotemSpear s)
         {
-            var result = OwnedSpears.Find(sp => sp.Equals(s));
-            if (result == null)
-            {
-                Debug.Log($"User {_name} doesn't own this spear");    
-            }
-            return result != null;
+            return OwnedSpears.Remove(s);;
         }
         
         public override string ToString()
