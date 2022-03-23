@@ -4,8 +4,8 @@ namespace enums
         Afro,
         Asymmetrical,
         Braids,
-        Dreadlocks,
         BuzzCut,
+        Dreadlocks,
         Long,
         Ponytail,
         Short

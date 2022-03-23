@@ -53,11 +53,8 @@ public class TotemGeneratorMockDB
         {
             return _spears;
         }
-        if (index >= _spears.Count)
-        {
-            // TODO: Check if this is the valid way
-            throw new AssertionException("[MockDB.GetSpears]", "Index out of range");
-        }
+
+        Assert.IsTrue(index >= 0 && index < _spears.Count, "Index out of range");
         return new List<TotemSpear>() {_spears[(int) index]};
     }
     
@@ -67,11 +64,8 @@ public class TotemGeneratorMockDB
         {
             return _avatars;
         }
-        if (index >= _avatars.Count)
-        {
-            // TODO: Check if this is the valid way
-            throw new AssertionException("[MockDB.GetAvatars]", "Index out of range");
-        }
+
+        Assert.IsTrue(index >= 0 && index < _avatars.Count, "Index out of range");
         return new List<TotemAvatar>() {_avatars[(int) index]};
     }
 
