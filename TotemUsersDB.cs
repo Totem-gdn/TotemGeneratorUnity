@@ -2,21 +2,15 @@ using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using TotemEntities;
+using utilities;
 
-public class TotemMockUsersDB
+public class TotemUsersDB
 {
     private List<TotemUser> _users;
 
-    public TotemMockUsersDB()
+    public TotemUsersDB()
     {
-        _users = new List<TotemUser>()
-        {
-            new TotemUser("totem1", "indieverse"),
-            new TotemUser("totem2", "indieverse"),
-            new TotemUser("totem3", "indieverse"),
-            new TotemUser("totem4", "indieverse"),
-            new TotemUser("totem5", "indieverse"),
-        };
+        _users = new List<TotemUser>();
     }
 
     public void AddNewUser(string uName, string uPwd)

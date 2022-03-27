@@ -49,15 +49,31 @@ public class test : MonoBehaviour
         TotemAvatar avatar = TotemGenerator.GenerateAvatar();
         Debug.Log("Got the avatar: " + avatar);
         
-        // Mock DB with presets and examples
-        TotemGeneratorMockDB mockDB = new TotemGeneratorMockDB();
-        var spears = mockDB.GetSpears();
-        var avatars = mockDB.GetAvatars();
-        mockDB.AddSpear(item);
-        mockDB.AddAvatar(avatar);
+        // To use our MockDB you can use the following:
+        TotemMockDB mockDB = new TotemMockDB();
+        mockDB.EntitiesDB.GetAllAvatars();
+        mockDB.EntitiesDB.GetAllSpears();
+        // There are 5 preset users
+        mockDB.UsersDB.GetUser("totem1");
+        mockDB.UsersDB.GetUser("totem2");
+        mockDB.UsersDB.GetUser("totem3");
+        mockDB.UsersDB.GetUser("totem4");
+        mockDB.UsersDB.GetUser("totem5");
         
-        var exampleSpear = mockDB.GetRareSpear();
-        var exampleAvatar = mockDB.GetEpicAvatar();
+        // You can use the TotemEntitiesDB itself as a standalone
+        TotemEntitiesDB entitiesDB = new TotemEntitiesDB();
+        
+        entitiesDB.AddSpear(item);
+        entitiesDB.AddAvatar(avatar);
+        
+        var spears = entitiesDB.GetSpears();
+        var avatars = entitiesDB.GetAvatars();
+        
+        // You can check the TotemUsersDB itself as a standalone
+        TotemUsersDB uesrsDB = new TotemUsersDB();
+        usersDB.AddUser("example1", "password");
+        usersDB.AddSpearToUser("example1", item);
+        usersDB.AddAvatarToUser("example1", avatar); 
     }
 }
 ```
