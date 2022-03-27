@@ -11,9 +11,11 @@ public class TotemMockUsersDB
     {
         _users = new List<TotemUser>()
         {
-            new TotemUser("user1", "pa$$1"),
-            new TotemUser("user2", "pa$$2"),
-            new TotemUser("user3", "pa$$3")
+            new TotemUser("totem1", "indieverse"),
+            new TotemUser("totem2", "indieverse"),
+            new TotemUser("totem3", "indieverse"),
+            new TotemUser("totem4", "indieverse"),
+            new TotemUser("totem5", "indieverse"),
         };
     }
 
