@@ -22,7 +22,7 @@ namespace DefaultNamespace
         public static Color GetColorByString(string colorHex)
         {
             Debug.Assert(colorHex != null, nameof(colorHex) + " != null");
-            var c = EyeColors.Find(c=> c == colorHex);
+            var c = EyeColors.Find(c=> c == colorHex.ToLower());
             Debug.Assert(c != null, nameof(colorHex) + " isn't a valid eye color!");
             ColorUtility.TryParseHtmlString($"#{c}", out var outColor);
             return outColor;
