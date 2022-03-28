@@ -48,6 +48,16 @@ namespace TotemEntities
         {
             return OwnedSpears.Remove(s);;
         }
+
+        public List<TotemSpear> GetOwnedSpears()
+        {
+            return OwnedSpears;
+        }
+        
+        public List<TotemAvatar> GetOwnedAvatars()
+        {
+            return OwnedAvatars;
+        }
         
         public override string ToString()
         {
