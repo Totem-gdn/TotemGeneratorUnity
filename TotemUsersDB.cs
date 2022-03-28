@@ -39,18 +39,18 @@ public class TotemUsersDB
     public void AddAvatarToUser(string userName, TotemAvatar a)
     {
         var currUser = _users.Find(user => user == a.GetCurrentOwner());
-        var user = _users.Find(user => user.GetUserName() == userName);
+        var foundUser = _users.Find(user => user.GetUserName() == userName);
         currUser?.RemoveAvatar(a);
-        a.SetOwner(user);
-        user.AddAvatar(a);
+        a.SetOwner(foundUser);
+        foundUser.AddAvatar(a);
     }
         
     public void AddSpearToUser(string userName, TotemSpear s)
     {
         var currUser = _users.Find(user => user == s.GetCurrentOwner());
-        var user = _users.Find(user => user.GetUserName() == userName);
+        var foundUser = _users.Find(user => user.GetUserName() == userName);
         currUser?.RemoveSpear(s);
-        s.SetOwner(user);
-        user.AddSpear(s);
+        s.SetOwner(foundUser);
+        foundUser.AddSpear(s);
     }
 }
