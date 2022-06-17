@@ -5,13 +5,13 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
 using TotemEntities;
+using consts;
 
 
 namespace TotemServices
 {
     public class TotemLegacyService : MonoBehaviour
     {
-        private readonly string _rootUrl = "https://legacy-api.totem.gdn/";
 
         #region Resoponse Models
 
@@ -47,7 +47,7 @@ namespace TotemServices
 
         private IEnumerator GetAchiementsCoroutine(string itemId, string gameId, UnityAction<List<TotemLegacyRecord>> onSuccess, UnityAction<string> onFailure)
         {
-            string url = _rootUrl + itemId + (string.IsNullOrEmpty(gameId) ? "" : $"/{gameId}");
+            string url = ServicesEnv.LegacyServicesUrl + itemId + (string.IsNullOrEmpty(gameId) ? "" : $"/{gameId}");
             UnityWebRequest www = UnityWebRequest.Get(url);
             yield return www.SendWebRequest();
             if (www.result == UnityWebRequest.Result.ConnectionError || www.result == UnityWebRequest.Result.ProtocolError)
@@ -82,7 +82,7 @@ namespace TotemServices
 
         private IEnumerator AddAchievementCoroutine(TotemLegacyRecord legacy, UnityAction onSuccess = null, UnityAction<string> onFailure = null)
         {
-            string url = _rootUrl + legacy.itemId + "/" + legacy.gameId;
+            string url = ServicesEnv.LegacyServicesUrl + legacy.itemId + "/" + legacy.gameId;
 
             UnityWebRequest www = UnityWebRequest.Post(url, legacy.data);
             yield return www.SendWebRequest();

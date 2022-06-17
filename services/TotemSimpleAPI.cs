@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using enums;
+using consts;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
@@ -10,10 +10,6 @@ using TotemEntities;
 namespace TotemServices {
     public class TotemSimpleAPI : MonoBehaviour
     {
-
-        private readonly string _itemsUrl = "https://simple-api.totem.gdn/default/items/";
-        private readonly string _avatarsUrl = "https://simple-api.totem.gdn/default/items/";
-
 
         #region Response Models
 
@@ -73,7 +69,7 @@ namespace TotemServices {
 
         private IEnumerator GetItemsCoroutine(string publicKey, UnityAction<List<TotemSpear>> onSuccess, UnityAction<string> onFailure = null)
         {
-            UnityWebRequest www = UnityWebRequest.Get(_itemsUrl + publicKey);
+            UnityWebRequest www = UnityWebRequest.Get(ServicesEnv.SimpleAPIItemsUrl + publicKey);
             yield return www.SendWebRequest();
             if (www.result == UnityWebRequest.Result.ConnectionError || www.result == UnityWebRequest.Result.ProtocolError)
             {
@@ -105,7 +101,7 @@ namespace TotemServices {
 
         private IEnumerator GetAvatasCoroutine(string publicKey, UnityAction<List<TotemAvatar>> onSuccess, UnityAction<string> onFailure = null)
         {
-            UnityWebRequest www = UnityWebRequest.Get(_avatarsUrl + publicKey);
+            UnityWebRequest www = UnityWebRequest.Get(ServicesEnv.SimpleAPIAvatarsUrl + publicKey);
             yield return www.SendWebRequest();
             if (www.result == UnityWebRequest.Result.ConnectionError || www.result == UnityWebRequest.Result.ProtocolError)
             {

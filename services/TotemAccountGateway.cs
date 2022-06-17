@@ -6,18 +6,13 @@ using UnityEngine.Networking;
 using UnityEngine.Events;
 using System.Net;
 using utilities;
+using consts;
 
 
 namespace TotemServices
 {
     public class TotemAccountGateway : MonoBehaviour
     {
-        private readonly string _urlRoot = "https://account.totem.gdn/";
-        private readonly string _httpListenerUrl = "http://localhost:6700/auth/";
-
-        private readonly string _succesResponse = "<html><head><meta charset='utf8'></head><body>Login successful. You can close this page and return to the app</body></html>";
-        private readonly string _resultQueryParametr = "result";
-
 
         #region Response models
 
@@ -52,7 +47,7 @@ namespace TotemServices
         public void LoginGoogle(UnityAction<string, UserSocialProfile> onSuccess, UnityAction<string> onFailure = null) 
         {
             ListenHttpResponse(onSuccess, onFailure);
-            Application.OpenURL(_urlRoot + $"auth/google?redirectTo={_httpListenerUrl}");
+            Application.OpenURL(ServicesEnv.AccountGatewayUrl + $"auth/google?redirectTo={ServicesEnv.HttpListenerUrl}");
         }
 
         /// <summary>
@@ -63,7 +58,7 @@ namespace TotemServices
         public void LoginFacebook(UnityAction<string, UserSocialProfile> onSuccess, UnityAction<string> onFailure = null) 
         {
             ListenHttpResponse(onSuccess, onFailure);
-            Application.OpenURL(_urlRoot + $"auth/facebook?redirectTo={_httpListenerUrl}");
+            Application.OpenURL(ServicesEnv.AccountGatewayUrl + $"auth/facebook?redirectTo={ServicesEnv.HttpListenerUrl}");
         }
 
 
@@ -75,16 +70,17 @@ namespace TotemServices
         private async void ListenHttpResponse(UnityAction<string, UserSocialProfile> onSuccess, UnityAction<string> onFailure)
         {
             HttpListener listener = new HttpListener();
-            listener.Prefixes.Add(_httpListenerUrl);
+            listener.Prefixes.Add(ServicesEnv.HttpListenerUrl);
             listener.Start();
             HttpListenerContext context = await listener.GetContextAsync();
             HttpListenerRequest req = context.Request;
-            string resultBase64 = req.QueryString.Get(_resultQueryParametr);
+            string resultBase64 = req.QueryString.Get(ServicesEnv.HttpResultParametrName);
             string utfResult = Base64UrlDecoder.Base64UrlToUTF8(resultBase64);
             SocialLoginResponse loginResult = JsonUtility.FromJson<SocialLoginResponse>(utfResult);
 
             HttpListenerResponse response = context.Response;
-            byte[] responseBuffer = System.Text.Encoding.UTF8.GetBytes(_succesResponse);
+            string responseText = Resources.Load<TextAsset>(ServicesEnv.HttpResponseFileName).text;
+            byte[] responseBuffer = System.Text.Encoding.UTF8.GetBytes(responseText);
             response.ContentLength64 = responseBuffer.Length;
             var output = response.OutputStream;
             output.Write(responseBuffer, 0, responseBuffer.Length);
@@ -96,7 +92,7 @@ namespace TotemServices
 
         private IEnumerator GetPublicKeyCoroutine(SocialLoginResponse loginInfo, UnityAction<string, UserSocialProfile> onSuccess, UnityAction<string> onFailure)
         {
-            UnityWebRequest www = UnityWebRequest.Get(_urlRoot + "me");
+            UnityWebRequest www = UnityWebRequest.Get(ServicesEnv.AccountGatewayUrl + "me");
             www.SetRequestHeader("Authorization", "Bearer " + loginInfo.accessToken);
             yield return www.SendWebRequest();
             if (www.result == UnityWebRequest.Result.ConnectionError || www.result == UnityWebRequest.Result.ProtocolError)
