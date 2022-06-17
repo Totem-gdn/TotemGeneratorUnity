@@ -24,6 +24,16 @@ public class TotemUsersDB
         _users.Add(newUser);
     }
 
+    public void AddNewUser(TotemUser user)
+    {
+        var curr = _users.Find(u => u.GetUserName() == user.GetUserName());
+        if (curr != null)
+        {
+            throw new Exception("User with that name already exists!");
+        }
+        _users.Add(user);
+    }
+
     public bool AuthenticateUser(string uName, string uPwd)
     {
         var auth = _users.Find(u => u.Authenticate(uName, uPwd));

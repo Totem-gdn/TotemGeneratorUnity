@@ -11,11 +11,17 @@ namespace TotemEntities
     public class TotemAvatar
     {
         private List<TotemUser> _owners;
+
+        public string id;
+        public string skinColor;
+        public string hairColor;
+        public string eyeColor;
+
         public SexEnum sex;
-        public Color skinColor;
-        public Color hairColor;
+        public Color eyeColorRGB;
+        public Color skinColorRGB;
+        public Color hairColorRGB;
         public HairStyleEnum hairStyle;
-        public Color eyeColor;
         public BodyFatEnum bodyFat;
         public BodyMusclesEnum bodyMuscles;
 
@@ -23,10 +29,10 @@ namespace TotemEntities
         {
             _owners = new List<TotemUser>();
             sex = aSex;
-            skinColor = aSkinColor;
-            hairColor = aHairColor;
+            skinColorRGB = aSkinColor;
+            hairColorRGB = aHairColor;
             hairStyle = aHairStyle;
-            eyeColor = aEyeColor;
+            eyeColorRGB = aEyeColor;
             bodyFat = aBodyFat;
             bodyMuscles = aBodyMuscles;
         }
@@ -49,7 +55,7 @@ namespace TotemEntities
         }
 
         public override string ToString() {
-            return $"Sex:{sex},SkinColor:{skinColor}HairColor:{hairColor},HairStyle:{hairStyle},EyeColor:{eyeColor},BodyFat:{bodyFat},BodyMuscles:{bodyMuscles}";
+            return $"Sex:{sex},SkinColor:{skinColorRGB}HairColor:{hairColorRGB},HairStyle:{hairStyle},EyeColor:{eyeColorRGB},BodyFat:{bodyFat},BodyMuscles:{bodyMuscles}";
         }
     }
 }
