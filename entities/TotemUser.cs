@@ -6,15 +6,17 @@ namespace TotemEntities
 {
     public class TotemUser
     {
+        public string PublicKey { get; private set; }
         private List<TotemSpear> OwnedSpears { get; }
         private List<TotemAvatar> OwnedAvatars { get; }
         private readonly string _name;
         private readonly string _pwd;
 
-        public TotemUser(string aName, string aPwd)
+        public TotemUser(string aName, string aPwd, string publicKey = "")
         {
             _name = aName;
             _pwd = aPwd;
+            PublicKey = publicKey;
             OwnedSpears = new List<TotemSpear>();
             OwnedAvatars = new List<TotemAvatar>();
         }
