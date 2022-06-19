@@ -24,7 +24,7 @@ namespace consts
         #region SimpleAPI
 
         public const string SimpleAPIItemsUrl = "https://simple-api.totem.gdn/default/items/";
-        public const string SimpleAPIAvatarsUrl = "https://simple-api.totem.gdn/default/items/";
+        public const string SimpleAPIAvatarsUrl = "https://simple-api.totem.gdn/default/avatars/";
         
         #endregion
     }

@@ -278,9 +278,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1435809062686794113}
         m_TargetAssemblyTypeName: UIUserItemsListItem, Assembly-CSharp
-        m_MethodName: OnSelectButtonClick
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

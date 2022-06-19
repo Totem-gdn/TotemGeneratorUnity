@@ -11,6 +11,7 @@ namespace TotemEntities
     public class TotemAvatar
     {
         private List<TotemUser> _owners;
+        private List<TotemLegacyRecord> _legacyRecords;
 
         public string id;
         public string skinColor;
@@ -25,9 +26,17 @@ namespace TotemEntities
         public BodyFatEnum bodyFat;
         public BodyMusclesEnum bodyMuscles;
 
+
+        public TotemAvatar()
+        {
+            _legacyRecords = new List<TotemLegacyRecord>();
+        }
+
+
         public TotemAvatar(SexEnum aSex, Color aSkinColor, Color aHairColor, HairStyleEnum aHairStyle, Color aEyeColor, BodyFatEnum aBodyFat, BodyMusclesEnum aBodyMuscles)
         {
             _owners = new List<TotemUser>();
+            _legacyRecords = new List<TotemLegacyRecord>();
             sex = aSex;
             skinColorRGB = aSkinColor;
             hairColorRGB = aHairColor;
@@ -36,7 +45,6 @@ namespace TotemEntities
             bodyFat = aBodyFat;
             bodyMuscles = aBodyMuscles;
         }
-        
         
         public List<TotemUser> GetOwners()
         {
@@ -53,6 +61,22 @@ namespace TotemEntities
         {
             _owners.Add(owner);
         }
+
+        public void AddLegacyRecord(TotemLegacyRecord legacy)
+        {
+            _legacyRecords.Add(legacy);
+        }
+
+        public void ClearLegacyRecords()
+        {
+            _legacyRecords.Clear();
+        }
+
+        public List<TotemLegacyRecord> GetLegacyRecords()
+        {
+            return _legacyRecords;
+        }
+
 
         public override string ToString() {
             return $"Sex:{sex},SkinColor:{skinColorRGB}HairColor:{hairColorRGB},HairStyle:{hairStyle},EyeColor:{eyeColorRGB},BodyFat:{bodyFat},BodyMuscles:{bodyMuscles}";

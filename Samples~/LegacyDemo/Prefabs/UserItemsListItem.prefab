@@ -144,8 +144,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 9208944350579978588}
-        m_TargetAssemblyTypeName: UIUserItemsListItem, Assembly-CSharp
-        m_MethodName: OnSelectButtonClick
+        m_TargetAssemblyTypeName: TotemDemo.UIItemsListItem, Assembly-CSharp
+        m_MethodName: OnShowRecordsButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

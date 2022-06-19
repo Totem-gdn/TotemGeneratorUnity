@@ -5,7 +5,7 @@ using TotemEntities;
 
 namespace TotemDemo
 {
-    public class UIUserItemsList : MonoBehaviour
+    public class UIItemsList : MonoBehaviour
     {
         [SerializeField] private Transform itemsParent;
         [SerializeField] private GameObject itemPrefab;
@@ -21,7 +21,22 @@ namespace TotemDemo
             {
                 GameObject item = Instantiate(itemPrefab);
                 item.transform.parent = itemsParent;
-                item.GetComponent<UIUserItemsListItem>().Setup(spear);
+                item.GetComponent<UIItemsListItem>().Setup(spear);
+            }
+        }
+
+        public void BuildList(List<TotemAvatar> avatars)
+        {
+            foreach (Transform item in itemsParent)
+            {
+                Destroy(item.gameObject);
+            }
+
+            foreach (var avatar in avatars)
+            {
+                GameObject item = Instantiate(itemPrefab);
+                item.transform.parent = itemsParent;
+                item.GetComponent<UIItemsListItem>().Setup(avatar);
             }
         }
     }
