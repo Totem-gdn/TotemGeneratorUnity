@@ -60,6 +60,11 @@ namespace TotemEntities
             _legacyRecords.Add(legacy);
         }
 
+        public void ClearLegacyRecords()
+        {
+            _legacyRecords.Clear();
+        }
+
         public List<TotemLegacyRecord> GetLegacyRecords()
         {
             return _legacyRecords;
