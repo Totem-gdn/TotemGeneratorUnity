@@ -41,8 +41,8 @@ You can import sample through "Samples" menu in the Unity package details. **Win
 
 ### Totem Legacy Demo
 
-A sample that demonstraits how to do a basic plugin setup, retrieve items/avatars, retrieve and add Legacy records to items/avatars.
-Demo scene implemets a simple asset browser with abiltiy to add and display Legacy records.
+A sample that demonstrates how to do a basic plugin setup, retrieve items/avatars, retrieve and add Legacy records to items/avatars.
+Demo scene implements a simple asset browser with ability to add and display Legacy records.
 
 ---
 
