@@ -6,7 +6,7 @@ using TMPro;
 
 namespace TotemDemo
 {
-    public class UIItemLegaciesListItem : MonoBehaviour
+    public class UIAssetLegacyRecordsListItem : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI legacyInfoText;
 

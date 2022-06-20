@@ -21,6 +21,13 @@ namespace TotemEntities
             OwnedAvatars = new List<TotemAvatar>();
         }
 
+        public TotemUser(string publicKey)
+        {
+            PublicKey = publicKey;
+            OwnedSpears = new List<TotemSpear>();
+            OwnedAvatars = new List<TotemAvatar>();
+        }
+
         public string GetUserName()
         {
             return _name;

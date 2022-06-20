@@ -17,7 +17,7 @@ namespace TotemServices
         #region Response models
 
         [Serializable]
-        private class SocialLoginResponse
+        public class SocialLoginResponse
         {
             public UserSocialProfile profile;
             public string accessToken;
@@ -44,7 +44,7 @@ namespace TotemServices
         /// </summary>
         /// <param name="onSuccess">Success callback with publicKey</param>
         /// <param name="onFailure">Failure callback</param>
-        public void LoginGoogle(UnityAction<string, UserSocialProfile> onSuccess, UnityAction<string> onFailure = null) 
+        public void LoginGoogle(UnityAction<SocialLoginResponse> onSuccess, UnityAction<string> onFailure = null) 
         {
             ListenHttpResponse(onSuccess, onFailure);
             Application.OpenURL(ServicesEnv.AccountGatewayUrl + $"auth/google?redirectTo={ServicesEnv.HttpListenerUrl}");
@@ -55,7 +55,7 @@ namespace TotemServices
         /// </summary>
         /// <param name="onSuccess">Success callback with publicKey</param>
         /// <param name="onFailure">Failure callback</param>
-        public void LoginFacebook(UnityAction<string, UserSocialProfile> onSuccess, UnityAction<string> onFailure = null) 
+        public void LoginFacebook(UnityAction<SocialLoginResponse> onSuccess, UnityAction<string> onFailure = null) 
         {
             ListenHttpResponse(onSuccess, onFailure);
             Application.OpenURL(ServicesEnv.AccountGatewayUrl + $"auth/facebook?redirectTo={ServicesEnv.HttpListenerUrl}");
@@ -67,7 +67,7 @@ namespace TotemServices
         /// </summary>
         /// <param name="onSuccess"></param>
         /// <param name="onFailure"></param>
-        private async void ListenHttpResponse(UnityAction<string, UserSocialProfile> onSuccess, UnityAction<string> onFailure)
+        private async void ListenHttpResponse(UnityAction<SocialLoginResponse> onSuccess, UnityAction<string> onFailure)
         {
             HttpListener listener = new HttpListener();
             listener.Prefixes.Add(ServicesEnv.HttpListenerUrl);
@@ -87,13 +87,18 @@ namespace TotemServices
 
             listener.Stop();
 
-            StartCoroutine(GetPublicKeyCoroutine(loginResult, onSuccess, onFailure));
+            onSuccess.Invoke(loginResult);
         }
 
-        private IEnumerator GetPublicKeyCoroutine(SocialLoginResponse loginInfo, UnityAction<string, UserSocialProfile> onSuccess, UnityAction<string> onFailure)
+        public void GetUserProfile(string accessToken, UnityAction<string> onSuccess, UnityAction<string> onFailure = null)
+        {
+            StartCoroutine(GetPublicKeyCoroutine(accessToken, onSuccess, onFailure));
+        }
+
+        private IEnumerator GetPublicKeyCoroutine(string accessToken, UnityAction<string> onSuccess, UnityAction<string> onFailure)
         {
             UnityWebRequest www = UnityWebRequest.Get(ServicesEnv.AccountGatewayUrl + "me");
-            www.SetRequestHeader("Authorization", "Bearer " + loginInfo.accessToken);
+            www.SetRequestHeader("Authorization", "Bearer " + accessToken);
             yield return www.SendWebRequest();
             if (www.result == UnityWebRequest.Result.ConnectionError || www.result == UnityWebRequest.Result.ProtocolError)
             {
@@ -103,7 +108,7 @@ namespace TotemServices
             else
             {
                 PublicKeyResponse response = JsonUtility.FromJson<PublicKeyResponse>(www.downloadHandler.text);
-                onSuccess.Invoke(response.publicKey, loginInfo.profile);
+                onSuccess.Invoke(response.publicKey);
             }
 
 
