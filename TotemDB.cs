@@ -10,23 +10,36 @@ using enums;
 
 public class TotemDB
 {
-    public TotemEntitiesDB EntitiesDB = new TotemEntitiesDB();
-    public TotemUsersDB UsersDB = new TotemUsersDB();
+    /// <summary>
+    /// Invoked after user logs in through socials
+    /// TotemAccountGateway.SocialLoginResponse holds accessToken which is needed for profile retrieval
+    /// </summary>
+    public UnityEvent<TotemAccountGateway.SocialLoginResponse> OnSocialLoginCompleted;
 
-    public TotemUser CurrentUser { get; private set; }
+    /// <summary>
+    /// Invoked after user profile retrievel
+    /// Holds user's publicKey which is needed for assets retrieval
+    /// </summary>
+    public UnityEvent<string> OnUserProfileLoaded;
+
+    /// <summary>
+    /// Invoked after users spears retrievel
+    /// Hold list of owned spears
+    /// </summary>
+    public UnityEvent<List<TotemSpear>> OnSpearsLoaded;
+
+    /// <summary>
+    /// Invoked after users avatars retrievel
+    /// Hold list of owned avatars
+    /// </summary>
+    public UnityEvent<List<TotemAvatar>> OnAvatarsLoaded;
 
     private TotemSimpleAPI _simpleAPI;
     private TotemLegacyService _legacyService;
     private TotemAccountGateway _accountGateway;
     private GameObject _servicesGameObject;
 
-    private string _publicKey;
     private string _gameId;
-
-    private bool _avatarsLoaded;
-    private bool _itemsLoaded;
-    private UnityAction<TotemUser> _loginCallback;
-    
 
     /// <summary>
     /// Initialize DB and services
@@ -36,148 +49,99 @@ public class TotemDB
     {
         _gameId = gameId;
         CreateServicesGameObject();
+
+        OnSocialLoginCompleted = new UnityEvent<TotemAccountGateway.SocialLoginResponse>();
+        OnUserProfileLoaded = new UnityEvent<string>();
+        OnSpearsLoaded = new UnityEvent<List<TotemSpear>>();
+        OnAvatarsLoaded = new UnityEvent<List<TotemAvatar>>();
     }
 
     /// <summary>
     /// Opens social login web-page
-    /// After successful login stores publicKey and retrievs all owned items and avatars
-    /// NOTE: Legacy records have to be retrieved manualy
+    /// Invokes OnSocialLoginCompleted event on completion
     /// </summary>
-    /// <param name="onSuccess"></param>
-    public void AuthenticateCurentUser(UnityAction<TotemUser> onSuccess)
+    public void AuthenticateCurentUser()
     {
-        _loginCallback = onSuccess;
-
-        _accountGateway.LoginGoogle((publicKey, userProfile) =>
+        _accountGateway.LoginGoogle((loginResult) =>
         {
-            CurrentUser = new TotemUser(userProfile.username, "", publicKey);
-            UsersDB.AddNewUser(CurrentUser);
-            _publicKey = publicKey;
-            GetCurrentUserItems();
-            GetCurrentUserAvatars();
+            OnSocialLoginCompleted.Invoke(loginResult);
         });
 
     }
 
     /// <summary>
-    /// Adds a legacy record to provided spear
+    /// Retrieves publicKey for user
+    /// Invokes OnUserProfileLoaded event on completion
     /// </summary>
-    /// <param name="spear"></param>
-    /// <param name="data">An UTF-8 encoded string</param>
-    /// <param name="onSuccess"></param>
-    public void AddLegacyRecord(TotemSpear spear, string data, UnityAction onSuccess = null)
+    /// <param name="accessToken">Token from user socail login</param>
+    public void GetUserProfile(string accessToken)
     {
-        Assert.IsTrue(spear != null, "Spear object is null");
+        _accountGateway.GetUserProfile(accessToken, (publicKey) =>
+        {
+            OnUserProfileLoaded.Invoke(publicKey);
+        });
+    }
 
-        TotemLegacyRecord legacy = new TotemLegacyRecord(LegacyRecordTypeEnum.Achievement, spear.id, _gameId, data);
+    /// <summary>
+    /// Retrieves user's spears
+    /// Invokes OnSpearsLoaded event on success
+    /// </summary>
+    /// <param name="publicKey">User's publicKey</param>
+    public void GetUserSpears(string publicKey)
+    {
+        _simpleAPI.GetItems(publicKey, (spears) =>
+        {
+            OnSpearsLoaded.Invoke(spears);
+        });
+    }
+
+
+    /// <summary>
+    /// Retrieves user's avatars
+    /// Invokes OnAvatarsLoaded event on success
+    /// </summary>
+    /// <param name="publicKey">User's publicKey</param>
+    public void GetUserAvatars(string publicKey)
+    {
+        _simpleAPI.GetAvatas(publicKey, (avatars) =>
+        {
+            OnAvatarsLoaded.Invoke(avatars);
+        });
+
+    }
+
+    /// <summary>
+    /// Retrieves legacy records for the provided asset
+    /// </summary>
+    /// <param name="asset">Spear or avatar asset to get records for</param>
+    /// <param name="onSuccess">Callback contains list of legacy records</param>
+    /// <param name="gameId">From which game to retrieve legacy records. Can be left emtpy to retrieve from all</param>
+    public void GetLegacyRecords(ITotemAsset asset, UnityAction<List<TotemLegacyRecord>> onSuccess, string gameId = "")
+    {
+        _legacyService.GetAchivements(asset.Id, gameId, (records) =>
+        {
+            onSuccess.Invoke(records);
+        });
+    }
+
+    /// <summary>
+    /// Adds a legacy record to provided asset
+    /// </summary>
+    /// <param name="asset">Spear or avatar asset</param>
+    /// <param name="data">An UTF-8 encoded string</param>
+    /// <param name="onSuccess">Callback contains newly created legacy record</param>
+    public void AddLegacyRecord(ITotemAsset asset, string data, UnityAction<TotemLegacyRecord> onSuccess = null)
+    {
+        Assert.IsTrue(asset != null, "Asset object is null");
+
+        TotemLegacyRecord legacy = new TotemLegacyRecord(LegacyRecordTypeEnum.Achievement, asset.Id, _gameId, data);
         _legacyService.AddAchievement(legacy, () =>
         {
-            Debug.Log($"Legacy record for {spear.id} created");
-            spear.AddLegacyRecord(legacy);
-            onSuccess?.Invoke();
+            Debug.Log($"Legacy record for {asset.Id} created");
+            onSuccess?.Invoke(legacy);
         });
     }
 
-    /// <summary>
-    /// Adds a legacy record to provided avatar
-    /// </summary>
-    /// <param name="spear"></param>
-    /// <param name="data">An UTF-8 encoded string</param>
-    /// <param name="onSuccess"></param>
-    public void AddLegacyRecord(TotemAvatar avatar, string data, UnityAction onSuccess = null)
-    {
-        Assert.IsTrue(avatar != null, "Avatar object is null");
-
-        TotemLegacyRecord legacy = new TotemLegacyRecord(LegacyRecordTypeEnum.Achievement, avatar.id, _gameId, data);
-        _legacyService.AddAchievement(legacy, () =>
-        {
-            Debug.Log($"Legacy record for {avatar.id} created");
-            avatar.AddLegacyRecord(legacy);
-            onSuccess?.Invoke();
-        });
-
-    }
-
-    /// <summary>
-    /// Retrieves legacy records for the provided spear
-    /// </summary>
-    /// <param name="spear">Will have populated legacy records list</param>
-    /// <param name="onSuccess">Callback holds spear with populated list of legacy records</param>
-    /// <param name="gameId">From which game to retrieve legacy records. Can be left emtpy to retrieve from all</param>
-    public void GetLegacyRecords(TotemSpear spear, UnityAction onSuccess, string gameId = "")
-    {
-        _legacyService.GetAchivements(spear.id, gameId, (records) =>
-        {
-            spear.ClearLegacyRecords();
-            foreach (var record in records)
-            {
-                spear.AddLegacyRecord(record);
-            }
-
-            onSuccess.Invoke();
-        });
-    }
-
-    /// <summary>
-    /// Retrieves legacy records for the provided avatar
-    /// </summary>
-    /// <param name="avatar">Will have populated legacy records list</param>
-    /// <param name="onSuccess"></param>
-    /// <param name="gameId">From which game to retrieve legacy records. Can be left emtpy to retrieve from all</param>
-    public void GetLegacyRecords(TotemAvatar avatar, UnityAction onSuccess, string gameId = "")
-    {
-        _legacyService.GetAchivements(avatar.id, gameId, (records) =>
-        {
-            avatar.ClearLegacyRecords();
-            foreach (var record in records)
-            {
-                avatar.AddLegacyRecord(record);
-            }
-
-            onSuccess.Invoke();
-        });
-    }
-
-
-    private void GetCurrentUserItems()
-    {
-        _itemsLoaded = false;
-        _simpleAPI.GetItems(_publicKey, (spears) =>
-        {
-            _itemsLoaded = true;
-            foreach (var spear in spears)
-            {
-                CurrentUser.AddSpear(spear);
-            }
-
-            _itemsLoaded = true;
-            if (_avatarsLoaded)
-            {
-                _loginCallback.Invoke(CurrentUser);
-            }
-
-        });
-    }
-
-
-    private void GetCurrentUserAvatars()
-    {
-        _avatarsLoaded = false;
-        _simpleAPI.GetAvatas(_publicKey, (avatars) =>
-        {
-            foreach (var avatar in avatars)
-            {
-                CurrentUser.AddAvatar(avatar);
-            }
-
-            _avatarsLoaded = true;
-            if (_itemsLoaded)
-            {
-                _loginCallback.Invoke(CurrentUser);
-            }
-        });
-
-    }
 
     /// <summary>
     /// Creates a GameObjet for handling coroutines in services scripts

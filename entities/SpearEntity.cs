@@ -8,14 +8,12 @@ using UnityEngine;
 namespace TotemEntities
 {
     [Serializable]
-    public class TotemSpear
+    public class TotemSpear : ITotemAsset
     {
-        private List<TotemUser> _owners;
-        private List<TotemLegacyRecord> _legacyRecords;
+        public string Id { get; set; }
+        public List<TotemUser> Owners { get; set; }
 
-        public string id;
         public string shaftColor;
-
         public TipMaterialEnum tipMaterial;
         public ElementEnum element;
         public Color shaftColorRGB;
@@ -24,54 +22,32 @@ namespace TotemEntities
 
         public TotemSpear()
         {
-            _owners = new List<TotemUser>();
-            _legacyRecords = new List<TotemLegacyRecord>();
+            Owners = new List<TotemUser>();
         }
 
         public TotemSpear(TipMaterialEnum aTip, ElementEnum aElement, Color aShaftColor, float aRange, float aDamage)
         {
-            _owners = new List<TotemUser>();
-            _legacyRecords = new List<TotemLegacyRecord>();
+            Owners = new List<TotemUser>();
             tipMaterial = aTip;
             element = aElement;
             shaftColorRGB = aShaftColor;
             range = aRange;
             damage = aDamage;
         }
-
-        public List<TotemUser> GetOwners()
-        {
-            return _owners;
-        }
     
         [CanBeNull]
         public TotemUser GetCurrentOwner()
         {
-            return _owners.Count == 0 ? null : _owners.Last();
+            return Owners.Count == 0 ? null : Owners.Last();
         }
 
         public void SetOwner(TotemUser owner)
         {
-            _owners.Add(owner);
-        }
-
-        public void AddLegacyRecord(TotemLegacyRecord legacy)
-        {
-            _legacyRecords.Add(legacy);
-        }
-
-        public void ClearLegacyRecords()
-        {
-            _legacyRecords.Clear();
-        }
-
-        public List<TotemLegacyRecord> GetLegacyRecords()
-        {
-            return _legacyRecords;
+            Owners.Add(owner);
         }
 
         public override string ToString() {
-            return $"Id:{id},Tip:{tipMaterial},Element:{element},ShaftColor:{shaftColorRGB},Range:{range},Damage:{damage}";
+            return $"Id:{Id},Tip:{tipMaterial},Element:{element},ShaftColor:{shaftColorRGB},Range:{range},Damage:{damage}";
         }
     }
 }

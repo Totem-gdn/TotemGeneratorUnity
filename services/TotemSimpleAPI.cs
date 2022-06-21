@@ -83,7 +83,7 @@ namespace TotemServices {
                 List<TotemSpear> spears = new List<TotemSpear>();
                 foreach (var itemInfo in response.data)
                 {
-                    itemInfo.item.id = itemInfo._id;
+                    itemInfo.item.Id = itemInfo._id;
                     ColorUtility.TryParseHtmlString(itemInfo.item.shaftColor, out itemInfo.item.shaftColorRGB);
                     spears.Add(itemInfo.item);
                 }
@@ -115,7 +115,7 @@ namespace TotemServices {
                 List<TotemAvatar> avatars = new List<TotemAvatar>();
                 foreach (var avatarInfo in response.data)
                 {
-                    avatarInfo.avatar.id = avatarInfo._id;
+                    avatarInfo.avatar.Id = avatarInfo._id;
                     ColorUtility.TryParseHtmlString(avatarInfo.avatar.eyeColor, out avatarInfo.avatar.eyeColorRGB);
                     ColorUtility.TryParseHtmlString(avatarInfo.avatar.skinColor, out avatarInfo.avatar.skinColorRGB);
                     ColorUtility.TryParseHtmlString(avatarInfo.avatar.hairColor, out avatarInfo.avatar.hairColorRGB);
