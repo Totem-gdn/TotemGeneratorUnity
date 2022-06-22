@@ -13,11 +13,13 @@ public class TotemEntitiesDB
 {
     private List<TotemSpear> _spears;
     private List<TotemAvatar> _avatars;
+    private List<TotemSword> _swords;
 
     public TotemEntitiesDB()
     {
         _spears = new List<TotemSpear>();
         _avatars = new List<TotemAvatar>();
+        _swords = new List<TotemSword>();
     }
 
     public void AddSpear(TotemSpear s)
@@ -28,6 +30,11 @@ public class TotemEntitiesDB
     public void AddAvatar(TotemAvatar a)
     {
         _avatars.Add(a);
+    }
+
+    public void AddSword(TotemSword s)
+    {
+        _swords.Add(s);
     }
 
     public TotemSpear GetSpear(int index)
@@ -56,5 +63,22 @@ public class TotemEntitiesDB
     public List<TotemAvatar> GetAllAvatars()
     {
         return _avatars;
+    }
+
+    public TotemSword GetSword(int index)
+    {
+        Assert.IsTrue(index >= 0 && index < _swords.Count, "Index out of range");
+        return _swords[index];
+    }
+
+    public List<TotemSword> GetAllSwords(int? index = null)
+    {
+        if (index == null)
+        {
+            return _swords;
+        }
+
+
+        return new List<TotemSword>() { _swords[(int)index] };
     }
 }

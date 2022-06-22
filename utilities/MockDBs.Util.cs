@@ -45,6 +45,23 @@ namespace utilities
             entitiesDB.AddSpear(new TotemSpear(TipMaterialEnum.Bone, ElementEnum.Fire, shaftColor15, 26.80f, 38.94f));
             entitiesDB.AddSpear(new TotemSpear(TipMaterialEnum.Flint, ElementEnum.Air, shaftColor16, 47.97f, 59.5f));
 
+            entitiesDB.AddSword(new TotemSword(TipMaterialEnum.Bone, ElementEnum.Water, shaftColor1, 51.25f));
+            entitiesDB.AddSword(new TotemSword(TipMaterialEnum.Flint, ElementEnum.Fire, shaftColor2, 84.74f));
+            entitiesDB.AddSword(new TotemSword(TipMaterialEnum.Wood, ElementEnum.Earth, shaftColor3, 45.29f));
+            entitiesDB.AddSword(new TotemSword(TipMaterialEnum.Obsidian, ElementEnum.Air, shaftColor4, 37.52f));
+            entitiesDB.AddSword(new TotemSword(TipMaterialEnum.Wood, ElementEnum.Water, shaftColor5, 70.22f));
+            entitiesDB.AddSword(new TotemSword(TipMaterialEnum.Wood, ElementEnum.Earth, shaftColor6, 72.02f));
+            entitiesDB.AddSword(new TotemSword(TipMaterialEnum.Wood, ElementEnum.Earth, shaftColor7, 75.14f));
+            entitiesDB.AddSword(new TotemSword(TipMaterialEnum.Flint, ElementEnum.Water, shaftColor8, 46.34f));
+            entitiesDB.AddSword(new TotemSword(TipMaterialEnum.Wood, ElementEnum.Air, shaftColor9, 43.9f));
+            entitiesDB.AddSword(new TotemSword(TipMaterialEnum.Wood, ElementEnum.Fire, shaftColor10, 53.23f));
+            entitiesDB.AddSword(new TotemSword(TipMaterialEnum.Bone, ElementEnum.Earth, shaftColor11, 44.13f));
+            entitiesDB.AddSword(new TotemSword(TipMaterialEnum.Obsidian, ElementEnum.Air, shaftColor12, 69.1f));
+            entitiesDB.AddSword(new TotemSword(TipMaterialEnum.Flint, ElementEnum.Water, shaftColor13, 44.77f));
+            entitiesDB.AddSword(new TotemSword(TipMaterialEnum.Wood, ElementEnum.Fire, shaftColor14, 42.51f));
+            entitiesDB.AddSword(new TotemSword(TipMaterialEnum.Bone, ElementEnum.Fire, shaftColor15, 26.80f));
+            entitiesDB.AddSword(new TotemSword(TipMaterialEnum.Flint, ElementEnum.Air, shaftColor16, 47.97f));
+
             var skinColor1 = NaturalSkinColors.GetColorByString("472422");
             var hairColor1 = NaturalHairColors.GetColorByString("b1b1b1");
             var eyeColor1 = NaturalEyeColors.GetColorByString("b5d6e0");
@@ -131,8 +148,28 @@ namespace utilities
             
             usersDB.AddSpearToUser("totem5", entitiesDB.GetSpear(14));
             usersDB.AddSpearToUser("totem5", entitiesDB.GetSpear(15));
-            
-            
+
+
+            usersDB.AddSwordToUser("totem1", entitiesDB.GetSword(0));
+
+            usersDB.AddSwordToUser("totem2", entitiesDB.GetSword(1));
+            usersDB.AddSwordToUser("totem2", entitiesDB.GetSword(2));
+            usersDB.AddSwordToUser("totem2", entitiesDB.GetSword(3));
+            usersDB.AddSwordToUser("totem2", entitiesDB.GetSword(4));
+
+            usersDB.AddSwordToUser("totem3", entitiesDB.GetSword(5));
+            usersDB.AddSwordToUser("totem3", entitiesDB.GetSword(6));
+            usersDB.AddSwordToUser("totem3", entitiesDB.GetSword(7));
+            usersDB.AddSwordToUser("totem3", entitiesDB.GetSword(8));
+            usersDB.AddSwordToUser("totem3", entitiesDB.GetSword(9));
+            usersDB.AddSwordToUser("totem3", entitiesDB.GetSword(10));
+
+            usersDB.AddSwordToUser("totem4", entitiesDB.GetSword(11));
+            usersDB.AddSwordToUser("totem4", entitiesDB.GetSword(12));
+            usersDB.AddSwordToUser("totem4", entitiesDB.GetSword(13));
+
+            usersDB.AddSwordToUser("totem5", entitiesDB.GetSword(14));
+            usersDB.AddSwordToUser("totem5", entitiesDB.GetSword(15));
         }
     }
 }
