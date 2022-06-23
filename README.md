@@ -35,14 +35,17 @@ Download the requested version .unitypackage.
 
 ---
 
-## Sample
+## Samples
 
-You can import sample through "Samples" menu in the Unity package details. **Window -> Package Manager -> Totem Generator for Unity -> Samples**
+You can import samples through "Samples" menu in the Unity package details. **Window -> Package Manager -> Totem Generator for Unity -> Samples**
 
-### Totem Legacy Demo
+### Totem Legacy Jam Demo
 
-A sample that demonstrates how to do a basic plugin setup, retrieve items/avatars, retrieve and add Legacy records to items/avatars.
-Demo scene implements a simple asset browser with ability to add and display Legacy records.
+A sample that demonstrates how to do a basic plugin setup, retrieve avatars and use Legacy records.
+
+### Totem Asset Browser Demo
+
+A sample that implements a simple asset browser with ability to add and display Legacy records.
 
 ---
 
@@ -100,6 +103,14 @@ public class test : MonoBehaviour
         foreach (var spear in spears)
         {
             Debug.Log(spear.ToString());
+
+
+            //Retrieve legacy records of each spear
+            GetLegacyRecords(avatar, (records) =>
+            {
+                Debug.Log($"Records count: {records.Count}")
+            });
+
         }
     }
 
@@ -109,8 +120,27 @@ public class test : MonoBehaviour
         foreach (var avatar in avatars)
         {
             Debug.Log(avatar.ToString());
-        }
 
+            //Retrieve legacy records of each avatar
+            GetLegacyRecords(avatar, (records) =>
+            {
+                Debug.Log($"Records count: {records.Count}")
+            });
+        }
+    }
+
+
+    public void AddLegacyRecord(ITotemAsset asset, string data)
+    {
+        totemDB.AddLegacyRecord(asset, data, (record) =>
+        {
+            Debug.Log("New legacy record data:" + record.data)
+        });
+    }
+
+    public void GetLegacyRecords(ITotemAsset asset, UnityAction<List<TotemLegacyRecord>> onSuccess)
+    {
+        totemDB.GetLegacyRecords(asset, onSuccess, legacyGameIdInput.text);
     }
 
 }
