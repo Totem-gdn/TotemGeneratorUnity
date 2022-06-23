@@ -63,4 +63,13 @@ public class TotemUsersDB
         s.SetOwner(foundUser);
         foundUser.AddSpear(s);
     }
+
+    public void AddSwordToUser(string userName, TotemSword s)
+    {
+        var currUser = _users.Find(user => user == s.GetCurrentOwner());
+        var foundUser = _users.Find(user => user.GetUserName() == userName);
+        currUser?.RemoveSword(s);
+        s.SetOwner(foundUser);
+        foundUser.AddSword(s);
+    }
 }

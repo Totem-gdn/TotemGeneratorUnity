@@ -9,6 +9,7 @@ namespace TotemEntities
         public string PublicKey { get; private set; }
         private List<TotemSpear> OwnedSpears { get; }
         private List<TotemAvatar> OwnedAvatars { get; }
+        private List<TotemSword> OwnedSwords { get; }
         private readonly string _name;
         private readonly string _pwd;
 
@@ -19,6 +20,7 @@ namespace TotemEntities
             PublicKey = publicKey;
             OwnedSpears = new List<TotemSpear>();
             OwnedAvatars = new List<TotemAvatar>();
+            OwnedSwords = new List<TotemSword>();
         }
 
         public TotemUser(string publicKey)
@@ -26,6 +28,7 @@ namespace TotemEntities
             PublicKey = publicKey;
             OwnedSpears = new List<TotemSpear>();
             OwnedAvatars = new List<TotemAvatar>();
+            OwnedSwords = new List<TotemSword>();
         }
 
         public string GetUserName()
@@ -43,6 +46,11 @@ namespace TotemEntities
             OwnedAvatars.Add(a);
         }
 
+        public void AddSword(TotemSword s)
+        {
+            OwnedSwords.Add(s);
+        }
+
         public bool Authenticate(string uName, string pwd)
         {
             return pwd == _pwd && uName == _name;
@@ -58,6 +66,11 @@ namespace TotemEntities
             return OwnedSpears.Remove(s);;
         }
 
+        public bool RemoveSword(TotemSword s)
+        {
+            return OwnedSwords.Remove(s); ;
+        }
+
         public List<TotemSpear> GetOwnedSpears()
         {
             return OwnedSpears;
@@ -67,15 +80,22 @@ namespace TotemEntities
         {
             return OwnedAvatars;
         }
-        
+
+        public List<TotemSword> GetOwnedSwords()
+        {
+            return OwnedSwords;
+        }
+
         public override string ToString()
         {
             var tempAvatars = OwnedAvatars.Aggregate("", (current, ownedAvatar) =>
                 (current == "" ? current : current + ", ") + "{" + ownedAvatar + "}");
             var tempSpears = OwnedSpears.Aggregate("", (current, ownedSpear) =>
                 (current == "" ? current : current + ", ") + "{" + ownedSpear + "}");
+            var tempSwords = OwnedSwords.Aggregate("", (current, ownedSword) =>
+                (current == "" ? current : current + ", ") + "{" + ownedSword + "}");
 
-            return $"Name:{GetUserName()}, Avatars: [{tempAvatars}], Spears: [{tempSpears}]";
+            return $"Name:{GetUserName()}, Avatars: [{tempAvatars}], Spears: [{tempSpears}], Swords: [{tempSwords}]";
         }
     }
 }

@@ -72,6 +72,28 @@ public class TotemGenerator: MonoBehaviour
             (BodyMusclesEnum)bodyMuscles);
     }
 
+    public static TotemSword GenerateSword(TipMaterialEnum? tip = null, ElementEnum? element = null, Color? shaftColor = null, float? damage = null)
+    {
+        if (tip == null)
+        {
+            tip = (TipMaterialEnum)(4 * ExponentialRandom(0, 1));
+        }
+        if (element == null)
+        {
+            element = GetRandomEnum<ElementEnum>();
+        }
+        if (shaftColor == null)
+        {
+            shaftColor = new Color(Random.value, Random.value, Random.value, 1f);
+        }
+        if (damage == null)
+        {
+            var randomNumber = NormalizedRandom(0f, 100f);
+            damage = randomNumber;
+        }
+        return new TotemSword((TipMaterialEnum)tip, (ElementEnum)element, (Color)shaftColor, (float)damage);
+    }
+
     private static T GetRandomEnum<T>()
     {
         var a = System.Enum.GetValues(typeof(T));
