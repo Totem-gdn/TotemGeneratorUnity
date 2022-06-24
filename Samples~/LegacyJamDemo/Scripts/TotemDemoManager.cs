@@ -29,8 +29,6 @@ namespace TotemDemo
         [SerializeField] private TMP_InputField dataToCompoareInput;
         [SerializeField] private UIAssetsList assetList;
         [SerializeField] private UIAssetLegacyRecordsList legacyRecordsList;
-        [SerializeField] private GameObject WriteLegacyButtons;
-        [SerializeField] private GameObject ReadLegacyButtons;
         [SerializeField] private Animator popupAnimator;
 
         //Meta Data
@@ -70,7 +68,7 @@ namespace TotemDemo
         public void OnLoginButtonClick()
         {
             UILoadingScreen.Instance.Show();
-            totemDB.AuthenticateCurentUser();
+            totemDB.AuthenticateCurrentUser();
         }
 
         private void OnTotemUserLoggedIn(TotemAccountGateway.SocialLoginResponse loginResult)
@@ -102,8 +100,6 @@ namespace TotemDemo
             //UI Example Methods
             BuildAvatarList();
             ShowAvatarRecords();
-            WriteLegacyButtons.SetActive(true);
-            ReadLegacyButtons.SetActive(true);
         }
         public void ShowAvatarRecords()
         {
