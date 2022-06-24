@@ -60,7 +60,7 @@ public class TotemDB
     /// Opens social login web-page
     /// Invokes OnSocialLoginCompleted event on completion
     /// </summary>
-    public void AuthenticateCurentUser()
+    public void AuthenticateCurrentUser()
     {
         _accountGateway.LoginGoogle((loginResult) =>
         {
