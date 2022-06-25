@@ -9,42 +9,45 @@ using UnityEngine;
 namespace TotemEntities
 {
     [Serializable]
-    public class TotemSword
+    public class TotemSword : ITotemAsset
     {
-        private List<TotemUser> _owners;
+        public string Id { get; set; }
+        public List<TotemUser> Owners { get; set; }
+
+        public string shaftColor;
         public TipMaterialEnum tipMaterial;
         public ElementEnum element;
-        public Color shaftColor;
+        public Color shaftColorRGB;
         public float damage;
 
         public TotemSword(TipMaterialEnum aTip, ElementEnum aElement, Color aShaftColor, float aDamage)
         {
-            _owners = new List<TotemUser>();
+            Owners = new List<TotemUser>();
             tipMaterial = aTip;
             element = aElement;
-            shaftColor = aShaftColor;
+            shaftColorRGB = aShaftColor;
             damage = aDamage;
         }
 
         public List<TotemUser> GetOwners()
         {
-            return _owners;
+            return Owners;
         }
 
         [CanBeNull]
         public TotemUser GetCurrentOwner()
         {
-            return _owners.Count == 0 ? null : _owners.Last();
+            return Owners.Count == 0 ? null : Owners.Last();
         }
 
         public void SetOwner(TotemUser owner)
         {
-            _owners.Add(owner);
+            Owners.Add(owner);
         }
 
         public override string ToString()
         {
-            return $"Tip:{tipMaterial},Element:{element},ShaftColor:{shaftColor},Damage:{damage}";
+            return $"Id:{Id}, Tip:{tipMaterial},Element:{element},ShaftColor:{shaftColorRGB},Damage:{damage}";
         }
     }
 

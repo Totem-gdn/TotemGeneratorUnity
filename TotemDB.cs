@@ -34,6 +34,12 @@ public class TotemDB
     /// </summary>
     public UnityEvent<List<TotemAvatar>> OnAvatarsLoaded;
 
+    /// <summary>
+    /// Invoked after users swords retrievel
+    /// Hold list of owned swords
+    /// </summary>
+    public UnityEvent<List<TotemSword>> OnSwordsLoaded;
+
     private TotemSimpleAPI _simpleAPI;
     private TotemLegacyService _legacyService;
     private TotemAccountGateway _accountGateway;
@@ -54,6 +60,7 @@ public class TotemDB
         OnUserProfileLoaded = new UnityEvent<string>();
         OnSpearsLoaded = new UnityEvent<List<TotemSpear>>();
         OnAvatarsLoaded = new UnityEvent<List<TotemAvatar>>();
+        OnSwordsLoaded = new UnityEvent<List<TotemSword>>();
     }
 
     /// <summary>
@@ -106,6 +113,20 @@ public class TotemDB
         _simpleAPI.GetAvatas(publicKey, (avatars) =>
         {
             OnAvatarsLoaded.Invoke(avatars);
+        });
+
+    }
+
+    /// <summary>
+    /// Retrieves user's swords
+    /// Invokes OnSwordsLoaded event on success
+    /// </summary>
+    /// <param name="publicKey">User's publicKey</param>
+    public void GetUserSwords(string publicKey)
+    {
+        _simpleAPI.GetSwords(publicKey, (swords) =>
+        {
+            OnSwordsLoaded.Invoke(swords);
         });
 
     }
