@@ -20,7 +20,7 @@ namespace TotemDemo
             foreach (var asset in assets)
             {
                 GameObject item = Instantiate(itemPrefab);
-                item.transform.parent = itemsParent;
+                item.transform.SetParent(itemsParent);
                 item.GetComponent<UIAssetsListItem>().Setup(asset);
             }
         }

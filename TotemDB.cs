@@ -37,9 +37,12 @@ public class TotemDB
     private TotemSimpleAPI _simpleAPI;
     private TotemLegacyService _legacyService;
     private TotemAccountGateway _accountGateway;
+    private TotemAnalytics _analytics;
     private GameObject _servicesGameObject;
 
     private string _gameId;
+    private string _userPublicKey;
+    private string _userEmail;
 
     /// <summary>
     /// Initialize DB and services
@@ -65,6 +68,8 @@ public class TotemDB
         _accountGateway.LoginGoogle((loginResult) =>
         {
             OnSocialLoginCompleted.Invoke(loginResult);
+
+            _userEmail = loginResult.profile.username;
         });
 
     }
@@ -78,7 +83,10 @@ public class TotemDB
     {
         _accountGateway.GetUserProfile(accessToken, (publicKey) =>
         {
+            _userPublicKey = publicKey;
             OnUserProfileLoaded.Invoke(publicKey);
+
+            _analytics.RecordAction(TotemServicesAction.user_login, _gameId, publicKey, _userEmail);
         });
     }
 
@@ -92,6 +100,8 @@ public class TotemDB
         _simpleAPI.GetItems(publicKey, (spears) =>
         {
             OnSpearsLoaded.Invoke(spears);
+
+            _analytics.RecordAction(TotemServicesAction.items_requested, _gameId, publicKey, _userEmail);
         });
     }
 
@@ -106,6 +116,8 @@ public class TotemDB
         _simpleAPI.GetAvatas(publicKey, (avatars) =>
         {
             OnAvatarsLoaded.Invoke(avatars);
+
+            _analytics.RecordAction(TotemServicesAction.avatars_requested, _gameId, publicKey, _userEmail);
         });
 
     }
@@ -121,6 +133,8 @@ public class TotemDB
         _legacyService.GetAchivements(asset.Id, gameId, (records) =>
         {
             onSuccess.Invoke(records);
+
+            _analytics.RecordAction(TotemServicesAction.legacy_requested, _gameId, _userPublicKey, _userEmail);
         });
     }
 
@@ -139,6 +153,8 @@ public class TotemDB
         {
             Debug.Log($"Legacy record for {asset.Id} created");
             onSuccess?.Invoke(legacy);
+
+            _analytics.RecordAction(TotemServicesAction.legacy_requested, _gameId, _userPublicKey, _userEmail);
         });
     }
 
@@ -152,6 +168,7 @@ public class TotemDB
         _simpleAPI = _servicesGameObject.AddComponent<TotemSimpleAPI>();
         _legacyService = _servicesGameObject.AddComponent<TotemLegacyService>();
         _accountGateway = _servicesGameObject.AddComponent<TotemAccountGateway>();
+        _analytics = _servicesGameObject.AddComponent<TotemAnalytics>();
         MonoBehaviour.DontDestroyOnLoad(_servicesGameObject);
     }
 }

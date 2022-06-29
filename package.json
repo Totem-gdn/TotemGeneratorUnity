@@ -1,6 +1,6 @@
 {
     "name": "com.totem.totemgenerator",
-    "version": "2.0.0",
+    "version": "2.0.1",
     "displayName": "Totem Generator for Unity",
     "description": "A simple generator for Unity!",
     "unity": "2017.1",
