@@ -25,7 +25,15 @@ namespace consts
 
         public const string SimpleAPIItemsUrl = "https://simple-api.totem.gdn/default/items/";
         public const string SimpleAPIAvatarsUrl = "https://simple-api.totem.gdn/default/avatars/";
-        
+
+        #endregion
+
+        #region Analytics
+
+        public const string AnalyticsUrl = "https://api.mixpanel.com/track";
+        public const int AnalyticsPublicKeyLength = 10;
+        public const string AnalyticsToken = "08d75082c984e41c67886a71b58e0875";
+
         #endregion
     }
 }
