@@ -2,6 +2,11 @@
 
 This Package knows how to randomly generate a Totem Avatar and a Totem Spear from scrath or with specific attributes.
 
+## Requirements
+
+- Unity Editor 2019.4.9f1 or greater
+- .Net Framework 4.x
+
 ## Instructions
 
 You can install this package in three ways!
@@ -33,6 +38,10 @@ Download the requested version .unitypackage.
 **You can check the manual: https://docs.unity3d.com/Manual/upm-ui-giturl.html**
 <br>
 
+## Building for Android and IOS
+
+Before building the application for Android/IOS you need to generate a deep link which can be easily done by going to **Window > Totem Generator > Generate Deep Link** and typing in your gameId
+
 ---
 
 ## Samples
@@ -42,10 +51,6 @@ You can import samples through "Samples" menu in the Unity package details. **Wi
 ### Totem Legacy Jam Demo
 
 A sample that demonstrates how to do a basic plugin setup, retrieve avatars and use Legacy records.
-
-### Totem Asset Browser Demo
-
-A sample that implements a simple asset browser with ability to add and display Legacy records.
 
 ---
 
@@ -72,63 +77,37 @@ public class test : MonoBehaviour
         //Initialize TotemDB
         TotemDB totemDB = new TotemDB(_gameId);
 
-        //Subscribe to the events
-        totemDB.OnSocialLoginCompleted.AddListener(OnTotemUserLoggedIn);
-        totemDB.OnUserProfileLoaded.AddListener(OnUserProfileLoaded);
-        totemDB.OnSpearsLoaded.AddListener(OnSpearsLoaded);
-        totemDB.OnAvatarsLoaded.AddListener(OnAvatarsLoaded);
 
-        //Authenticate user through social login in web browser
-        totemDB.AuthenticateCurentUser();
-
-    }
-
-    private void OnTotemUserLoggedIn(TotemAccountGateway.SocialLoginResponse loginResult)
-    {
-        //Retrieve user's publicKey
-        totemDB.GetUserProfile(loginResult.accessToke);
-    }
-
-    private void OnUserProfileLoaded(string publicKey)
-    {
-        //Retrieve user's spears and avatars using publicKey
-
-        totemDB.GetUserSpears(publicKey);
-        totemDB.GetUserAvatars(publicKey);
-    }
-
-    private void OnSpearsLoaded(List<TotemSpear> spears)
-    {
-        Debug.Log("Spears loaded");
-        foreach (var spear in spears)
-        {
-            Debug.Log(spear.ToString());
-
-
-            //Retrieve legacy records of each spear
-            GetLegacyRecords(avatar, (records) =>
+        //Authenticate user through social login in web browser and get user's assets
+        totemDB.AuthenticateUserWithAssets(Provider.GOOGLE, (user) =>
             {
-                Debug.Log($"Records count: {records.Count}")
+                List<TotemSpear> spears = user.GetOwnedSpears();
+                foreach (var spear in spears)
+                {
+                    Debug.Log(spear.ToString());
+
+                    //Retrieve legacy records of each spear
+                    GetLegacyRecords(avatar, (records) =>
+                    {
+                        Debug.Log($"Records count: {records.Count}")
+                    });
+                }
+
+                List<TotemAvatar> avatars = user.GetOwnedAvatars();
+                foreach (var avatar in avatars)
+                {
+                    Debug.Log(avatar.ToString());
+
+                    //Retrieve legacy records of each avatar
+                    GetLegacyRecords(avatar, (records) =>
+                    {
+                        Debug.Log($"Records count: {records.Count}")
+                    });
+                }
+
             });
 
-        }
     }
-
-    private void OnAvatarsLoaded(List<TotemAvatar> avatars)
-    {
-        Debug.Log("Avatars loaded");
-        foreach (var avatar in avatars)
-        {
-            Debug.Log(avatar.ToString());
-
-            //Retrieve legacy records of each avatar
-            GetLegacyRecords(avatar, (records) =>
-            {
-                Debug.Log($"Records count: {records.Count}")
-            });
-        }
-    }
-
 
     public void AddLegacyRecord(ITotemAsset asset, string data)
     {
@@ -186,11 +165,13 @@ public class TotemAvatar : ITotemAsset
     public string skinColor;
     public string hairColor;
     public string eyeColor;
+    public string clothingColor;
 
     public SexEnum sex;
     public Color eyeColorRGB;
     public Color skinColorRGB;
     public Color hairColorRGB;
+    public Color clothingColorRGB;
     public HairStyleEnum hairStyle;
     public BodyFatEnum bodyFat;
     public BodyMusclesEnum bodyMuscles;
@@ -200,7 +181,7 @@ public class TotemAvatar : ITotemAsset
     }
 
     public override string ToString() {
-        return $"Sex:{sex},SkinColor:{skinColorRGB}HairColor:{hairColorRGB},HairStyle:{hairStyle},EyeColor:{eyeColorRGB},BodyFat:{bodyFat},BodyMuscles:{bodyMuscles}";
+        return $"Sex:{sex},SkinColor:{skinColorRGB}HairColor:{hairColorRGB},HairStyle:{hairStyle},EyeColor:{eyeColorRGB},BodyFat:{bodyFat},BodyMuscles:{bodyMuscles},ClothingColor:{clothingColor}";
     }
 }
 ```

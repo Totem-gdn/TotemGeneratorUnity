@@ -1,31 +1,27 @@
 {
-    "name": "com.totem.totemgenerator",
-    "version": "2.0.1",
-    "displayName": "Totem Generator for Unity",
-    "description": "A simple generator for Unity!",
-    "unity": "2017.1",
-    "dependencies": {
-   },
-   "keywords": [
-      "Totem",
-      "TotemGenerator"
-    ],
-    "author": {
-      "name": "Snir Sharristh",
-      "email": "snir@hey.com",
-      "url": "https://github.com/Totem-gdn/TotemGeneratorUnity"
-    },
-    "samples" : [
-      {
-        "displayName" : "Totem Legacy Jam Demo",
-        "description" : "Contains demo scene for using legacy services",
-        "path": "Samples~/LegacyJamDemo"
-      },
-      {
-        "displayName" : "Totem Assets Browser Demo",
-        "description" : "Contains demo scene for retrieving Totem assets and legacy records",
-        "path": "Samples~/AssetsBrowserDemo"
-      }
-
-    ]
-  }
+  "name": "com.totem.totemgenerator",
+  "version": "3.1.0",
+  "displayName": "Totem Generator for Unity",
+  "description": "Totem plugin that enables interaction with Totem services and assets",
+  "unity": "2019.4",
+  "dependencies": {
+    "com.unity.textmeshpro": "3.0.6",
+    "com.unity.nuget.newtonsoft-json": "3.0.1"
+  },
+  "keywords": [
+    "Totem",
+    "TotemGenerator"
+  ],
+  "author": {
+    "name": "Snir Sharristh",
+    "email": "snir@hey.com",
+    "url": "https://github.com/Totem-gdn/TotemGeneratorUnity"
+  },
+  "samples": [
+    {
+      "displayName": "Totem Legacy Jam Demo",
+      "description": "Contains demo scene for using legacy services",
+      "path": "Samples~/LegacyJamDemo"
+    }
+  ]
+}

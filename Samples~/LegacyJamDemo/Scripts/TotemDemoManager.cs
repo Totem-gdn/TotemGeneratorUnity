@@ -14,8 +14,13 @@ namespace TotemDemo
         public static TotemDemoManager Instance;
         private TotemDB totemDB;
 
+        /// <summary>
+        /// Id of your game, used for legacy records identification. 
+        /// Note, that if you are targeting mobile platforms you also have to use this id for deepLink generation in
+        /// *Window > Totem Generator > Generate Deep Link* menu
+        /// </summary>
         [Header("Demo")]
-        public string _gameId = "TotemDemo"; // Id of your game, used for legacy records identification
+        public string _gameId = "TotemDemo"; 
 
         [SerializeField] private GameObject loginButton;
 
@@ -32,8 +37,7 @@ namespace TotemDemo
         [SerializeField] private Animator popupAnimator;
 
         //Meta Data
-        private string _accessToken;
-        private string _publicKey;
+        private TotemUser _currentUser;
         private List<TotemAvatar> _userAvatars;
 
         //Default Avatar reference - use for your game
@@ -52,15 +56,12 @@ namespace TotemDemo
         }
 
         /// <summary>
-        /// Initializing TotemDB and subscribing to events
+        /// Initializing TotemDB
         /// </summary>
         void Start()
         {
             totemDB = new TotemDB(_gameId);
 
-            totemDB.OnSocialLoginCompleted.AddListener(OnTotemUserLoggedIn);
-            totemDB.OnUserProfileLoaded.AddListener(OnUserProfileLoaded);
-            totemDB.OnAvatarsLoaded.AddListener(OnAvatarsLoaded);
             legacyGameIdInput.onEndEdit.AddListener(OnGameIdInputEndEdit);
         }
 
@@ -68,39 +69,32 @@ namespace TotemDemo
         public void OnLoginButtonClick()
         {
             UILoadingScreen.Instance.Show();
-            totemDB.AuthenticateCurrentUser();
+
+            //Login and load all of user's assets
+            totemDB.AuthenticateUserWithAssets(Provider.GOOGLE, (user) =>
+            {
+                googleLoginObject.SetActive(false);
+                profileNameObject.SetActive(true);
+                profileNameText.SetText(user.Name);
+
+                //UI
+                assetList.ClearList();
+                legacyRecordsList.ClearList();
+                //
+
+                //Avatars
+                _userAvatars = user.GetOwnedAvatars();
+                firstAvatar = _userAvatars[0];
+                //
+
+                //UI Example Methods
+                BuildAvatarList();
+                ShowAvatarRecords();
+
+            });
         }
 
-        private void OnTotemUserLoggedIn(TotemAccountGateway.SocialLoginResponse loginResult)
-        {
-            googleLoginObject.SetActive(false);
-            profileNameObject.SetActive(true);
-            profileNameText.SetText(loginResult.profile.username);
 
-            _accessToken = loginResult.accessToken;
-            totemDB.GetUserProfile(_accessToken);
-
-            assetList.ClearList();
-            legacyRecordsList.ClearList();
-        }
-
-        private void OnUserProfileLoaded(string publicKey)
-        {
-            _publicKey = publicKey;
-            totemDB.GetUserAvatars(_publicKey);
-        }
-
-        private void OnAvatarsLoaded(List<TotemAvatar> avatars)
-        {
-            _userAvatars = avatars;
-
-            //Reference the first Avatar in the list
-            firstAvatar = avatars[0];
-
-            //UI Example Methods
-            BuildAvatarList();
-            ShowAvatarRecords();
-        }
         public void ShowAvatarRecords()
         {
             GetLegacyRecords(firstAvatar, (records) =>
