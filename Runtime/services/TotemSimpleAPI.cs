@@ -37,6 +37,29 @@ namespace TotemServices {
         }
 
         [Serializable]
+        private class SwordsResponse
+        {
+            public int status;
+            public string message;
+            public SwordsInfo[] data;
+        }
+
+        [Serializable]
+        private class SwordsInfo
+        {
+            public string _id;
+            public string seed;
+            public string owner;
+            public string[] owners;
+            public string itemType;
+
+            public TotemSword item;
+
+            public string createdAt;
+            public string updatedAt;
+        }
+
+        [Serializable]
         private class AvatarsResponse
         {
             public int status;
@@ -126,6 +149,36 @@ namespace TotemServices {
                 onSuccess.Invoke(avatars);
             }
 
+        }
+
+        public void GetSwords(string publicKey, UnityAction<List<TotemSword>> onSuccess, UnityAction<string> onFailure = null)
+        {
+            StartCoroutine(GetSwordsCoroutine(publicKey, onSuccess, onFailure));
+        }
+
+        private IEnumerator GetSwordsCoroutine(string publicKey, UnityAction<List<TotemSword>> onSuccess, UnityAction<string> onFailure = null)
+        {
+            UnityWebRequest www = UnityWebRequest.Get(ServicesEnv.SimpleAPIItemsUrl + publicKey);
+            yield return www.SendWebRequest();
+            if (www.result == UnityWebRequest.Result.ConnectionError || www.result == UnityWebRequest.Result.ProtocolError)
+            {
+                Debug.LogError("TotemSimpleAPI- Failed to get items: " + www.error);
+                onFailure?.Invoke(www.error);
+            }
+            else
+            {
+                SwordsResponse response = JsonUtility.FromJson<SwordsResponse>(www.downloadHandler.text);
+
+                List<TotemSword> swords = new List<TotemSword>();
+                foreach (var itemInfo in response.data)
+                {
+                    itemInfo.item.Id = itemInfo._id;
+                    ColorUtility.TryParseHtmlString(itemInfo.item.shaftColor, out itemInfo.item.shaftColorRGB);
+                    swords.Add(itemInfo.item);
+                }
+
+                onSuccess.Invoke(swords);
+            }
         }
 
         #endregion
