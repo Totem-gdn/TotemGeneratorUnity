@@ -29,6 +29,12 @@ public class TotemDB
     public UnityEvent<List<TotemAvatar>> OnAvatarsLoaded;
 
     /// <summary>
+    /// Invoked after users swords retrievel
+    /// Hold list of owned swords
+    /// </summary>
+    public UnityEvent<List<TotemSword>> OnSwordsLoaded;
+
+    /// <summary>
     /// Currently logged in user info
     /// </summary>
     public TotemUser CurrentUser { get; private set; }
