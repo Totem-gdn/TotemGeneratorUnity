@@ -7,7 +7,7 @@ using TotemServices;
 using TotemEnums;
 using UnityEngine;
 using UnityEngine.Assertions;
-using utilities;
+using TotemUtils;
 
 public class TotemEntitiesDB
 {

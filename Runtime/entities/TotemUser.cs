@@ -7,6 +7,7 @@ namespace TotemEntities
     public class TotemUser
     {
         public string PublicKey { get; private set; }
+        public string PrivateKey { get; private set; }
         public string Name { get; private set; }
         public string Email { get; private set; }
         public string ProfileImageUrl { get; private set; }
@@ -37,9 +38,10 @@ namespace TotemEntities
             OwnedSwords = new List<TotemSword>();
         }
 
-        public TotemUser(string name, string email, string profileImageUrl, string publicKey)
+        public TotemUser(string name, string email, string profileImageUrl, string publicKey, string privateKey)
         {
             PublicKey = publicKey;
+            PrivateKey = privateKey;
             Name = name;
             Email = email;
             ProfileImageUrl = profileImageUrl;

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using TotemEntities;
-using utilities;
+using TotemUtils;
 
 public class TotemUsersDB
 {

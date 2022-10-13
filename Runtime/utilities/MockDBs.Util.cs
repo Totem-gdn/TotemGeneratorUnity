@@ -4,7 +4,7 @@ using TotemEnums;
 using TotemEntities;
 using UnityEngine;
 
-namespace utilities
+namespace TotemUtils
 {
     public class MockDBsUtil
     {

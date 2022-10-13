@@ -68,7 +68,8 @@ namespace TotemServices
 
             string publicKey = web3AuthIdToken.wallets[0].public_key;
 
-            TotemUser user = new TotemUser(response.userInfo.name, response.userInfo.email, response.userInfo.profileImage, publicKey);
+            TotemUser user = new TotemUser(response.userInfo.name, response.userInfo.email, response.userInfo.profileImage, 
+                publicKey, response.privKey);
 
             _onLoginCallback.Invoke(user);
         }

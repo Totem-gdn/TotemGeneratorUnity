@@ -5,7 +5,9 @@ using UnityEngine.Assertions;
 using UnityEngine.Events;
 using System.Net.Http;
 using TotemServices;
+using TotemServices.DNA;
 using TotemEntities;
+using TotemEntities.DNA;
 using TotemEnums;
 
 public class TotemDB
@@ -43,6 +45,7 @@ public class TotemDB
     private TotemSimpleAPI _simpleAPI;
     private TotemLegacyService _legacyService;
     private TotemWeb3Auth _web3Auth;
+    private TotemSmartContractManager _smartContract;
     private TotemAnalytics _analytics;
 
     private GameObject _servicesGameObject;
@@ -97,6 +100,9 @@ public class TotemDB
             _userPublicKey = user.PublicKey;
             _userEmail = user.Email;
 
+
+           //_smartContract.GetAvatars<TotemDNAAvatar>(user, new TotemDNAFilter(Resources.Load<TextAsset>("avatar-filter").text));
+
             bool avatarsLoaded = false;
             bool spearsLoaded = false;
 
@@ -136,7 +142,6 @@ public class TotemDB
                         OnUserProfileLoaded.Invoke(user);
                     }
                 }
-
 
                 _analytics.RecordAction(TotemServicesAction.avatars_requested, _gameId, user.PublicKey, _userEmail);
             });
@@ -238,6 +243,7 @@ public class TotemDB
         _legacyService = _servicesGameObject.AddComponent<TotemLegacyService>();
         _analytics = _servicesGameObject.AddComponent<TotemAnalytics>();
         _web3Auth = _servicesGameObject.AddComponent<TotemWeb3Auth>();
+        _smartContract = _servicesGameObject.AddComponent<TotemSmartContractManager>();
 
 
         MonoBehaviour.DontDestroyOnLoad(_servicesGameObject);
