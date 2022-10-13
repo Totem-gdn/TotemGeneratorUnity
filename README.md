@@ -1,6 +1,6 @@
-# Totem Spear and Avatar Generator for Unity!
+# Totem Core for Unity!
 
-This Package knows how to randomly generate a Totem Avatar and a Totem Spear from scrath or with specific attributes.
+This Package enables interaction with Totem services and assets in Unity.
 
 ## Requirements
 
@@ -48,7 +48,7 @@ Before building the application for Android/IOS you need to generate a deep link
 
 You can import samples through "Samples" menu in the Unity package details. **Window -> Package Manager -> Totem Generator for Unity -> Samples**
 
-### Totem Legacy Jam Demo
+### Totem Legacy Records Demo
 
 A sample that demonstrates how to do a basic plugin setup, retrieve avatars and use Legacy records.
 
@@ -56,14 +56,15 @@ A sample that demonstrates how to do a basic plugin setup, retrieve avatars and 
 
 ## Examples
 
-### User login and spears/avatars retrieval
+### User login and avatars retrieval
 
 ```csharp
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TotemServices;
 using TotemEntities;
+using TotemEntities.DNA;
+using TotemServices.DNA;
 
 public class test : MonoBehaviour
 {
@@ -74,250 +75,38 @@ public class test : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //Initialize TotemDB
-        TotemDB totemDB = new TotemDB(_gameId);
+        //Initialize TotemCore
+        TotemCore totemCore = new TotemCore(_gameId);
 
 
         //Authenticate user through social login in web browser and get user's assets
-        totemDB.AuthenticateUserWithAssets(Provider.GOOGLE, (user) =>
+        totemCore.AuthenticateCurrentUser(Provider.GOOGLE, (user) =>
+        {
+            //Using default filter with a default avatar model. You can implement your own filters and/or models
+            totemCore.GetUserAvatars<TotemDNADefaultAvatar>(user, TotemDNAFilter.DefaultAvatarFilter, (avatars) =>
             {
-                List<TotemSpear> spears = user.GetOwnedSpears();
-                foreach (var spear in spears)
-                {
-                    Debug.Log(spear.ToString());
-
-                    //Retrieve legacy records of each spear
-                    GetLegacyRecords(avatar, (records) =>
-                    {
-                        Debug.Log($"Records count: {records.Count}")
-                    });
-                }
-
-                List<TotemAvatar> avatars = user.GetOwnedAvatars();
                 foreach (var avatar in avatars)
                 {
                     Debug.Log(avatar.ToString());
-
-                    //Retrieve legacy records of each avatar
-                    GetLegacyRecords(avatar, (records) =>
-                    {
-                        Debug.Log($"Records count: {records.Count}")
-                    });
                 }
-
             });
+        });
 
     }
 
-    public void AddLegacyRecord(ITotemAsset asset, string data)
+    public void AddLegacyRecord(object asset, int data)
     {
-        totemDB.AddLegacyRecord(asset, data, (record) =>
+        totemCore.AddLegacyRecord(asset, data.ToString(), (record) =>
         {
-            Debug.Log("New legacy record data:" + record.data)
+            Debug.Log("Legacy record created");
         });
     }
 
-    public void GetLegacyRecords(ITotemAsset asset, UnityAction<List<TotemLegacyRecord>> onSuccess)
+
+    public void GetLegacyRecords(object asset, UnityAction<List<TotemLegacyRecord>> onSuccess)
     {
-        totemDB.GetLegacyRecords(asset, onSuccess, legacyGameIdInput.text);
+        totemCore.GetLegacyRecords(asset, onSuccess, legacyGameIdInput.text);
     }
 
 }
-```
-
----
-
-## Spear and Avatars objects:
-
-### TotemSpear:
-
-```csharp
-public class TotemSpear : ITotemAsset
-{
-    public string Id { get; set; }
-    public List<TotemUser> Owners { get; set; }
-
-    public string shaftColor;
-    public TipMaterialEnum tipMaterial;
-    public ElementEnum element;
-    public Color shaftColorRGB;
-    public float range;
-    public float damage;
-
-    public TotemSpear(TipMaterialEnum aTip, ElementEnum aElement, Color aShaftColor, float aRange, float aDamage) {
-        ...
-    }
-
-    public override string ToString() {
-        return $"Tip:{tipMaterial},Element:{element},ShaftColor:{shaftColorRGB},Range:{range},Damage:{damage}";
-    }
-}
-```
-
-### TotemAvatar:
-
-```csharp
-public class TotemAvatar : ITotemAsset
-{
-    public string Id { get; set; }
-    public List<TotemUser> Owners { get; set; }
-
-    public string skinColor;
-    public string hairColor;
-    public string eyeColor;
-    public string clothingColor;
-
-    public SexEnum sex;
-    public Color eyeColorRGB;
-    public Color skinColorRGB;
-    public Color hairColorRGB;
-    public Color clothingColorRGB;
-    public HairStyleEnum hairStyle;
-    public BodyFatEnum bodyFat;
-    public BodyMusclesEnum bodyMuscles;
-
-    public TotemAvatar(SexEnum aSex, Color aSkinColor, Color aHairColor, HairStyleEnum aHairStyle, Color aEyeColor, BodyFatEnum aBodyFat, BodyMusclesEnum aBodyMuscles) {
-        ...
-    }
-
-    public override string ToString() {
-        return $"Sex:{sex},SkinColor:{skinColorRGB}HairColor:{hairColorRGB},HairStyle:{hairStyle},EyeColor:{eyeColorRGB},BodyFat:{bodyFat},BodyMuscles:{bodyMuscles},ClothingColor:{clothingColor}";
-    }
-}
-```
-
-## Enums:
-
-### ElementEnum:
-
-```csharp
-public enum ElementEnum {
-    Air,
-    Earth,
-    Water,
-    Fire,
-}
-```
-
-### HairStyleEnum:
-
-```csharp
-public enum HairStyleEnum {
-    Afro,
-    Asymmetrical,
-    Braids,
-    Dreadlocks,
-    BuzzCut,
-    Long,
-    Ponytail,
-    Short
-}
-```
-
-### SexEnum:
-
-```csharp
-public enum SexEnum {
-    Male,
-    Female,
-}
-```
-
-### TipMaterialEnum:
-
-```csharp
-public enum TipMaterialEnum {
-    Wood=0,
-    Bone=1,
-    Flint=2,
-    Obsidian=3
-}
-```
-
-### BodyFatEnum
-
-```csharp
-public enum BodyFatEnum {
-    Thin,
-    Fat
-}
-```
-
-### BodyMusclesEnum
-
-```csharp
-public enum BodyMusclesEnum {
-    Wimp,
-    Muscular
-}
-```
-
-## Eye, Skin and Hair Colors:
-
-These values can be shown and selected with their own const files that look like that:
-
-### NaturalEyeColors
-
-```csharp
-    public static class NaturalEyeColors
-    {
-        private static List<string> EyeColors { get; } = new List<string>
-        {
-            "b5d6e0", "90b4ca", "a7ad7f", "7c8b4f", "c4a05f", "a97e33", "7a3411", "3d0d04"
-        };
-
-        public static Color GetRandom()
-        {
-            ...
-        }
-
-        public static Color GetColorByString(string colorHex)
-        {
-            ...
-        }
-    }
-```
-
-### NaturalSkinColors
-
-```csharp
-    public static class NaturalSkinColors
-    {
-        private static List<string> HColors { get; } = new List<string>
-        {
-            "b1b1b1", "070504", "341c0d", "62422e", "914329", "cd622b", "ad7b41", "e4b877"
-        };
-
-        public static Color GetRandom()
-        {
-            ...
-        }
-
-        public static Color GetColorByString(string colorHex)
-        {
-            ...
-        }
-    }
-```
-
-### NaturalHairColors
-
-```csharp
-    public static class NaturalHairColors
-    {
-        private static List<string> HColors { get; } = new List<string>
-        {
-            "b1b1b1", "070504", "341c0d", "62422e", "914329", "cd622b", "ad7b41", "e4b877"
-        };
-
-        public static Color GetRandom()
-        {
-            ...
-        }
-
-        public static Color GetColorByString(string colorHex)
-        {
-            ...
-        }
-    }
 ```

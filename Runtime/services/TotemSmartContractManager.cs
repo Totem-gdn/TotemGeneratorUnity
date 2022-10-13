@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using UnityEngine;
+using UnityEngine.Events;
 using Nethereum.Unity.Rpc;
 using Nethereum.Signer;
 using TotemEntities;
@@ -13,21 +15,22 @@ namespace TotemServices
 {
     public class TotemSmartContractManager : MonoBehaviour
     {
-        private string privateKey = "26ce2d1e9f8dbcf570eafc08271aa7018e602e1b8611624db53a93782e554625";
+        private Dictionary<object, BigInteger> assetIdTable;
 
-        private void Start()
+        private void Awake()
         {
-            StartCoroutine(GetAvatarsCoroutine<TotemDNAAvatar>(privateKey, new TotemDNAFilter(Resources.Load<TextAsset>("avatar-filter").text)));
-            StartCoroutine(GetItemsCoroutine<TotemDNAItem>(privateKey, new TotemDNAFilter(Resources.Load<TextAsset>("item-filter").text)));
+            assetIdTable = new Dictionary<object, BigInteger>();
         }
 
-
-        public void GetAvatars<T>(TotemUser user, TotemDNAFilter filter) where T : new()
+        public void GetAvatars<T>(TotemUser user, TotemDNAFilter filter, UnityAction<List<T>> onComplete) where T : new()
         {
-            StartCoroutine(GetAvatarsCoroutine<T>(user.PrivateKey, filter));
+            StartCoroutine(GetAvatarsCoroutine(user.PrivateKey, filter, onComplete));
         }
-        private IEnumerator GetAvatarsCoroutine<T>(string privateKey, TotemDNAFilter filter) where T : new()
+
+        private IEnumerator GetAvatarsCoroutine<T>(string privateKey, TotemDNAFilter filter, UnityAction<List<T>> onCompelte) where T : new()
         {
+            var avatarsList = new List<T>();
+
             var key = new EthECKey(privateKey);
             string address = key.GetPublicAddress();
 
@@ -41,23 +44,30 @@ namespace TotemServices
                 yield return tokenIdRequest.Query(new TokenOfOwnerByIndexFunction() { Owner = address, Index = i }, ServicesEnv.SmartContractAvatars);
 
                 var avatarRequest = new QueryUnityRequest<TokenURIFunction, TokenURIOutputDTO>(ServicesEnv.SmartContractUrl, address);
+                var tokenId = tokenIdRequest.Result.ReturnValue1;
                 yield return avatarRequest.Query(new TokenURIFunction() { TokenId = tokenIdRequest.Result.ReturnValue1 }, ServicesEnv.SmartContractAvatars);
 
                 string binaryDna = Convert.HexStringToBinary(avatarRequest.Result.ReturnValue1);
+
                 var avatar = filter.FilterDNA<T>(binaryDna);
-                Debug.Log(avatar.ToString());
+                avatarsList.Add(avatar);
+                AddAssetToIdTable(avatar, tokenId);
             }
 
+            onCompelte?.Invoke(avatarsList);
         }
 
 
 
-        public void GetItems<T>(TotemUser user, TotemDNAFilter filter) where T : new()
+        public void GetItems<T>(TotemUser user, TotemDNAFilter filter, UnityAction<List<T>> onCompelte) where T : new()
         {
-            StartCoroutine(GetItemsCoroutine<T>(user.PrivateKey, filter));
+            StartCoroutine(GetItemsCoroutine<T>(user.PrivateKey, filter, onCompelte));
         }
-        private IEnumerator GetItemsCoroutine<T>(string privateKey, TotemDNAFilter filter) where T : new()
+
+        private IEnumerator GetItemsCoroutine<T>(string privateKey, TotemDNAFilter filter, UnityAction<List<T>> onCompelte) where T : new()
         {
+            var itemsList = new List<T>();
+
             var key = new EthECKey(privateKey);
             string address = key.GetPublicAddress();
 
@@ -71,13 +81,35 @@ namespace TotemServices
                 yield return tokenIdRequest.Query(new TokenOfOwnerByIndexFunction() { Owner = address, Index = i }, ServicesEnv.SmartContractItems);
 
                 var itemRequest = new QueryUnityRequest<TokenURIFunction, TokenURIOutputDTO>(ServicesEnv.SmartContractUrl, address);
-                yield return itemRequest.Query(new TokenURIFunction() { TokenId = tokenIdRequest.Result.ReturnValue1 }, ServicesEnv.SmartContractItems);
+                var tokenId = tokenIdRequest.Result.ReturnValue1;
+                yield return itemRequest.Query(new TokenURIFunction() { TokenId = tokenId }, ServicesEnv.SmartContractItems);
 
                 string binaryDna = Convert.HexStringToBinary(itemRequest.Result.ReturnValue1);
                 var item = filter.FilterDNA<T>(binaryDna);
-                Debug.Log(item.ToString());
+                itemsList.Add(item);
+                AddAssetToIdTable(item, tokenId);
             }
 
+            onCompelte.Invoke(itemsList);
+        }
+
+
+        private void AddAssetToIdTable(object asset, BigInteger id)
+        {
+            if (assetIdTable.ContainsValue(id))
+            {
+                return;
+            }
+
+            assetIdTable.Add(asset, id);
+        }
+
+        public BigInteger GetAssetId(object asset)
+        {
+            if (!assetIdTable.ContainsKey(asset))
+                return -1;
+
+            return assetIdTable[asset];
         }
 
     }

@@ -1,12 +1,8 @@
 {
-    "name": "TotemGenerator.Editor",
+    "name": "TotemCore.Runtime",
     "rootNamespace": "",
-    "references": [
-        "GUID:cc52c281295f9ad46a5fe5e0723d14e0"
-    ],
-    "includePlatforms": [
-        "Editor"
-    ],
+    "references": [],
+    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

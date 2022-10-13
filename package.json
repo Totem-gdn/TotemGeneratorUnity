@@ -1,7 +1,7 @@
 {
-  "name": "com.totem.totemgenerator",
-  "version": "3.1.0",
-  "displayName": "Totem Generator for Unity",
+  "name": "com.totem.totemcore",
+  "version": "4.0.0",
+  "displayName": "Totem Core for Unity",
   "description": "Totem plugin that enables interaction with Totem services and assets",
   "unity": "2019.4",
   "dependencies": {
@@ -10,7 +10,7 @@
   },
   "keywords": [
     "Totem",
-    "TotemGenerator"
+    "TotemCore"
   ],
   "author": {
     "name": "Snir Sharristh",
@@ -19,7 +19,7 @@
   },
   "samples": [
     {
-      "displayName": "Totem Legacy Jam Demo",
+      "displayName": "Totem Legacy Records",
       "description": "Contains demo scene for using legacy services",
       "path": "Samples~/LegacyJamDemo"
     }

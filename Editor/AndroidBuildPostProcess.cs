@@ -6,30 +6,32 @@ using System.Xml.Linq;
 using UnityEditor.Android;
 using UnityEngine;
 
-public class AndroidBuildPostProcess : IPostGenerateGradleAndroidProject
+namespace TotemEditor
 {
-    public int callbackOrder { get { return 1; } }
-
-    public void OnPostGenerateGradleAndroidProject(string path)
+    public class AndroidBuildPostProcess : IPostGenerateGradleAndroidProject
     {
-        Uri uri = null;
+        public int callbackOrder { get { return 1; } }
 
-        try
+        public void OnPostGenerateGradleAndroidProject(string path)
         {
-            uri = new Uri(System.IO.File.ReadAllText("Assets/Resources/webauth.txt"));
-        }
-        catch
-        {
-            throw new Exception("Deep Link uri is invalid or does not exist. Please generate from \"Window > Totem Generator > Generate Deep Link\" Menu");
-        }
+            Uri uri = null;
 
-        string manifest = path + "\\src\\main\\AndroidManifest.xml";
+            try
+            {
+                uri = new Uri(System.IO.File.ReadAllText("Assets/Resources/webauth.txt"));
+            }
+            catch
+            {
+                throw new Exception("Deep Link uri is invalid or does not exist. Please generate from \"Window > Totem Generator > Generate Deep Link\" Menu");
+            }
 
-        var document = new XmlDocument();
-        document.Load(manifest);
+            string manifest = path + "\\src\\main\\AndroidManifest.xml";
 
-        var activityNode = document.DocumentElement.SelectSingleNode("application").SelectSingleNode("activity");
-        activityNode.AppendChild(activityNode.OwnerDocument.ImportNode(BuildeNode(string.Format(@"
+            var document = new XmlDocument();
+            document.Load(manifest);
+
+            var activityNode = document.DocumentElement.SelectSingleNode("application").SelectSingleNode("activity");
+            activityNode.AppendChild(activityNode.OwnerDocument.ImportNode(BuildeNode(string.Format(@"
           <intent-filter  xmlns:android=""http://schemas.android.com/apk/res/android"">
             <action android:name=""android.intent.action.VIEW"" />
 
@@ -41,15 +43,16 @@ public class AndroidBuildPostProcess : IPostGenerateGradleAndroidProject
           </intent-filter>
         ", uri.Scheme, uri.Host, uri.LocalPath)), true));
 
-        document.Save(manifest);
-            
-    }
+            document.Save(manifest);
 
-    private XmlNode BuildeNode(string text)
-    {
-        XmlDocument doc = new XmlDocument();
-        doc.LoadXml(text);
+        }
 
-        return doc.DocumentElement;
+        private XmlNode BuildeNode(string text)
+        {
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(text);
+
+            return doc.DocumentElement;
+        }
     }
 }

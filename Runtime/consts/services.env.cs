@@ -48,6 +48,8 @@ namespace TotemConsts
         public const string SmartContractUrl = "https://matic-mumbai.chainstacklabs.com";
         public const string SmartContractAvatars = "0xEE7ff88E92F2207dBC19d89C1C9eD3F385513b35";
         public const string SmartContractItems = "0xfC5654489b23379ebE98BaF37ae7017130B45086";
+        public const string SmartContractAvatarsFilterName = "totem-common-files/filters/totem-avatar";
+        public const string SmartContractItemsFilterName = "totem-common-files/filters/totem-item";
 
         #endregion
     }

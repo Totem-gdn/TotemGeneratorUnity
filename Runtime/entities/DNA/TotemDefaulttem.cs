@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace TotemEntities.DNA
 {
-    public class TotemDNAItem
+    public class TotemDNADefaultItem
     {
         public Color primary_color;
         public string classical_element;

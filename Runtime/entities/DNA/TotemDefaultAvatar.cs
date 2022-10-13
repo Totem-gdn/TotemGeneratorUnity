@@ -5,8 +5,7 @@ using UnityEngine;
 
 namespace TotemEntities.DNA
 {
-
-    public class TotemDNAAvatar
+    public class TotemDNADefaultAvatar
     {
         public bool sex_bio;
         public bool body_strength;

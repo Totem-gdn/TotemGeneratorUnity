@@ -4,44 +4,47 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 
-public class CreateDeepLink : EditorWindow
+namespace TotemEditor
 {
-    Button generateButton;
-    TextField gameId;
-
-
-    [MenuItem("Window/Totem Generator/Generate Deep Link")]
-    public static void ShowExample()
+    public class CreateDeepLink : EditorWindow
     {
-        CreateDeepLink wnd = GetWindow<CreateDeepLink>();
-        wnd.titleContent = new GUIContent("Generate Deep Link");
-    }
+        Button generateButton;
+        TextField gameId;
 
-    public void OnEnable()
-    {
-        // Each editor window contains a root VisualElement object
-        VisualElement root = rootVisualElement;
 
-        // Import UXML
-        var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Packages/com.totem.totemgenerator/Editor/CreateDeepLink.uxml");
-        VisualElement labelFromUXML = visualTree.CloneTree();
-        root.Add(labelFromUXML);
+        [MenuItem("Window/Totem Generator/Generate Deep Link")]
+        public static void ShowExample()
+        {
+            CreateDeepLink wnd = GetWindow<CreateDeepLink>();
+            wnd.titleContent = new GUIContent("Generate Deep Link");
+        }
 
-        var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Packages/com.totem.totemgenerator/Editor/CreateDeepLink.uss");
-        root.styleSheets.Add(styleSheet);
+        public void OnEnable()
+        {
+            // Each editor window contains a root VisualElement object
+            VisualElement root = rootVisualElement;
 
-        generateButton = root.Q<Button>("generateButton");
-        generateButton.clicked += OnGenerateButtonClick;
+            // Import UXML
+            var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Packages/com.totem.totemgenerator/Editor/CreateDeepLink.uxml");
+            VisualElement labelFromUXML = visualTree.CloneTree();
+            root.Add(labelFromUXML);
 
-        gameId = root.Q<TextField>("gameId");
-    }
+            var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Packages/com.totem.totemgenerator/Editor/CreateDeepLink.uss");
+            root.styleSheets.Add(styleSheet);
 
-    private void OnGenerateButtonClick()
-    {
-        if (!System.IO.Directory.Exists("Assets/Resources/"))
-            System.IO.Directory.CreateDirectory("Assets/Resources/");
-        System.IO.File.WriteAllText("Assets/Resources/webauth.txt", "torusapp://com.torus.Web3AuthUnity/auth_" + gameId.text);
+            generateButton = root.Q<Button>("generateButton");
+            generateButton.clicked += OnGenerateButtonClick;
 
-        EditorUtility.DisplayDialog("Deep link generated", "Deep link for game id \"" + gameId.text + "\" is successfully generated", "Ok");
+            gameId = root.Q<TextField>("gameId");
+        }
+
+        private void OnGenerateButtonClick()
+        {
+            if (!System.IO.Directory.Exists("Assets/Resources/"))
+                System.IO.Directory.CreateDirectory("Assets/Resources/");
+            System.IO.File.WriteAllText("Assets/Resources/webauth.txt", "torusapp://com.torus.Web3AuthUnity/auth_" + gameId.text);
+
+            EditorUtility.DisplayDialog("Deep link generated", "Deep link for game id \"" + gameId.text + "\" is successfully generated", "Ok");
+        }
     }
 }
