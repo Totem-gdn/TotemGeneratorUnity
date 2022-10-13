@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TotemEntities;
+using TotemEntities.DNA;
 using TMPro;
 using System.Linq;
 
@@ -18,7 +19,7 @@ namespace TotemDemo
         [SerializeField] private TotemDemoManager totemDemo;
         [SerializeField] private TMP_InputField inputLegacyNumber;
 
-        private ITotemAsset selectedAsset;
+        private TotemDNADefaultAvatar selectedAsset;
         private List<TotemLegacyRecord> assetLegacyRecords;
 
         private void Awake()
@@ -26,7 +27,7 @@ namespace TotemDemo
             Instance = this;
         }
 
-        public void BuildList(ITotemAsset asset, List<TotemLegacyRecord> records)
+        public void BuildList(TotemDNADefaultAvatar asset, List<TotemLegacyRecord> records)
         {
             assetLegacyRecords = records;
             selectedAsset = asset;

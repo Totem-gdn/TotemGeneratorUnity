@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TotemEntities;
+using TotemEntities.DNA;
 
 namespace TotemDemo
 {
@@ -10,7 +10,7 @@ namespace TotemDemo
         [SerializeField] private Transform itemsParent;
         [SerializeField] private GameObject itemPrefab;
 
-        public void BuildList(List<ITotemAsset> assets)
+        public void BuildList(List<TotemDNADefaultAvatar> assets)
         {
             foreach (Transform item in itemsParent)
             {

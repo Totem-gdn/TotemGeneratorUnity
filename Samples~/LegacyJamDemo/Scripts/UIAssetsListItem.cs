@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TotemEntities;
+using TotemEntities.DNA;
 using TMPro;
 
 namespace TotemDemo
@@ -10,9 +10,9 @@ namespace TotemDemo
     {
         [SerializeField] private TextMeshProUGUI text;
 
-        private ITotemAsset asset;
+        private TotemDNADefaultAvatar asset;
 
-        public void Setup(ITotemAsset asset)
+        public void Setup(TotemDNADefaultAvatar asset)
         {
             text.SetText(asset.ToString());
             this.asset = asset;

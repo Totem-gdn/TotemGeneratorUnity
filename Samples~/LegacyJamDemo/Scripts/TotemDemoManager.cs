@@ -4,7 +4,8 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using TotemEntities;
-using TotemServices;
+using TotemEntities.DNA;
+using TotemServices.DNA;
 using TMPro;
 
 namespace TotemDemo
@@ -12,7 +13,7 @@ namespace TotemDemo
     public class TotemDemoManager : MonoBehaviour
     {
         public static TotemDemoManager Instance;
-        private TotemDB totemDB;
+        private TotemCore totemCore;
 
         /// <summary>
         /// Id of your game, used for legacy records identification. 
@@ -38,10 +39,10 @@ namespace TotemDemo
 
         //Meta Data
         private TotemUser _currentUser;
-        private List<TotemAvatar> _userAvatars;
+        private List<TotemDNADefaultAvatar> _userAvatars;
 
         //Default Avatar reference - use for your game
-        private TotemAvatar firstAvatar;
+        private TotemDNADefaultAvatar firstAvatar;
 
         private void Awake()
         {
@@ -56,11 +57,11 @@ namespace TotemDemo
         }
 
         /// <summary>
-        /// Initializing TotemDB
+        /// Initializing TotemCore
         /// </summary>
         void Start()
         {
-            totemDB = new TotemDB(_gameId);
+            totemCore = new TotemCore(_gameId);
 
             legacyGameIdInput.onEndEdit.AddListener(OnGameIdInputEndEdit);
         }
@@ -70,8 +71,14 @@ namespace TotemDemo
         {
             UILoadingScreen.Instance.Show();
 
-            //Login and load all of user's assets
-            totemDB.AuthenticateUserWithAssets(Provider.GOOGLE, (user) =>
+            //Login user
+            totemCore.AuthenticateCurrentUser(Provider.GOOGLE, OnUserLoggedIn);
+        }
+
+        private void OnUserLoggedIn(TotemUser user)
+        {
+            //Using default filter with a default avatar model. You can implement your own filters and/or models
+            totemCore.GetUserAvatars<TotemDNADefaultAvatar>(user, TotemDNAFilter.DefaultAvatarFilter, (avatars) =>
             {
                 googleLoginObject.SetActive(false);
                 profileNameObject.SetActive(true);
@@ -80,11 +87,11 @@ namespace TotemDemo
                 //UI
                 assetList.ClearList();
                 legacyRecordsList.ClearList();
-                //
+                
 
                 //Avatars
-                _userAvatars = user.GetOwnedAvatars();
-                firstAvatar = _userAvatars[0];
+                _userAvatars = avatars;
+                firstAvatar = avatars[0];
                 //
 
                 //UI Example Methods
@@ -109,10 +116,10 @@ namespace TotemDemo
         /// <summary>
         /// Add a new Legacy Record to a specific Totem Asset.
         /// </summary>
-        public void AddLegacyRecord(ITotemAsset asset, int data)
+        public void AddLegacyRecord(object asset, int data)
         {
             UILoadingScreen.Instance.Show();
-            totemDB.AddLegacyRecord(asset, data.ToString(), (record) =>
+            totemCore.AddLegacyRecord(asset, data.ToString(), (record) =>
             {
                 legacyRecordsList.AddRecordToList(record, true);
                 UILoadingScreen.Instance.Hide();
@@ -128,9 +135,9 @@ namespace TotemDemo
             AddLegacyRecord(firstAvatar, data);
         }
 
-        public void GetLegacyRecords(ITotemAsset asset, UnityAction<List<TotemLegacyRecord>> onSuccess)
+        public void GetLegacyRecords(object asset, UnityAction<List<TotemLegacyRecord>> onSuccess)
         {
-            totemDB.GetLegacyRecords(asset, onSuccess, legacyGameIdInput.text);
+            totemCore.GetLegacyRecords(asset, onSuccess, legacyGameIdInput.text);
         }
 
         public void GetLastLegacyRecord(UnityAction<TotemLegacyRecord> onSuccess)
@@ -156,7 +163,7 @@ namespace TotemDemo
 
         private void BuildAvatarList()
         {
-            assetList.BuildList(_userAvatars.Cast<ITotemAsset>().ToList());
+            assetList.BuildList(_userAvatars);
         }
 
         private void OnGameIdInputEndEdit(string text)
