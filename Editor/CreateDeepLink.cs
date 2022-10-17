@@ -26,10 +26,18 @@ namespace TotemEditor
 
             // Import UXML
             var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Packages/com.totem.totemcore/Editor/CreateDeepLink.uxml");
+            if (visualTree == null)
+            {
+                visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/Plugins/TotemGeneratorUnity/Editor/CreateDeepLink.uxml");
+            }
             VisualElement labelFromUXML = visualTree.CloneTree();
             root.Add(labelFromUXML);
 
             var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Packages/com.totem.totemcore/Editor/CreateDeepLink.uss");
+            if (styleSheet == null)
+            {
+                styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Plugins/TotemGeneratorUnity/Editor/CreateDeepLink.uss");
+            }
             root.styleSheets.Add(styleSheet);
 
             generateButton = root.Q<Button>("generateButton");
