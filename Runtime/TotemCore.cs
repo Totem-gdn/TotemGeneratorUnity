@@ -148,6 +148,17 @@ public class TotemCore
 
 
     /// <summary>
+    /// Returns the Id of an asset
+    /// </summary>
+    /// <param name="asset">Previously retrieved asset</param>
+    /// <returns></returns>
+    public string GetAssetId(object asset)
+    {
+        return _smartContract.GetAssetId(asset).ToString();
+    }
+
+
+    /// <summary>
     /// Creates a GameObjet for handling coroutines in services scripts
     /// </summary>
     private void CreateServicesGameObject()
