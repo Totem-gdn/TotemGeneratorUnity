@@ -4,8 +4,7 @@ This Package enables interaction with Totem services and assets in Unity.
 
 ## Requirements
 
-- Unity Editor 2019.4.9f1 or greater
-- .Net Framework 4.x
+- Unity Editor 2021.3.7f1 or greater
 
 ## Instructions
 
