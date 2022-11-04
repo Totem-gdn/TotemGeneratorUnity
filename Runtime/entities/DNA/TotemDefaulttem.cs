@@ -8,10 +8,10 @@ namespace TotemEntities.DNA
     {
         public Color primary_color;
         public string classical_element;
-        public int damage_nd;
-        public int range_nd;
-        public int power_nd;
-        public int magical_exp;
+        public uint damage_nd;
+        public uint range_nd;
+        public uint power_nd;
+        public uint magical_exp;
         public string weapon_material;
 
         public override string ToString()

@@ -11,7 +11,7 @@ namespace TotemServices
     {
         public void RecordAction(TotemServicesAction action, string distinctId, string userId, string userEmail)
         {
-            //StartCoroutine(RecordActionCoroutine(action, distinctId, userId, userEmail));
+            StartCoroutine(RecordActionCoroutine(action, distinctId, userId, userEmail));
         }
 
         private IEnumerator RecordActionCoroutine(TotemServicesAction action, string distinctId, string userId, string userEmail)
@@ -29,7 +29,7 @@ namespace TotemServices
             {
                 Debug.LogError("TotemAnalytics- Failed to record an action: " + www.error);
             }
-           
+
         }
 
 

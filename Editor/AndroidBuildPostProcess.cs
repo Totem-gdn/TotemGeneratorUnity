@@ -44,7 +44,6 @@ namespace TotemEditor
         ", uri.Scheme, uri.Host, uri.LocalPath)), true));
 
             document.Save(manifest);
-
         }
 
         private XmlNode BuildeNode(string text)

@@ -77,8 +77,8 @@ namespace TotemServices.DNA
                 }
 
                 string binVal = dna.Substring(rule.gene * 32 + rule.start, rule.length);
-                
-                int intVal = Convert.ToInt32(binVal, 2);
+
+                uint intVal = Convert.ToUInt32(binVal, 2);
 
                 Enum.TryParse(rule.type, true, out TotemDNAType dnaType);
                 switch (dnaType)
@@ -96,7 +96,7 @@ namespace TotemServices.DNA
 
                     case TotemDNAType.Int:
 
-                        if (field.FieldType != typeof(int))
+                        if (field.FieldType != typeof(uint))
                         {
                             continue;
                         }
@@ -114,7 +114,7 @@ namespace TotemServices.DNA
                         
                         foreach (var value in rule.values)
                         {
-                            if (Convert.ToInt32(value.value) == intVal)
+                            if (Convert.ToUInt32(value.value) == intVal)
                             {
                                 field.SetValue(obj, value.key);
                                 break;
