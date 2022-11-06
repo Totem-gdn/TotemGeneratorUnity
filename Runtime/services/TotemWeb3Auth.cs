@@ -58,7 +58,8 @@ namespace TotemServices
         {
             string idToken = response.userInfo.idToken;
             var decode = idToken.Split('.')[1];
-            Debug.Log("id: \n" + decode);
+            decode = decode.Replace('-', '+'); // 62nd char of encoding
+            decode = decode.Replace('_', '/'); // 63rd char of encoding
             var padLength = decode.Length % 4;
             if (padLength == 2)
             {
@@ -68,7 +69,6 @@ namespace TotemServices
             {
                 decode += "=";
             }
-            Debug.Log("id2: \n" + decode);
             byte[] bytes = Convert.FromBase64String(decode);
             Web3AuthIdToken web3AuthIdToken = JsonConvert.DeserializeObject<Web3AuthIdToken>(System.Text.Encoding.ASCII.GetString(bytes));
 
