@@ -20,7 +20,7 @@ namespace TotemEditor
         
         try
         {
-            uri = new Uri(System.IO.File.ReadAllText("Assets/Resources/webauth"));
+            uri = new Uri(System.IO.File.ReadAllText("Assets/Resources/webauth.txt"));
         }
         catch
         { 
