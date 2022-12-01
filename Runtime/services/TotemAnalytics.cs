@@ -30,6 +30,7 @@ namespace TotemServices
                 Debug.LogError("TotemAnalytics- Failed to record an action: " + www.error);
             }
 
+            www.Dispose();
         }
 
 

@@ -17,11 +17,11 @@ public class PullCommonFiles : AssetPostprocessor
 
         if (inPackages)
         {
-            InitializeOnLoad();
+            //InitializeOnLoad();
         }
     }
 
-    [InitializeOnLoadMethod]
+    //[InitializeOnLoadMethod]
     private static void InitializeOnLoad()
     {
         var listRequest = Client.List(true);

@@ -43,6 +43,7 @@ namespace TotemServices.DNA
         { 
             get
             {
+                var filterAsset = Resources.Load<TextAsset>(ServicesEnv.SmartContractItemsFilterName);
                 return new TotemDNAFilter(Resources.Load<TextAsset>(ServicesEnv.SmartContractItemsFilterName).text);
             }
         }

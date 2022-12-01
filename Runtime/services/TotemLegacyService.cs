@@ -71,6 +71,7 @@ namespace TotemServices
                 onSuccess.Invoke(legacies);
             }
 
+            www.Dispose();
         }
 
 
@@ -95,6 +96,8 @@ namespace TotemServices
             {
                 onSuccess?.Invoke();
             }
+
+            www.Dispose();
 
         }
 

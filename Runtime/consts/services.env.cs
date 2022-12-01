@@ -13,7 +13,7 @@ namespace TotemConsts
         public const string HttpResponseFileName = "HttpResponse";
         public const string HttpResultParametrName = "result";
 
-        public const string Web3AuthClientId = "BMUaCGWAqX7ulSauE1dvkhhiGy1OUcVPaDNexeWCj8K9Hs4EFtOMGjhFGMnwxLOypcA4g6UlzAa8UF35POXQFtI";
+        public const string Web3AuthClientId = "BAQ6yarrhApPOJlWKKwyq8hKWitgkASuEKT1cKDz2vf4rvbeh7lPBUhYBHpIIcLIoDIhZxmq0JpW4jqbg6Hqg3o";
         public const string Web3AuthRedirectUrl = "torusapp://com.torus.Web3AuthUnity/auth";
         public const string Web3AuthWhiteLabelName = "Web3Auth Totem";
         public const string Web3AuthWhiteLabeColor = "#123456";
