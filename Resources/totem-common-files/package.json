@@ -1,0 +1,23 @@
+{
+  "name": "totem-common-files",
+  "version": "1.0.0",
+  "description": "Totem common files",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Totem-gdn/totem-common-files.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Totem-gdn/totem-common-files/issues"
+  },
+  "homepage": "https://github.com/Totem-gdn/totem-common-files#readme",
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=7.0.0"
+  }
+}

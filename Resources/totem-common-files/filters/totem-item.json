@@ -1,0 +1,21 @@
+[
+    {"description": "Primary Color", "id": "primary_color", "type": "Color", "gene": 2, "start": 0, "length": 24},
+
+    {"description": "Element", "id": "classical_element", "type": "map", "gene": 0, "start": 10, "length": 2,
+        "values": [{"key": "Air", "value": 0}, {"key": "Earth", "value": 1}, {"key": "Water", "value": 2}, {"key": "Fire", "value": 3}]
+    },
+    {"description": "Damage", "id": "damage_nd", "type": "int", "gene": 9, "start": 0, "length": 32},
+    {"description": "Range", "id": "range_nd", "type": "int", "gene": 8, "start": 0, "length": 32},
+    {"description": "Power", "id": "power_nd", "type": "int", "gene": 11, "start": 0, "length": 32},
+    {"description": "Magical Power", "id": "magical_exp", "type": "int", "gene": 12, "start": 0, "length": 16},
+    {"description": "Weapon Material", "id": "weapon_material", "type": "range", "gene": 4, "start": 0, "length": 4,
+        "values": [
+            {"key": "Bone", "value": [0, 7]},
+            {"key": "Flint", "value": [8, 11]},
+            {"key": "Obsidian", "value": [12, 14]},
+            {"key": "Wood", "value": [15, 15]}
+        ]
+    }
+
+
+]

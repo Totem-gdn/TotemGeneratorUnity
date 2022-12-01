@@ -1,0 +1,72 @@
+[
+    {
+        "description": "Element",
+        "id": "classical_element",
+        "type": "map",
+        "gene": 0,
+        "start": 10,
+        "length": 2,
+        "values": [
+            {
+                "key": "Air",
+                "value": 0
+            },
+            {
+                "key": "Earth",
+                "value": 1
+            },
+            {
+                "key": "Water",
+                "value": 2
+            },
+            {
+                "key": "Fire",
+                "value": 3
+            }
+        ]
+    },
+    {
+        "description": "Weapon Material",
+        "id": "weapon_material",
+        "type": "map",
+        "gene": 3,
+        "start": 0,
+        "length": 2,
+        "values": [
+            {
+                "value": 0,
+                "key": "Bone"
+            },
+            {
+                "value": 1,
+                "key": "Flint"
+            },
+            {
+                "value": 2,
+                "key": "Obsidian"
+            },
+            {
+                "value": 3,
+                "key": "Wood"
+            }
+        ]
+    },
+    {
+        "description": "Weapon Type",
+        "id": "weapon_type",
+        "type": "range",
+        "gene": 3,
+        "start": 3,
+        "length": 7,
+        "values": [
+            {
+                "key": "Axe",
+                "value": [0, 50]
+            },
+            {
+                "key": "Dagger",
+                "value": [51, 100]
+            }
+        ]
+    }
+]

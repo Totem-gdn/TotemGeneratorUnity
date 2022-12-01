@@ -1,0 +1,182 @@
+[
+    {"description": "Sex", "id": "sex_bio", "type": "bool", "gene": 0, "start": 12, "length": 1},
+    {"description": "Body Strength", "id": "body_strength", "type": "bool", "gene": 0, "start": 13, "length": 1},
+    {"description": "Body Type", "id": "body_type", "type": "bool", "gene": 0, "start": 14, "length": 1},
+    {"description": "Human Skin Color", "id": "human_skin_color", "type": "map", "gene": 1, "start": 0, "length": 4,
+        "values": [
+            {
+                "value": 0,
+                "key": "#f9d4ab"
+            },
+            {
+                "value": 1,
+                "key": "#efd2c4"
+            },
+            {
+                "value": 2,
+                "key": "#e2c6c2"
+            },
+            {
+                "value": 3,
+                "key": "#e0d0bb"
+            },
+            {
+                "value": 4,
+                "key": "#ebb77d"
+            },
+            {
+                "value": 5,
+                "key": "#dca788"
+            },
+            {
+                "value": 6,
+                "key": "#cda093"
+            },
+            {
+                "value": 7,
+                "key": "#ccab80"
+            },
+            {
+                "value": 8,
+                "key": "#c58351"
+            },
+            {
+                "value": 9,
+                "key": "#b37652"
+            },
+            {
+                "value": 10,
+                "key": "#81574b"
+            },
+            {
+                "value": 11,
+                "key": "#8a6743"
+            },
+            {
+                "value": 12,
+                "key": "#7a3e10"
+            },
+            {
+                "value": 13,
+                "key": "#5c2a19"
+            },
+            {
+                "value": 14,
+                "key": "#472422"
+            },
+            {
+                "value": 15,
+                "key": "#362714"
+            }
+        ]},
+    {"description": "Human Hair Color", "id": "human_hair_color", "type": "map", "gene": 1, "start": 4, "length": 3, 
+        "values": [
+            {
+                "value": 0,
+                "key": "#b1b1b1"
+            },
+            {
+                "value": 1,
+                "key": "#070504"
+            },
+            {
+                "value": 2,
+                "key": "#341c0d"
+            },
+            {
+                "value": 3,
+                "key": "#62422e"
+            },
+            {
+                "value": 4,
+                "key": "#914329"
+            },
+            {
+                "value": 5,
+                "key": "#cd622b"
+            },
+            {
+                "value": 6,
+                "key": "#ad7b41"
+            },
+            {
+                "value": 7,
+                "key": "#e4b877"
+            }
+        ]
+    },
+    {"description": "Human Eye Color", "id": "human_eye_color", "type": "map", "gene": 1, "start": 7, "length": 3,
+        "values": [
+            {
+                "value": 0,
+                "key": "#b5d6e0"
+            },
+            {
+                "value": 1,
+                "key": "#90b4ca"
+            },
+            {
+                "value": 2,
+                "key": "#a7ad7f"
+            },
+            {
+                "value": 3,
+                "key": "#7c8b4f"
+            },
+            {
+                "value": 4,
+                "key": "#c4a05f"
+            },
+            {
+                "value": 5,
+                "key": "#a97e33"
+            },
+            {
+                "value": 6,
+                "key": "#7a3411"
+            },
+            {
+                "value": 7,
+                "key": "#3d0d04"
+            }
+        ]
+    },
+    {"description": "Hair Style", "id": "hair_styles", "type": "map", "gene": 1, "start": 10, "length": 3,
+        "values": [
+            {
+                "value": 0,
+                "key": "Afro"
+            },
+            {
+                "value": 1,
+                "key": "Bang"
+            },
+            {
+                "value": 2,
+                "key": "BigTail"
+            },
+            {
+                "value": 3,
+                "key": "Curls"
+            },
+            {
+                "value": 4,
+                "key": "Dreadlocks"
+            },
+            {
+                "value": 5,
+                "key": "Mohawk"
+            },
+            {
+                "value": 6,
+                "key": "MohawkWithTail"
+            },
+            {
+                "value": 7,
+                "key": "Short"
+            }
+        ]
+    },
+    {"description": "Primary Color", "id": "primary_color", "type": "Color", "gene": 2, "start": 0, "length": 24}
+
+]
