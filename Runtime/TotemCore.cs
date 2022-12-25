@@ -105,7 +105,7 @@ public class TotemCore
     /// <param name="asset">Asset to get records for</param>
     /// <param name="onSuccess">Callback contains list of legacy records</param>
     /// <param name="gameId">From which game to retrieve legacy records. Can be left emtpy to retrieve from all</param>
-    public void GetLegacyRecords(object asset, UnityAction<List<TotemLegacyRecord>> onSuccess, string gameId = "")
+    public void GetLegacyRecords(object asset, TotemAssetType assetType, UnityAction<List<TotemLegacyRecord>> onSuccess, string gameId = "")
     {
         var assetId = _smartContract.GetAssetId(asset);
         if (assetId < 0)
@@ -114,7 +114,7 @@ public class TotemCore
             return;
         }
 
-        _legacyService.GetAchivements(assetId.ToString(), gameId, (records) =>
+        _legacyService.GetAssetLegacy(assetId.ToString(), assetType.ToString(), gameId, CurrentUser.PrivateKey, (records) =>
         {
             onSuccess.Invoke(records);
 
@@ -127,7 +127,7 @@ public class TotemCore
     /// </summary>
     /// <param name="data">An UTF-8 encoded string</param>
     /// <param name="onSuccess">Callback contains newly created legacy record</param>
-    public void AddLegacyRecord(object asset, string data, UnityAction<TotemLegacyRecord> onSuccess = null)
+    public void AddLegacyRecord(object asset, TotemAssetType assetType, string data, UnityAction<TotemLegacyRecord> onSuccess = null)
     {
         var assetId = _smartContract.GetAssetId(asset);
         if (assetId < 0)
@@ -137,7 +137,7 @@ public class TotemCore
         }
 
         TotemLegacyRecord legacy = new TotemLegacyRecord(LegacyRecordTypeEnum.Achievement, assetId.ToString(), _gameId, data);
-        _legacyService.AddAchievement(legacy, () =>
+        _legacyService.AddAssetLegacy(legacy, assetType.ToString(), CurrentUser.PrivateKey, () =>
         {
             Debug.Log($"Legacy record created");
             onSuccess?.Invoke(legacy);
@@ -148,7 +148,7 @@ public class TotemCore
 
 
     /// <summary>
-    /// Returns the Id of an asset
+    /// Returns Id of the asset
     /// </summary>
     /// <param name="asset">Previously retrieved asset</param>
     /// <returns></returns>

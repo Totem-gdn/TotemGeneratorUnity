@@ -79,7 +79,7 @@ namespace TotemDemo
             nextValue = IncrementLastLegacyRecordData();
             if (nextValue != -1)
             {
-                totemDemo.AddLegacyRecord(selectedAsset, nextValue);
+                totemDemo.AddLegacyRecord(selectedAsset, TotemAssetType.avatar, nextValue);
             }
         }
 
@@ -109,12 +109,12 @@ namespace TotemDemo
             int customInt = 0;
             if (int.TryParse(inputLegacyNumber.text, out customInt))
             {
-                totemDemo.AddLegacyRecord(selectedAsset, customInt);
+                totemDemo.AddLegacyRecord(selectedAsset, TotemAssetType.avatar, customInt);
             }
         }
         public void OnZeroLegacyButtonClick()
         {
-            totemDemo.AddLegacyRecord(selectedAsset, 0);
+            totemDemo.AddLegacyRecord(selectedAsset, TotemAssetType.avatar, 0);
         }
     }
 }

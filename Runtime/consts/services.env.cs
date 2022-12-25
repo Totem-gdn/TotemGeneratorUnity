@@ -24,7 +24,7 @@ namespace TotemConsts
 
         #region LegacyServices
 
-        public const string LegacyServicesUrl = "https://legacy-api.totem.gdn/";
+        public const string AssetLegacyServicesUrl = "https://api.totem.gdn/asset-legacy";
 
         #endregion
 

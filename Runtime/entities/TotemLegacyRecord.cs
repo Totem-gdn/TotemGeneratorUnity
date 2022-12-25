@@ -10,14 +10,14 @@ namespace TotemEntities
     public class TotemLegacyRecord
     {
         public LegacyRecordTypeEnum legacyRecordType;
-        public string itemId;
+        public string assetId;
         public string gameId;
         public string data;
 
         public TotemLegacyRecord(LegacyRecordTypeEnum legacyType, string itemId, string gameId, string data)
         {
             this.legacyRecordType = legacyType;
-            this.itemId = itemId;
+            this.assetId = itemId;
             this.gameId = gameId;
             this.data = data;
         }

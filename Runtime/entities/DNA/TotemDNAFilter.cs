@@ -85,7 +85,6 @@ namespace TotemServices.DNA
                 switch (dnaType)
                 {
                     case TotemDNAType.Bool:
-
                         if (field.FieldType != typeof(bool))
                         {
                             continue;

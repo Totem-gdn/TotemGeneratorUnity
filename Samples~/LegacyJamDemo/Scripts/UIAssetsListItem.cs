@@ -21,7 +21,7 @@ namespace TotemDemo
         public void OnShowRecordsButtonClick()
         {
             UILoadingScreen.Instance.Show();
-            TotemDemoManager.Instance.GetLegacyRecords(asset, (records) =>
+            TotemDemoManager.Instance.GetLegacyRecords(asset, TotemAssetType.avatar, (records) =>
             {
                 UIAssetLegacyRecordsList.Instance.BuildList(asset, records);
                 UILoadingScreen.Instance.Hide();
