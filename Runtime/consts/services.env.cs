@@ -6,19 +6,12 @@ namespace TotemConsts
 {
     public static class ServicesEnv
     {
-        #region Web3Auth
+        #region Auth
 
-        public const string AccountGatewayUrl = "https://account.totem.gdn/";
+        public const string AuthServiceUrl = "https://auth.totem.gdn/";
         public const string HttpListenerUrl = "http://localhost:6700/auth/";
-        public const string HttpResponseFileName = "HttpResponse";
-        public const string HttpResultParametrName = "result";
-
-        public const string Web3AuthClientId = "BAQ6yarrhApPOJlWKKwyq8hKWitgkASuEKT1cKDz2vf4rvbeh7lPBUhYBHpIIcLIoDIhZxmq0JpW4jqbg6Hqg3o";
-        public const string Web3AuthRedirectUrl = "torusapp://com.torus.Web3AuthUnity/auth";
-        public const string Web3AuthWhiteLabelName = "Web3Auth Totem";
-        public const string Web3AuthWhiteLabeColor = "#123456";
-        public const Web3Auth.Network Web3AuthNetwork = Web3Auth.Network.TESTNET;
-
+        public const string AuthHttpResponseFileName = "HttpResponse";
+        public const string HttpResultParameterName = "token";
 
         #endregion
 

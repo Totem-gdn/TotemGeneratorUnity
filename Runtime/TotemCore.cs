@@ -24,7 +24,7 @@ public class TotemCore
     public TotemUser CurrentUser { get; private set; }
 
     private TotemLegacyService _legacyService;
-    private TotemWeb3Auth _web3Auth;
+    private TotemAuth _auth;
     private TotemSmartContractManager _smartContract;
     private TotemAnalytics _analytics;
 
@@ -50,11 +50,10 @@ public class TotemCore
     /// Opens social login web-page
     /// Invokes OnUserProfileLoaded event on completion
     /// </summary>
-    /// <param name="provider">Which provider will be used for login (e.g. Google, Facebook, Discord)</param>
     /// <param name="onComplete">If set, will be invoked instead of OnUserProfileLoaded event</param>
-    public void AuthenticateCurrentUser(Provider provider = Provider.GOOGLE, UnityAction<TotemUser> onComplete = null)
+    public void AuthenticateCurrentUser(UnityAction<TotemUser> onComplete = null)
     {
-        _web3Auth.LoginUser(provider, (user) =>
+        _auth.LoginUser((user) =>
         {
             CurrentUser = user;
             _userPublicKey = user.PublicKey;
@@ -68,6 +67,7 @@ public class TotemCore
             {
                 OnUserProfileLoaded.Invoke(user);
             }
+
         });
     }
 
@@ -104,7 +104,7 @@ public class TotemCore
     /// </summary>
     /// <param name="asset">Asset to get records for</param>
     /// <param name="onSuccess">Callback contains list of legacy records</param>
-    /// <param name="gameId">From which game to retrieve legacy records. Can be left emtpy to retrieve from all</param>
+    /// <param name="gameId">From which game to retrieve legacy records. Leave empty to get from current game</param>
     public void GetLegacyRecords(object asset, TotemAssetType assetType, UnityAction<List<TotemLegacyRecord>> onSuccess, string gameId = "")
     {
         var assetId = _smartContract.GetAssetId(asset);
@@ -114,7 +114,7 @@ public class TotemCore
             return;
         }
 
-        _legacyService.GetAssetLegacy(assetId.ToString(), assetType.ToString(), gameId, CurrentUser.PrivateKey, (records) =>
+        _legacyService.GetAssetLegacy(assetId.ToString(), assetType.ToString(), string.IsNullOrEmpty(gameId) ? _gameId : gameId, CurrentUser.PublicKey, (records) =>
         {
             onSuccess.Invoke(records);
 
@@ -137,7 +137,7 @@ public class TotemCore
         }
 
         TotemLegacyRecord legacy = new TotemLegacyRecord(LegacyRecordTypeEnum.Achievement, assetId.ToString(), _gameId, data);
-        _legacyService.AddAssetLegacy(legacy, assetType.ToString(), CurrentUser.PrivateKey, () =>
+        _legacyService.AddAssetLegacy(legacy, assetType.ToString(), CurrentUser.PublicKey, () =>
         {
             Debug.Log($"Legacy record created");
             onSuccess?.Invoke(legacy);
@@ -166,7 +166,7 @@ public class TotemCore
         _servicesGameObject = new GameObject("TotemServices");
         _legacyService = _servicesGameObject.AddComponent<TotemLegacyService>();
         _analytics = _servicesGameObject.AddComponent<TotemAnalytics>();
-        _web3Auth = _servicesGameObject.AddComponent<TotemWeb3Auth>();
+        _auth = _servicesGameObject.AddComponent<TotemAuth>();
         _smartContract = _servicesGameObject.AddComponent<TotemSmartContractManager>();
 
 

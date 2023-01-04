@@ -52,10 +52,10 @@ namespace TotemServices
         #region Requests
 
 
-        public void GetAssetLegacy(string assetId, string assetType, string gameId, string privateKey,
+        public void GetAssetLegacy(string assetId, string assetType, string gameId, string publicKey,
             UnityAction<List<TotemLegacyRecord>> onSuccess, UnityAction<string> onFailure = null)
         {
-            var key = new EthECKey(privateKey);
+            var key = new EthECKey(TotemUtils.Convert.HexToByteArray(publicKey), false);
             string address = key.GetPublicAddress();
 
             StartCoroutine(GetAssetLegacyCoroutine(assetId, assetType, gameId, address, 0, new List<TotemLegacyRecord>(), onSuccess, onFailure));
@@ -68,8 +68,10 @@ namespace TotemServices
         {
             string url = ServicesEnv.AssetLegacyServicesUrl +
                 $"/{assetType}?playerAddress={playerAddress}&assetId={assetId}&gameId={gameId}&limit={requestLimit}&offset={offset}";
+
             UnityWebRequest www = UnityWebRequest.Get(url);
             yield return www.SendWebRequest();
+
             if (www.result == UnityWebRequest.Result.ConnectionError || www.result == UnityWebRequest.Result.ProtocolError)
             {
                 Debug.LogError("TotemLegacyService- Failed to get legecy records: " + www.error);
@@ -80,7 +82,17 @@ namespace TotemServices
                 LegacyRepsonse response = JsonUtility.FromJson<LegacyRepsonse>(www.downloadHandler.text);
                 foreach (var record in response.results)
                 {
-                    TotemLegacyRecord legacy = new TotemLegacyRecord(TotemEnums.LegacyRecordTypeEnum.Achievement, record.assetId, record.gameId, record.data);
+                    string decodedData = record.data;
+                    try
+                    {
+                        decodedData = System.Text.Encoding.UTF8.GetString(TotemUtils.Convert.DecodeBase64(record.data));
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.LogError($"TotemLegacyService- Failed to decode data (assetId: {record.assetId}): " + e.Message);
+                    }
+                    TotemLegacyRecord legacy = new TotemLegacyRecord(TotemEnums.LegacyRecordTypeEnum.Achievement, record.assetId, record.gameId, 
+                        decodedData, record.timestamp);
                     data.Add(legacy);
                 }
 
@@ -100,10 +112,10 @@ namespace TotemServices
 
 
 
-        public void AddAssetLegacy(TotemLegacyRecord legacy, string assetType, string privateKey,
+        public void AddAssetLegacy(TotemLegacyRecord legacy, string assetType, string publicKey,
             UnityAction onSuccess = null, UnityAction<string> onFailure = null)
         {
-            var key = new EthECKey(privateKey);
+            var key = new EthECKey(TotemUtils.Convert.HexToByteArray(publicKey), false);
             string address = key.GetPublicAddress();
 
             StartCoroutine(AddAssetLegacyCoroutine(legacy, assetType, address, onSuccess, onFailure));
@@ -114,15 +126,16 @@ namespace TotemServices
         {
             string url = ServicesEnv.AssetLegacyServicesUrl + $"/{assetType}";
 
+            string base64Data = System.Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(legacy.data));
+
             LegacyRequest request = new LegacyRequest
             {
                 playerAddress = playerAddress,
                 assetId = legacy.assetId,
                 gameId = legacy.gameId,
-                data = legacy.data
+                data = base64Data
             };
 
-            Debug.Log(JsonUtility.ToJson(request));
             UnityWebRequest www = WebUtils.CreateRequestJson(url, JsonUtility.ToJson(request));
             yield return www.SendWebRequest();
             if (www.result == UnityWebRequest.Result.ConnectionError || www.result == UnityWebRequest.Result.ProtocolError)

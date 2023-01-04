@@ -8,7 +8,7 @@ using Nethereum.Signer;
 using TotemEntities;
 using TotemEntities.DNA;
 using TotemServices.DNA;
-using TotemUtils.DNA;
+using TotemUtils;
 using TotemConsts;
 
 namespace TotemServices
@@ -24,14 +24,14 @@ namespace TotemServices
 
         public void GetAvatars<T>(TotemUser user, TotemDNAFilter filter, UnityAction<List<T>> onComplete) where T : new()
         {
-            StartCoroutine(GetAvatarsCoroutine(user.PrivateKey, filter, onComplete));
+            StartCoroutine(GetAvatarsCoroutine(user.PublicKey, filter, onComplete));
         }
 
-        private IEnumerator GetAvatarsCoroutine<T>(string privateKey, TotemDNAFilter filter, UnityAction<List<T>> onCompelte) where T : new()
+        private IEnumerator GetAvatarsCoroutine<T>(string publicKey, TotemDNAFilter filter, UnityAction<List<T>> onCompelte) where T : new()
         {
             var avatarsList = new List<T>();
 
-            var key = new EthECKey(privateKey);
+            var key = new EthECKey(Convert.HexToByteArray(publicKey), false);
             string address = key.GetPublicAddress();
 
             var balanceQuery = new QueryUnityRequest<BalanceOfFunction, BalanceOfOutputDTO>(ServicesEnv.SmartContractUrl, address);
@@ -61,14 +61,14 @@ namespace TotemServices
 
         public void GetItems<T>(TotemUser user, TotemDNAFilter filter, UnityAction<List<T>> onCompelte) where T : new()
         {
-            StartCoroutine(GetItemsCoroutine<T>(user.PrivateKey, filter, onCompelte));
+            StartCoroutine(GetItemsCoroutine<T>(user.PublicKey, filter, onCompelte));
         }
 
-        private IEnumerator GetItemsCoroutine<T>(string privateKey, TotemDNAFilter filter, UnityAction<List<T>> onCompelte) where T : new()
+        private IEnumerator GetItemsCoroutine<T>(string publicKey, TotemDNAFilter filter, UnityAction<List<T>> onCompelte) where T : new()
         {
             var itemsList = new List<T>();
 
-            var key = new EthECKey(privateKey);
+            var key = new EthECKey(Convert.HexToByteArray(publicKey), false);
             string address = key.GetPublicAddress();
 
             var balanceQuery = new QueryUnityRequest<BalanceOfFunction, BalanceOfOutputDTO>(ServicesEnv.SmartContractUrl, address);
