@@ -45,7 +45,7 @@ namespace TotemServices
         public void LoginUser(UnityAction<TotemUser> onSucces)
         {
             onLoginCallback = onSucces;
-#if UNITY_STANDALONE
+#if UNITY_STANDALONE || UNITY_EDITOR
             ListenHttpResponse();
 #endif
             Application.OpenURL(ServicesEnv.AuthServiceUrl + $"?{redirectUrlQueryName}={LoadRedirectUrl()}");
