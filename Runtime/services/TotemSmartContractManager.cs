@@ -96,11 +96,6 @@ namespace TotemServices
 
         private void AddAssetToIdTable(object asset, BigInteger id)
         {
-            if (assetIdTable.ContainsValue(id))
-            {
-                return;
-            }
-
             assetIdTable.Add(asset, id);
         }
 
