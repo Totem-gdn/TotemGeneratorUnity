@@ -177,6 +177,7 @@
             }
         ]
     },
-    {"description": "Primary Color", "id": "primary_color", "type": "Color", "gene": 2, "start": 0, "length": 24}
+    {"description": "Primary Color", "id": "primary_color", "type": "Color", "gene": 2, "start": 0, "length": 24},
+    {"description": "Secondary Color", "id": "secondary_color", "type": "Color", "gene": 1, "start": 0, "length": 24}
 
 ]

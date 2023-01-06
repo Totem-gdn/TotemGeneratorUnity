@@ -7,6 +7,7 @@ namespace TotemEntities.DNA
     public class TotemDNADefaultItem
     {
         public Color primary_color;
+        public Color secondary_color;
         public string classical_element;
         public uint damage_nd;
         public uint range_nd;
@@ -17,7 +18,7 @@ namespace TotemEntities.DNA
         public override string ToString()
         {
             return $"classical_element: {classical_element} | damage_nd: {damage_nd} | range_nd: {range_nd} | power_nd: {power_nd} | " +
-                $"magical_exp: {magical_exp} | weapon_material: {weapon_material} | primary_color: {primary_color}";
+                $"magical_exp: {magical_exp} | weapon_material: {weapon_material} | primary_color: {primary_color} | secondary_color: {secondary_color}";
         }
     }
 }
