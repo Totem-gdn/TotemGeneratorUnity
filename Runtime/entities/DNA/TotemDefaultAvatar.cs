@@ -15,12 +15,13 @@ namespace TotemEntities.DNA
         public string human_eye_color;
         public string hair_styles;
         public Color primary_color;
+        public Color secondary_color;
 
         public override string ToString()
         {
             return $"sex_bio: {sex_bio} | body_strength: {body_strength} | human_skin_color: {human_skin_color} | human_hair_color: {human_hair_color} | " +
                 $"human_eye_color: {human_eye_color} | hair_styles: {hair_styles} | " +
-                $"primary_color: {primary_color}";
+                $"primary_color: {primary_color} | secondary_color: {secondary_color}";
         }
     }
 }
