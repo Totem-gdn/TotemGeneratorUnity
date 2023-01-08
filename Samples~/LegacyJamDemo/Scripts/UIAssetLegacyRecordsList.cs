@@ -66,7 +66,6 @@ namespace TotemDemo
             GameObject item = Instantiate(itemPrefab);
             item.transform.SetParent(itemsParent);
             item.GetComponent<UIAssetLegacyRecordsListItem>().Setup(record);
-            item.transform.SetSiblingIndex(0);
             if (addToCollection)
             {
                 assetLegacyRecords.Add(record);

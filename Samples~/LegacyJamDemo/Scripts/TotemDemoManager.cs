@@ -72,7 +72,7 @@ namespace TotemDemo
             UILoadingScreen.Instance.Show();
 
             //Login user
-            totemCore.AuthenticateCurrentUser(Provider.GOOGLE, OnUserLoggedIn);
+            totemCore.AuthenticateCurrentUser(OnUserLoggedIn);
         }
 
         private void OnUserLoggedIn(TotemUser user)
