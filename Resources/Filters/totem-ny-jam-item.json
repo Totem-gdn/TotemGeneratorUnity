@@ -1,0 +1,31 @@
+[
+    {"description": "Primary Color", "id": "primary_color", "type": "Color", "gene": 2, "start": 0, "length": 24},
+    {"description": "Secondary Color", "id": "secondary_color", "type": "Color", "gene": 1, "start": 0, "length": 24},
+    {"description": "Element", "id": "classical_element", "type": "map", "gene": 0, "start": 10, "length": 2,
+        "values": [{"key": "Air", "value": 0}, {"key": "Earth", "value": 1}, {"key": "Water", "value": 2}, {"key": "Fire", "value": 3}]
+    },
+    {"description": "Damage", "id": "damage_nd", "type": "int", "gene": 9, "start": 0, "length": 32},
+    {"description": "Range", "id": "range_nd", "type": "int", "gene": 8, "start": 0, "length": 32},
+    {"description": "Power", "id": "power_nd", "type": "int", "gene": 11, "start": 0, "length": 32},
+    {"description": "Magical Power", "id": "magical_exp", "type": "int", "gene": 12, "start": 0, "length": 16},
+    {"description": "Weapon Material", "id": "weapon_material", "type": "range", "gene": 4, "start": 0, "length": 4,
+        "values": [
+            {"key": "Wood", "value": [0, 7]},
+            {"key": "Bone", "value": [8, 11]},
+            {"key": "Flint", "value": [12, 14]},
+            {"key": "Obsidian", "value": [15, 15]}
+        ]
+    },
+    {"description": "Origin", "id": "origin", "type": "map", "gene": 1, "start": 10, "length": 3,
+        "values": [
+            {"key": "Mundane", "value": 0}, 
+            {"key": "Technology", "value": 1}, 
+            {"key": "Magic", "value": 2}, 
+            {"key": "Holy", "value": 3},
+            {"key": "Cursed", "value": 4},
+            {"key": "Natural", "value": 5},
+            {"key": "Technology", "value": 6},
+            {"key": "Magic", "value": 7}
+        ]
+    }
+]
