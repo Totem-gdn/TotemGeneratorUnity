@@ -21,7 +21,7 @@ public class TotemCore
     /// <summary>
     /// Currently logged in user info
     /// </summary>
-    public TotemUser CurrentUser { get; private set; }
+    public TotemUser CurrentUser { get; set; }
 
     private TotemLegacyService _legacyService;
     private TotemAuth _auth;
@@ -31,8 +31,6 @@ public class TotemCore
     private GameObject _servicesGameObject;
 
     private string _gameId;
-    private string _userPublicKey;
-    private string _userEmail;
 
     /// <summary>
     /// Initialize DB and services
@@ -56,8 +54,6 @@ public class TotemCore
         _auth.LoginUser((user) =>
         {
             CurrentUser = user;
-            _userPublicKey = user.PublicKey;
-            _userEmail = user.Email;
 
             if (onComplete != null)
             {
@@ -82,7 +78,7 @@ public class TotemCore
     {
         _smartContract.GetAvatars(user, filter, onComplete);
 
-        _analytics.RecordAction(TotemServicesAction.avatars_requested, _gameId, CurrentUser.PublicKey, _userEmail);
+        _analytics.RecordAction(TotemServicesAction.avatars_requested, _gameId, CurrentUser.PublicKey, CurrentUser.Email);
     }
 
     /// <summary>
@@ -96,7 +92,7 @@ public class TotemCore
     {
         _smartContract.GetItems(user, filter, onComplete);
 
-        _analytics.RecordAction(TotemServicesAction.items_requested, _gameId, CurrentUser.PublicKey, _userEmail);
+        _analytics.RecordAction(TotemServicesAction.items_requested, _gameId, CurrentUser.PublicKey, CurrentUser.Email);
     }
 
     /// <summary>
@@ -118,7 +114,7 @@ public class TotemCore
         {
             onSuccess.Invoke(records);
 
-            _analytics.RecordAction(TotemServicesAction.legacy_requested, _gameId, _userPublicKey, _userEmail);
+            _analytics.RecordAction(TotemServicesAction.legacy_requested, _gameId, CurrentUser.PublicKey, CurrentUser.Email);
         });
     }
 
@@ -142,7 +138,7 @@ public class TotemCore
             Debug.Log($"Legacy record created");
             onSuccess?.Invoke(legacy);
 
-            _analytics.RecordAction(TotemServicesAction.legacy_requested, _gameId, _userPublicKey, _userEmail);
+            _analytics.RecordAction(TotemServicesAction.legacy_requested, _gameId, CurrentUser.PublicKey, CurrentUser.Email);
         });
     }
 
