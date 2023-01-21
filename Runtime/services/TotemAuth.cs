@@ -30,6 +30,7 @@ namespace TotemServices
 
 
         private const string redirectUrlQueryName = "success_url";
+        private const string gameIdQueryName = "game_id";
 
         private UnityAction<TotemUser> onLoginCallback;
 
@@ -42,13 +43,21 @@ namespace TotemServices
         /// Open a web-page in a browser for user to login
         /// </summary>
         /// <param name="onSucces"></param>
-        public void LoginUser(UnityAction<TotemUser> onSucces)
+        public void LoginUser(UnityAction<TotemUser> onSucces, string gameId = "")
         {
             onLoginCallback = onSucces;
 #if UNITY_STANDALONE || UNITY_EDITOR
             ListenHttpResponse();
 #endif
-            Application.OpenURL(ServicesEnv.AuthServiceUrl + $"?{redirectUrlQueryName}={LoadRedirectUrl()}");
+
+            string query = $"?{redirectUrlQueryName}={LoadRedirectUrl()}";
+#if UNITY_EDITOR
+            if (!string.IsNullOrEmpty(gameId))
+            {
+                query += $"&{gameIdQueryName}={gameId}";
+            }
+#endif
+            Application.OpenURL(ServicesEnv.AuthServiceUrl + query);
         }
 
         /// <summary>

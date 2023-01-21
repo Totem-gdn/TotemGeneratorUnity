@@ -68,7 +68,9 @@ public class TotemCore
                 OnUserProfileLoaded.Invoke(user);
             }
 
-        });
+        }, _gameId);
+
+        _analytics.RecordAction(TotemServicesAction.user_login, _gameId, _userPublicKey, _userEmail);
     }
 
     /// <summary>
