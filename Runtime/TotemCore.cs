@@ -58,6 +58,8 @@ public class TotemCore
         {
             CurrentUser = user;
 
+            _analytics.RecordAction(TotemServicesAction.user_login, _gameId, _userPublicKey, _userEmail);
+
             if (onComplete != null)
             {
                 onComplete.Invoke(user);
@@ -67,7 +69,8 @@ public class TotemCore
                 OnUserProfileLoaded.Invoke(user);
             }
 
-        });
+        }, _gameId);
+
     }
 
     /// <summary>

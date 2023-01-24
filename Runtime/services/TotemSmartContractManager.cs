@@ -146,6 +146,11 @@ namespace TotemServices
 
         public BigInteger GetAssetId(object asset)
         {
+            if (asset == null)
+            {
+                return -1;
+            }
+
             if (!assetIdTable.ContainsKey(asset))
                 return -1;
 
