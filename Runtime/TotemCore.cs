@@ -59,6 +59,8 @@ public class TotemCore
             _userPublicKey = user.PublicKey;
             _userEmail = user.Email;
 
+            _analytics.RecordAction(TotemServicesAction.user_login, _gameId, _userPublicKey, _userEmail);
+
             if (onComplete != null)
             {
                 onComplete.Invoke(user);
@@ -70,7 +72,6 @@ public class TotemCore
 
         }, _gameId);
 
-        _analytics.RecordAction(TotemServicesAction.user_login, _gameId, _userPublicKey, _userEmail);
     }
 
     /// <summary>
