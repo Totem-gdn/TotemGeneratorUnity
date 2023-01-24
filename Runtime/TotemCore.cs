@@ -27,18 +27,21 @@ public class TotemCore
     private TotemAuth _auth;
     private TotemSmartContractManager _smartContract;
     private TotemAnalytics _analytics;
+    private TotemDebug _debug;
 
     private GameObject _servicesGameObject;
 
     private string _gameId;
+    private bool _debugEnabled;
 
     /// <summary>
     /// Initialize DB and services
     /// </summary>
     /// <param name="gameId">Id of your game. Used for legacy records identification</param>
-    public TotemCore(string gameId)
+    public TotemCore(string gameId, bool enableDebug = true)
     {
         _gameId = gameId;
+        _debugEnabled = enableDebug;
         CreateServicesGameObject();
 
         OnUserProfileLoaded = new UnityEvent<TotemUser>();
@@ -76,7 +79,20 @@ public class TotemCore
     /// <param name="onComplete">Holds the list with filtered avatars</param>
     public void GetUserAvatars<T>(TotemUser user, TotemDNAFilter filter, UnityAction<List<T>> onComplete) where T : new()
     {
-        _smartContract.GetAvatars(user, filter, onComplete);
+        _smartContract.GetAvatars<T>(user, filter, (avatars) =>
+        {
+            if (_debugEnabled)
+            {
+                _debug.OverrideAvatars(avatars, user, filter, _smartContract, () =>
+                {
+                    onComplete.Invoke(avatars);
+                });
+            }
+            else
+            {
+                onComplete.Invoke(avatars);
+            }
+        });
 
         _analytics.RecordAction(TotemServicesAction.avatars_requested, _gameId, CurrentUser.PublicKey, CurrentUser.Email);
     }
@@ -90,7 +106,20 @@ public class TotemCore
     /// <param name="onComplete">Holds the list with filtered items</param>
     public void GetUserItems<T>(TotemUser user, TotemDNAFilter filter, UnityAction<List<T>> onComplete) where T : new()
     {
-        _smartContract.GetItems(user, filter, onComplete);
+        _smartContract.GetItems<T>(user, filter, (items) =>
+        {
+            if (_debugEnabled)
+            {
+                _debug.OverrideItems(items, user, filter, _smartContract, () =>
+                {
+                    onComplete.Invoke(items);
+                });
+            }
+            else
+            {
+                onComplete.Invoke(items);
+            }
+        });
 
         _analytics.RecordAction(TotemServicesAction.items_requested, _gameId, CurrentUser.PublicKey, CurrentUser.Email);
     }
@@ -164,6 +193,7 @@ public class TotemCore
         _analytics = _servicesGameObject.AddComponent<TotemAnalytics>();
         _auth = _servicesGameObject.AddComponent<TotemAuth>();
         _smartContract = _servicesGameObject.AddComponent<TotemSmartContractManager>();
+        _debug = _servicesGameObject.AddComponent<TotemDebug>();
 
 
         MonoBehaviour.DontDestroyOnLoad(_servicesGameObject);

@@ -79,7 +79,7 @@ public class test : MonoBehaviour
 
 
         //Authenticate user through social login in web browser and get user's assets
-        totemCore.AuthenticateCurrentUser(Provider.GOOGLE, (user) =>
+        totemCore.AuthenticateCurrentUser((user) =>
         {
             //Using default filter with a default avatar model. You can implement your own filters and/or models
             totemCore.GetUserAvatars<TotemDNADefaultAvatar>(user, TotemDNAFilter.DefaultAvatarFilter, (avatars) =>
@@ -93,18 +93,18 @@ public class test : MonoBehaviour
 
     }
 
-    public void AddLegacyRecord(object asset, int data)
+    public void AddLegacyRecord(object asset, TotemAssetType assetType, int data)
     {
-        totemCore.AddLegacyRecord(asset, data.ToString(), (record) =>
+        totemCore.AddLegacyRecord(asset, assetType, data.ToString(), (record) =>
         {
             Debug.Log("Legacy record created");
         });
     }
 
 
-    public void GetLegacyRecords(object asset, UnityAction<List<TotemLegacyRecord>> onSuccess)
+    public void GetLegacyRecords(object asset, TotemAssetType assetType, UnityAction<List<TotemLegacyRecord>> onSuccess)
     {
-        totemCore.GetLegacyRecords(asset, onSuccess, legacyGameIdInput.text);
+        totemCore.GetLegacyRecords(asset, assetType, onSuccess, legacyGameIdInput.text);
     }
 
 }

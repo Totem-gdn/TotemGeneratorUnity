@@ -45,5 +45,12 @@ namespace TotemConsts
         public const string SmartContractItemsFilterName = "totem-common-files/filters/totem-item";
 
         #endregion
+
+        #region Debug
+
+        public const string AssetsOverrideFilePath = "Totem/totem-assets-override.json";
+
+
+        #endregion
     }
 }
