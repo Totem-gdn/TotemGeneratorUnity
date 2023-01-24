@@ -58,7 +58,7 @@ public class TotemCore
         {
             CurrentUser = user;
 
-            _analytics.RecordAction(TotemServicesAction.user_login, _gameId, _userPublicKey, _userEmail);
+            _analytics.RecordAction(TotemServicesAction.user_login, _gameId, CurrentUser.PublicKey, CurrentUser.Email);
 
             if (onComplete != null)
             {
