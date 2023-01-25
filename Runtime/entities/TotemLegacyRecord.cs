@@ -11,15 +11,15 @@ namespace TotemEntities
     {
         public LegacyRecordTypeEnum legacyRecordType;
         public string assetId;
-        public string gameId;
+        public string gameAddress;
         public string timestamp;
         public string data;
 
-        public TotemLegacyRecord(LegacyRecordTypeEnum legacyType, string itemId, string gameId, string data, string timestamp = "")
+        public TotemLegacyRecord(LegacyRecordTypeEnum legacyType, string itemId, string gameAddress, string data, string timestamp = "")
         {
             this.legacyRecordType = legacyType;
             this.assetId = itemId;
-            this.gameId = gameId;
+            this.gameAddress = gameAddress;
             this.data = data;
             this.timestamp = timestamp;
         }

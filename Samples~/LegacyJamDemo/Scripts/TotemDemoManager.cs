@@ -10,6 +10,12 @@ using TMPro;
 
 namespace TotemDemo
 {
+    public class NYJamItem : TotemDNADefaultItem
+    {
+        public string origin;
+    }
+
+
     public class TotemDemoManager : MonoBehaviour
     {
         public static TotemDemoManager Instance;

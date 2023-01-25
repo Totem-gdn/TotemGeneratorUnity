@@ -12,7 +12,7 @@ namespace TotemDemo
 
         public void Setup(TotemLegacyRecord legacy)
         {
-            legacyInfoText.SetText($"Type:{legacy.legacyRecordType.ToString()}, ItemId:{legacy.assetId}, GameId:{legacy.gameId}, Data:{legacy.data}");
+            legacyInfoText.SetText($"Type:{legacy.legacyRecordType.ToString()}, ItemId:{legacy.assetId}, GameId:{legacy.gameAddress}, Data:{legacy.data}");
         }
     }
 }

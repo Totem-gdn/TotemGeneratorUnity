@@ -41,7 +41,7 @@ namespace TotemServices
         {
             public string playerAddress;
             public string assetId;
-            public string gameId;
+            public string gameAddress;
             public string data;
         }
 
@@ -52,29 +52,29 @@ namespace TotemServices
         #region Requests
 
 
-        public void GetAssetLegacy(string assetId, string assetType, string gameId, string publicKey,
+        public void GetAssetLegacy(string assetId, string assetType, string gameAddress, string publicKey,
             UnityAction<List<TotemLegacyRecord>> onSuccess, UnityAction<string> onFailure = null)
         {
             var key = new EthECKey(TotemUtils.Convert.HexToByteArray(publicKey), false);
             string address = key.GetPublicAddress();
 
-            StartCoroutine(GetAssetLegacyCoroutine(assetId, assetType, gameId, address, 0, new List<TotemLegacyRecord>(), onSuccess, onFailure));
+            StartCoroutine(GetAssetLegacyCoroutine(assetId, assetType, gameAddress, address, 0, new List<TotemLegacyRecord>(), onSuccess, onFailure));
         }
 
-        private IEnumerator GetAssetLegacyCoroutine(string assetId, string assetType, string gameId, string playerAddress, int offset, 
+        private IEnumerator GetAssetLegacyCoroutine(string assetId, string assetType, string gameAddress, string playerAddress, int offset, 
             List<TotemLegacyRecord> data,
             UnityAction<List<TotemLegacyRecord>> onSuccess, 
             UnityAction<string> onFailure)
         {
             string url = ServicesEnv.AssetLegacyServicesUrl +
-                $"/{assetType}?playerAddress={playerAddress}&assetId={assetId}&gameId={gameId}&limit={requestLimit}&offset={offset}";
+                $"/{assetType}?playerAddress={playerAddress}&assetId={assetId}&gameAddress={gameAddress}&limit={requestLimit}&offset={offset}";
 
             UnityWebRequest www = UnityWebRequest.Get(url);
             yield return www.SendWebRequest();
 
             if (www.result == UnityWebRequest.Result.ConnectionError || www.result == UnityWebRequest.Result.ProtocolError)
             {
-                Debug.LogError("TotemLegacyService- Failed to get legecy records: " + www.error);
+                Debug.LogError("TotemLegacyService- Failed to get legecy records: " + www.downloadHandler.text);
                 onFailure?.Invoke(www.error);
             }
             else
@@ -98,7 +98,7 @@ namespace TotemServices
 
                 if (response.total > data.Count)
                 {
-                    StartCoroutine(GetAssetLegacyCoroutine(assetId, assetType, gameId, playerAddress, data.Count, data, onSuccess, onFailure));
+                    StartCoroutine(GetAssetLegacyCoroutine(assetId, assetType, gameAddress, playerAddress, data.Count, data, onSuccess, onFailure));
                 }
                 else
                 {
@@ -132,7 +132,7 @@ namespace TotemServices
             {
                 playerAddress = playerAddress,
                 assetId = legacy.assetId,
-                gameId = legacy.gameId,
+                gameAddress = legacy.gameAddress,
                 data = base64Data
             };
 

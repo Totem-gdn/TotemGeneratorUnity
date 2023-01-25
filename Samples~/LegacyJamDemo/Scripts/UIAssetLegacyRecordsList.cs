@@ -89,7 +89,7 @@ namespace TotemDemo
                 return 1;
             }
 
-            var lastRecord = assetLegacyRecords.FindLast((x) => x.gameId.Equals(totemDemo._gameId));
+            var lastRecord = assetLegacyRecords.FindLast((x) => x.gameAddress.Equals(totemDemo._gameId));
 
             if (lastRecord == null)
             {

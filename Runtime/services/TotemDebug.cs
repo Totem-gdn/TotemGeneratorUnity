@@ -49,7 +49,8 @@ namespace TotemServices
                 return;
             }
 
-            if (assetOverride.forced_assets != null)
+
+            if (assetOverride.forced_assets != null && assetOverride.forced_assets.avatars != null)
             {
                 int avatarsDownloadCount = assetOverride.forced_assets.avatars.Length;
                 List<T> forceLoadedAvatars = new List<T>();
@@ -66,34 +67,17 @@ namespace TotemServices
                                 avatars.Insert(i, forcedAvatar);
                             }
 
-                            if (assetOverride.first_avatar_property_override != null && avatars.Count > 0)
-                            {
-                                Type avatarType = avatars[0].GetType();
-                                foreach (var fieldNameValue in assetOverride.first_avatar_property_override)
-                                {
-                                    var field = avatarType.GetField(fieldNameValue.Key);
-                                    if (field != null)
-                                    {
-                                        if (field.FieldType == typeof(Color))
-                                        {
-                                            Color color = Color.black;
-                                            if (ColorUtility.TryParseHtmlString((string)fieldNameValue.Value, out color))
-                                            {
-                                                field.SetValue(avatars[0], color);
-                                            }
-
-                                        }
-                                        else
-                                        {
-                                            field.SetValue(avatars[0], fieldNameValue.Value);
-                                        }
-                                    }
-                                }
-                            }
+                            OverrideAvatarProperties(avatars);
                             onComplete.Invoke();
                         }
                     });
                 }
+            }
+            else
+            {
+
+                OverrideAvatarProperties(avatars);
+                onComplete.Invoke();
             }
         }
 
@@ -108,52 +92,96 @@ namespace TotemServices
                 return;
             }
 
-            int itemsDownloadCount = assetOverride.forced_assets.items.Length;
-            List<T> forceLoadedItems = new List<T>();
-            foreach (var assetId in assetOverride.forced_assets.items)
+            if (assetOverride.forced_assets != null && assetOverride.forced_assets.items != null)
             {
-                smartContract.GetItem<T>(user, filter, assetId, (item) =>
+
+                int itemsDownloadCount = assetOverride.forced_assets.items.Length;
+                List<T> forceLoadedItems = new List<T>();
+                foreach (var assetId in assetOverride.forced_assets.items)
                 {
-                    forceLoadedItems.Add(item);
-                    if (--itemsDownloadCount == 0)
+                    smartContract.GetItem<T>(user, filter, assetId, (item) =>
                     {
-                        for (int i = 0; i < assetOverride.forced_assets.items.Length; i++)
+                        forceLoadedItems.Add(item);
+                        if (--itemsDownloadCount == 0)
                         {
-                            T forcedItem = forceLoadedItems.Find((x) => smartContract.GetAssetId(x) == assetOverride.forced_assets.items[i]);
-                            items.Insert(i, forcedItem);
-                        }
-
-
-                        if (assetOverride.first_item_property_override != null && items.Count > 0)
-                        {
-                            Type itemType = items[0].GetType();
-                            foreach (var fieldNameValue in assetOverride.first_item_property_override)
+                            for (int i = 0; i < assetOverride.forced_assets.items.Length; i++)
                             {
-                                var field = itemType.GetField(fieldNameValue.Key);
-                                if (field != null)
-                                {
-                                    if (field.FieldType == typeof(Color))
-                                    {
-                                        Color color = Color.black;
-                                        if (ColorUtility.TryParseHtmlString((string)fieldNameValue.Value, out color))
-                                        {
-                                            field.SetValue(items[0], color);
-                                        }
-
-                                    }
-                                    else
-                                    {
-                                        field.SetValue(items[0], fieldNameValue.Value);
-                                    }
-                                }
+                                T forcedItem = forceLoadedItems.Find((x) => smartContract.GetAssetId(x) == assetOverride.forced_assets.items[i]);
+                                items.Insert(i, forcedItem);
                             }
-                        }
 
-                        onComplete.Invoke();
-                    }
-                });
+                            OverrideItemProperties(items);
+                            onComplete.Invoke();
+                        }
+                    });
+                }
+            }
+            else
+            {
+                OverrideItemProperties(items);
+                onComplete.Invoke();
             }
         }
 
+
+        private void OverrideItemProperties<T>(List<T> items)
+        {
+            if (assetOverride.first_item_property_override != null && items.Count > 0)
+            {
+                Type itemType = items[0].GetType();
+                foreach (var fieldNameValue in assetOverride.first_item_property_override)
+                {
+                    var field = itemType.GetField(fieldNameValue.Key);
+                    if (field != null)
+                    {
+                        if (field.FieldType == typeof(Color))
+                        {
+                            Color color = Color.black;
+                            if (ColorUtility.TryParseHtmlString((string)fieldNameValue.Value, out color))
+                            {
+                                field.SetValue(items[0], color);
+                            }
+
+                        }
+                        else
+                        {
+                            field.SetValue(items[0], fieldNameValue.Value);
+                        }
+                    }
+                }
+            }
+
+        }
+
+        private void OverrideAvatarProperties<T>(List<T> avatars)
+        {
+            if (assetOverride.first_avatar_property_override != null && avatars.Count > 0)
+            {
+                Type avatarType = avatars[0].GetType();
+                foreach (var fieldNameValue in assetOverride.first_avatar_property_override)
+                {
+                    var field = avatarType.GetField(fieldNameValue.Key);
+                    if (field != null)
+                    {
+                        if (field.FieldType == typeof(Color))
+                        {
+                            Color color = Color.black;
+                            if (ColorUtility.TryParseHtmlString((string)fieldNameValue.Value, out color))
+                            {
+                                field.SetValue(avatars[0], color);
+                            }
+
+                        }
+                        else
+                        {
+                            field.SetValue(avatars[0], fieldNameValue.Value);
+                        }
+                    }
+                }
+            }
+
+        }
+
     }
+
 }
