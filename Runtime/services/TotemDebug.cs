@@ -32,6 +32,9 @@ namespace TotemServices
         void Awake()
         {
             string pathToAssetOverride = Application.dataPath + "/" + ServicesEnv.AssetsOverrideFilePath;
+#if UNITY_ANDROID || UNITY_IOS
+            pathToAssetOverride = Application.persistentDataPath + "/" + ServicesEnv.AssetsOverrideFilePath;
+#endif
             if (File.Exists(pathToAssetOverride))
             {
                 string overrideJson = File.ReadAllText(pathToAssetOverride);
