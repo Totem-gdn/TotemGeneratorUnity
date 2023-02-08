@@ -51,7 +51,7 @@ namespace TotemServices
 #endif
 
             string query = $"?{redirectUrlQueryName}={LoadRedirectUrl()}";
-#if UNITY_EDITOR
+#if !UNITY_EDITOR
             if (!string.IsNullOrEmpty(gameId))
             {
                 query += $"&{gameIdQueryName}={gameId}";
@@ -125,6 +125,8 @@ namespace TotemServices
             {
                 throw new Exception("Deep Link uri is invalid or does not exist. Please generate from \"Window > Totem Generator > Generate Deep Link\" Menu");
             }
+#else
+            return "";
 #endif
         }
     }
