@@ -52,13 +52,13 @@ public class TotemCore
     /// Invokes OnUserProfileLoaded event on completion
     /// </summary>
     /// <param name="onComplete">If set, will be invoked instead of OnUserProfileLoaded event</param>
-    public void AuthenticateCurrentUser(UnityAction<TotemUser> onComplete = null)
+    public void AuthenticateCurrentUser(UnityAction<TotemUser> onComplete = null, UnityAction<string> onFailure = null)
     {
         _auth.LoginUser((user) =>
         {
             CurrentUser = user;
 
-            _analytics.RecordAction(TotemServicesAction.user_login, _gameId, CurrentUser.PublicKey, CurrentUser.Email);
+            _analytics.RecordAction(TotemServicesAction.user_login, _gameId, CurrentUser, CurrentUser.Email);
 
             if (onComplete != null)
             {
@@ -71,6 +71,43 @@ public class TotemCore
 
         }, _gameId);
 
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="onComplete"></param>
+    /// <param name="onFailure"></param>
+    public void AuthenticateLastUser(UnityAction<TotemUser> onComplete = null, UnityAction<string> onFailure = null)
+    {
+        _auth.LoginUserFromToken(_gameId, (user) =>
+        {
+            CurrentUser = user;
+
+            _analytics.RecordAction(TotemServicesAction.user_login, _gameId, CurrentUser, CurrentUser.Email);
+
+            if (onComplete != null)
+            {
+                onComplete.Invoke(user);
+            }
+            else
+            {
+                OnUserProfileLoaded.Invoke(user);
+            }
+
+        },
+        (error) =>
+        {
+            onFailure?.Invoke("Failed to authenticate last user: " + error);
+        });
+    }
+
+    /// <summary>
+    /// Should be called to stop the login process
+    /// </summary>
+    public void CancelAuthentication()
+    {
+        _auth.CancelLogin();
     }
 
     /// <summary>
@@ -97,7 +134,7 @@ public class TotemCore
             }
         });
 
-        _analytics.RecordAction(TotemServicesAction.avatars_requested, _gameId, CurrentUser.PublicKey, CurrentUser.Email);
+        _analytics.RecordAction(TotemServicesAction.avatars_requested, _gameId, CurrentUser, CurrentUser.Email);
     }
 
     /// <summary>
@@ -124,7 +161,7 @@ public class TotemCore
             }
         });
 
-        _analytics.RecordAction(TotemServicesAction.items_requested, _gameId, CurrentUser.PublicKey, CurrentUser.Email);
+        _analytics.RecordAction(TotemServicesAction.items_requested, _gameId, CurrentUser, CurrentUser.Email);
     }
 
     /// <summary>
@@ -146,7 +183,7 @@ public class TotemCore
         {
             onSuccess.Invoke(records);
 
-            _analytics.RecordAction(TotemServicesAction.legacy_requested, _gameId, CurrentUser.PublicKey, CurrentUser.Email);
+            _analytics.RecordAction(TotemServicesAction.legacy_requested, _gameId, CurrentUser, CurrentUser.Email);
         });
     }
 
@@ -170,7 +207,7 @@ public class TotemCore
             Debug.Log($"Legacy record created");
             onSuccess?.Invoke(legacy);
 
-            _analytics.RecordAction(TotemServicesAction.legacy_requested, _gameId, CurrentUser.PublicKey, CurrentUser.Email);
+            _analytics.RecordAction(TotemServicesAction.legacy_requested, _gameId, CurrentUser, CurrentUser.Email);
         });
     }
 

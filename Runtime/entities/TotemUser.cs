@@ -24,6 +24,6 @@ namespace TotemEntities
             Email = email;
             ProfileImageUrl = profileImageUrl;
         }
-        
+
     }
 }
