@@ -70,6 +70,12 @@ namespace TotemDemo
             totemCore = new TotemCore(_gameId);
 
             legacyGameIdInput.onEndEdit.AddListener(OnGameIdInputEndEdit);
+
+            UILoadingScreen.Instance.Show();
+            totemCore.AuthenticateLastUser(OnUserLoggedIn, (error) =>
+            {
+                UILoadingScreen.Instance.Hide();
+            });
         }
 
         #region USER AUTHENTICATION
@@ -119,6 +125,12 @@ namespace TotemDemo
 
         public void ShowAvatarRecords()
         {
+            if (firstAvatar == null)
+            {
+                return;
+            }
+            
+
             GetLegacyRecords(firstAvatar, TotemAssetType.avatar, (records) =>
             {
                 UIAssetLegacyRecordsList.Instance.BuildList(firstAvatar, records);
