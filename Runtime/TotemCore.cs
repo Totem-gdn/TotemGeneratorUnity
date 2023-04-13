@@ -207,7 +207,7 @@ public class TotemCore
             Debug.Log($"Legacy record created");
             onSuccess?.Invoke(legacy);
 
-            _analytics.RecordAction(TotemServicesAction.legacy_requested, _gameId, CurrentUser, CurrentUser.Email);
+            _analytics.RecordAction(TotemServicesAction.legacy_saved, _gameId, CurrentUser, CurrentUser.Email);
         });
     }
 
