@@ -1,4 +1,4 @@
-`# Totem Core for Unity!
+# Totem Core for Unity!
 
 This Package enables interaction with Totem services and assets in Unity.
 
