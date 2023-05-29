@@ -22,7 +22,6 @@ public class TotemCore
     private TotemAuth _auth;
     private TotemSmartContractManager _smartContract;
     private TotemAnalytics _analytics;
-    private TotemPayment _payment;
     private TotemDebug _debug;
 
     private GameObject _servicesGameObject;
@@ -196,15 +195,6 @@ public class TotemCore
     }
 
 
-    private void PurchaseAsset<T>(TotemAssetType assetType, UnityAction<T> onSuccess) where T : new()
-    {
-        _payment.PurchaseAsset(assetType.ToString(), CurrentUser.PublicKey, (res) =>
-        {
-            //TODO
-        });
-    }
-
-
     /// <summary>
     /// Returns Id of the asset
     /// </summary>
@@ -226,7 +216,6 @@ public class TotemCore
         _analytics = _servicesGameObject.AddComponent<TotemAnalytics>();
         _auth = _servicesGameObject.AddComponent<TotemAuth>();
         _smartContract = _servicesGameObject.AddComponent<TotemSmartContractManager>();
-        _payment = _servicesGameObject.AddComponent<TotemPayment>();
         _debug = _servicesGameObject.AddComponent<TotemDebug>();
 
 
