@@ -42,12 +42,12 @@ namespace TotemServices
 
         private void Awake()
         {
-            sourceVersion = "5.2.0"; //TODO: Retreive plugin version at runtime
+            sourceVersion = "5.3.0"; //TODO: Retreive plugin version at runtime
         }
 
         public void RecordAction(TotemServicesAction action, string gameId, TotemUser user, string userEmail)
         {
-#if !UNITY_EDITOR
+#if! UNITY_EDITOR && !UNITY_WEBGL
             var key = new EthECKey(TotemUtils.Convert.HexToByteArray(user.PublicKey), false);
             string address = key.GetPublicAddress();
 

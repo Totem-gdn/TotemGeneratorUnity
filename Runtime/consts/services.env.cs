@@ -6,10 +6,12 @@ namespace TotemConsts
 {
     public static class ServicesEnv
     {
+
         #region Auth
 
         public const string AuthServiceUrl = "https://auth.totem.gdn/";
-        public const string HttpListenerUrl = "http://localhost:6700/auth/";
+        public const string SocketServerURL = "wss://auth-backend.totem.gdn/notifications";
+        public const string HttpListenerUrl = "http://localhost:6700/";
         public const string AuthHttpResponseFileName = "HttpResponse";
         public const string HttpResultParameterName = "token";
         public const string TokenPlayerPrefsName = "lastTotemUserToken";
@@ -48,10 +50,17 @@ namespace TotemConsts
 
         #endregion
 
+        #region Payment
+
+        public const string PaymentSystem = "withpaper";
+        public const string PaymentAPIUrl = "https://dev-api.totem.gdn/payments";
+
+
+        #endregion
+
         #region Debug
 
         public const string AssetsOverrideFilePath = "Totem/totem-assets-override.json";
-
 
         #endregion
     }

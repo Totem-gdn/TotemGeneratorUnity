@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,12 +14,6 @@ using TotemEnums;
 public class TotemCore
 {
     /// <summary>
-    /// Invoked after successful login
-    /// Holds user's profile information and a publicKey for item retrieval 
-    /// </summary>
-    public UnityEvent<TotemUser> OnUserProfileLoaded;
-
-    /// <summary>
     /// Currently logged in user info
     /// </summary>
     public TotemUser CurrentUser { get; set; }
@@ -27,6 +22,7 @@ public class TotemCore
     private TotemAuth _auth;
     private TotemSmartContractManager _smartContract;
     private TotemAnalytics _analytics;
+    private TotemPayment _payment;
     private TotemDebug _debug;
 
     private GameObject _servicesGameObject;
@@ -43,42 +39,37 @@ public class TotemCore
         _gameId = gameId;
         _debugEnabled = enableDebug;
         CreateServicesGameObject();
-
-        OnUserProfileLoaded = new UnityEvent<TotemUser>();
     }
 
     /// <summary>
     /// Opens social login web-page
     /// Invokes OnUserProfileLoaded event on completion
     /// </summary>
-    /// <param name="onComplete">If set, will be invoked instead of OnUserProfileLoaded event</param>
-    public void AuthenticateCurrentUser(UnityAction<TotemUser> onComplete = null, UnityAction<string> onFailure = null)
+    /// <param name="onComplete">Callback for login completion. TotemUser will be null if login was canceled</param>
+    public void AuthenticateCurrentUser(UnityAction<TotemUser> onComplete)
     {
         _auth.LoginUser((user) =>
         {
-            CurrentUser = user;
-
-            _analytics.RecordAction(TotemServicesAction.user_login, _gameId, CurrentUser, CurrentUser.Email);
-
-            if (onComplete != null)
+            if (user != null)
             {
-                onComplete.Invoke(user);
+                CurrentUser = user;
+                _analytics.RecordAction(TotemServicesAction.user_login, _gameId, CurrentUser, CurrentUser.Email);
             }
-            else
-            {
-                OnUserProfileLoaded.Invoke(user);
-            }
+
+            onComplete.Invoke(user);
 
         }, _gameId);
 
     }
 
     /// <summary>
-    /// 
+    /// Login previous user 
+    /// Can be use in a Remember-me implementation
+    /// Invokes OnUserProfileLoaded event on completion
     /// </summary>
     /// <param name="onComplete"></param>
     /// <param name="onFailure"></param>
-    public void AuthenticateLastUser(UnityAction<TotemUser> onComplete = null, UnityAction<string> onFailure = null)
+    public void AuthenticateLastUser(UnityAction<TotemUser> onComplete, UnityAction<string> onFailure = null)
     {
         _auth.LoginUserFromToken(_gameId, (user) =>
         {
@@ -86,14 +77,7 @@ public class TotemCore
 
             _analytics.RecordAction(TotemServicesAction.user_login, _gameId, CurrentUser, CurrentUser.Email);
 
-            if (onComplete != null)
-            {
-                onComplete.Invoke(user);
-            }
-            else
-            {
-                OnUserProfileLoaded.Invoke(user);
-            }
+            onComplete.Invoke(user);
 
         },
         (error) =>
@@ -207,7 +191,16 @@ public class TotemCore
             Debug.Log($"Legacy record created");
             onSuccess?.Invoke(legacy);
 
-            _analytics.RecordAction(TotemServicesAction.legacy_requested, _gameId, CurrentUser, CurrentUser.Email);
+            _analytics.RecordAction(TotemServicesAction.legacy_saved, _gameId, CurrentUser, CurrentUser.Email);
+        });
+    }
+
+
+    private void PurchaseAsset<T>(TotemAssetType assetType, UnityAction<T> onSuccess) where T : new()
+    {
+        _payment.PurchaseAsset(assetType.ToString(), CurrentUser.PublicKey, (res) =>
+        {
+            //TODO
         });
     }
 
@@ -233,6 +226,7 @@ public class TotemCore
         _analytics = _servicesGameObject.AddComponent<TotemAnalytics>();
         _auth = _servicesGameObject.AddComponent<TotemAuth>();
         _smartContract = _servicesGameObject.AddComponent<TotemSmartContractManager>();
+        _payment = _servicesGameObject.AddComponent<TotemPayment>();
         _debug = _servicesGameObject.AddComponent<TotemDebug>();
 
 

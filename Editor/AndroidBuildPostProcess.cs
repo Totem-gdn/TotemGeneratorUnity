@@ -32,16 +32,13 @@ namespace TotemEditor
 
             var activityNode = document.DocumentElement.SelectSingleNode("application").SelectSingleNode("activity");
             activityNode.AppendChild(activityNode.OwnerDocument.ImportNode(BuildeNode(string.Format(@"
-          <intent-filter  xmlns:android=""http://schemas.android.com/apk/res/android"">
+          <intent-filter  xmlns:android=""http://schemas.android.com/apk/res/android"" android:autoVerify=""true"">
             <action android:name=""android.intent.action.VIEW"" />
-
             <category android:name=""android.intent.category.DEFAULT"" />
             <category android:name= ""android.intent.category.BROWSABLE"" />
-
-
-            <data android:scheme=""{0}"" android:host=""{1}"" android:pathPrefix=""{2}"" />
+            <data android:scheme=""{0}"" android:host=""{1}""/>
           </intent-filter>
-        ", uri.Scheme, uri.Host, uri.LocalPath)), true));
+        ", uri.Scheme, uri.Host)), true));
 
             document.Save(manifest);
         }

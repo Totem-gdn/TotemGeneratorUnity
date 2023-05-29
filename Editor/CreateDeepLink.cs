@@ -50,7 +50,7 @@ namespace TotemEditor
         {
             if (!System.IO.Directory.Exists("Assets/Resources/"))
                 System.IO.Directory.CreateDirectory("Assets/Resources/");
-            System.IO.File.WriteAllText("Assets/Resources/webauth.txt", "torusapp://com.torus.Web3AuthUnity/auth_" + gameId.text);
+            System.IO.File.WriteAllText("Assets/Resources/webauth.txt", $"totemapp://{gameId.text}");
 
             EditorUtility.DisplayDialog("Deep link generated", "Deep link for game id \"" + gameId.text + "\" is successfully generated", "Ok");
         }

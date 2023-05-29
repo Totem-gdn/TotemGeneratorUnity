@@ -71,11 +71,11 @@ namespace TotemDemo
 
             legacyGameIdInput.onEndEdit.AddListener(OnGameIdInputEndEdit);
 
-            UILoadingScreen.Instance.Show();
-            totemCore.AuthenticateLastUser(OnUserLoggedIn, (error) =>
-            {
-                UILoadingScreen.Instance.Hide();
-            });
+            //UILoadingScreen.Instance.Show();
+            //totemCore.AuthenticateLastUser(OnUserLoggedIn, (error) =>
+            //{
+            //    UILoadingScreen.Instance.Hide();
+            //});
         }
 
         #region USER AUTHENTICATION
@@ -89,6 +89,13 @@ namespace TotemDemo
 
         private void OnUserLoggedIn(TotemUser user)
         {
+            //Check if login was canceled
+            if (user == null)
+            {
+                UILoadingScreen.Instance.Hide();
+                Debug.Log("Login canceled");
+                return;
+            }
             //Using default filter with a default avatar model. You can implement your own filters and/or models
             totemCore.GetUserAvatars<TotemDNADefaultAvatar>(user, TotemDNAFilter.DefaultAvatarFilter, (avatars) =>
             {
@@ -119,6 +126,7 @@ namespace TotemDemo
                 {
                     Debug.Log(item.ToString());
                 }
+
             });
         }
 

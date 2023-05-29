@@ -47,7 +47,6 @@ namespace TotemServices
         {
             if (assetOverride == null)
             {
-                Debug.LogWarning("TotemDebug: Avatars override failed. Asset override file not loaded");
                 onComplete.Invoke();
                 return;
             }
@@ -90,7 +89,6 @@ namespace TotemServices
 
             if (assetOverride == null)
             {
-                Debug.LogWarning("TotemDebug: Items override failed. Asset override file not loaded");
                 onComplete.Invoke();
                 return;
             }

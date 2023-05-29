@@ -1,4 +1,4 @@
-# Totem Core for Unity!
+`# Totem Core for Unity!
 
 This Package enables interaction with Totem services and assets in Unity.
 
@@ -81,6 +81,12 @@ public class test : MonoBehaviour
         //Authenticate user through social login in web browser and get user's assets
         totemCore.AuthenticateCurrentUser((user) =>
         {
+            //Check if login was canceled
+            if (user == null)
+            {
+                return;
+            }
+
             //Using default filter with a default avatar model. You can implement your own filters and/or models
             totemCore.GetUserAvatars<TotemDNADefaultAvatar>(user, TotemDNAFilter.DefaultAvatarFilter, (avatars) =>
             {
