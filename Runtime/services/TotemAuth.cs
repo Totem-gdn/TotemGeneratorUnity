@@ -9,6 +9,7 @@ using UnityEngine.Events;
 using UnityEngine.Networking;
 using TotemEntities;
 using TotemConsts;
+using TotemUtils;
 using System.Linq;
 using NativeWebSocket;
 
@@ -50,6 +51,7 @@ namespace TotemServices
 
         private const string redirectUrlQueryName = "success_url";
         private const string gameIdQueryName = "game_id";
+        private const string autoCloseQueryName = "autoClose";
         private const string socketEnabledQueryName = "ws_enabled";
         private const string socketRoomIdQueryName = "roomId";
 
@@ -105,6 +107,8 @@ namespace TotemServices
 #endif
 #if UNITY_ANDROID || UNITY_IOS
              query += $"&{redirectUrlQueryName}={LoadRedirectUrl()}";
+#elif UNITY_WEBGL && !UNITY_EDITOR
+            query += $"&{autoCloseQueryName}=true";
 #endif
 
             SetupIOSocket(socketRoomId, query);
@@ -198,9 +202,6 @@ namespace TotemServices
                 {
                     user = HandleToken(token);
                     PlayerPrefs.SetString(ServicesEnv.TokenPlayerPrefsName + "_" + currentGameId, token);
-#if UNITY_WEBGL && !UNITY_EDITOR
-                    ClosePopup();
-#endif
                 }
 
                 onLoginCallback.Invoke(user);
@@ -278,6 +279,7 @@ namespace TotemServices
 
             socket.OnClose += (e) =>
             {
+                
             };
 
             socket.OnMessage += (bytes) =>
@@ -286,18 +288,21 @@ namespace TotemServices
                 var resultAttributes = JsonConvert.DeserializeObject< Dictionary<string, string>>(message);
                 if (resultAttributes.ContainsKey(socketEventTokenName))
                 {
-                    CompleteLogin(resultAttributes[socketEventTokenName]);
-
+                    UnityThread.executeInUpdate(() =>
+                    {
+                        CompleteLogin(resultAttributes[socketEventTokenName]);
+                    });
                 }
                 else if (resultAttributes["type"].Equals(socketEventDisconnectedType))
                 {
-                    CompleteLogin("");
+                    UnityThread.executeInUpdate(() =>
+                    {
+                        CompleteLogin("");
+                    });
                 }
             };
 
         }
-
-
 
         private string GenerateSocketRoomId()
         {

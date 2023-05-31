@@ -10,6 +10,7 @@ using TotemServices.DNA;
 using TotemEntities;
 using TotemEntities.DNA;
 using TotemEnums;
+using TotemUtils;
 
 public class TotemCore
 {
@@ -218,6 +219,7 @@ public class TotemCore
         _smartContract = _servicesGameObject.AddComponent<TotemSmartContractManager>();
         _debug = _servicesGameObject.AddComponent<TotemDebug>();
 
+        UnityThread.initUnityThread();
 
         MonoBehaviour.DontDestroyOnLoad(_servicesGameObject);
     }
