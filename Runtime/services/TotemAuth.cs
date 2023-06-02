@@ -58,10 +58,12 @@ namespace TotemServices
         private const string socketEventTokenName = "token";
         private const string socketEventDisconnectedType = "user:disconnected";
 
+#if UNITY_WEBGL
         [DllImport("__Internal")]
         private static extern void OpenURLPopup(string url);
         [DllImport("__Internal")]
         private static extern void ClosePopup();
+#endif
 
 
         private string currentGameId;
@@ -89,10 +91,10 @@ namespace TotemServices
         /// <summary>
         /// Open a web-page in a browser for user to login
         /// </summary>
-        /// <param name="onSuccess"></param>
-        public async void LoginUser(UnityAction<TotemUser> onSuccess, string gameId)
+        /// <param name="onComplete">Returns null if login was canceled</param>
+        public async void LoginUser(UnityAction<TotemUser> onComplete, string gameId)
         {
-            onLoginCallback = onSuccess;
+            onLoginCallback = onComplete;
             currentGameId = gameId;
             loginComplete = false;
 
@@ -111,7 +113,7 @@ namespace TotemServices
             query += $"&{autoCloseQueryName}=true";
 #endif
 
-            SetupIOSocket(socketRoomId, query);
+            SetupWebSocket(socketRoomId, query);
 
             await socket.Connect();
 
@@ -258,7 +260,7 @@ namespace TotemServices
 #endif
         }
 
-        private void SetupIOSocket(string roomId, string authQuery)
+        private void SetupWebSocket(string roomId, string authQuery)
         {
             socket = new WebSocket(ServicesEnv.SocketServerURL);
    
@@ -275,11 +277,6 @@ namespace TotemServices
 #else
                 Application.OpenURL(ServicesEnv.AuthServiceUrl + authQuery);
 #endif
-            };
-
-            socket.OnClose += (e) =>
-            {
-                
             };
 
             socket.OnMessage += (bytes) =>
