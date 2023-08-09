@@ -9,6 +9,7 @@ using TotemServices;
 using TotemServices.DNA;
 using TotemEntities;
 using TotemEntities.DNA;
+using TotemConsts;
 using TotemEnums;
 using TotemUtils;
 
@@ -22,6 +23,7 @@ public class TotemCore
     private TotemLegacyService _legacyService;
     private TotemAuth _auth;
     private TotemSmartContractManager _smartContract;
+    private TotemPayment _payment;
     private TotemAnalytics _analytics;
     private TotemDebug _debug;
 
@@ -195,6 +197,75 @@ public class TotemCore
         });
     }
 
+    /// <summary>
+    /// Opens external web browser to proceed with asset purchase
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="assetType"></param>
+    /// <param name="onSuccess"></param>
+    /// <param name="onFailure"></param>
+    public void PurchaseAsset<T>(TotemAssetType assetType, TotemDNAFilter filter, UnityAction<T> onSuccess, UnityAction onFailure) where T : new()
+    {
+        _payment.PurchaseAsset(assetType.ToString(), CurrentUser.PublicKey, (success) =>
+        {
+            if (!success)
+            {
+                onFailure();
+                return;
+            }
+
+            switch(assetType)
+            {
+                case TotemAssetType.avatar:
+                    _smartContract.GetNewAvatar(CurrentUser, filter, onSuccess);
+                    break;
+
+                case TotemAssetType.item:
+                    _smartContract.GetNewItem(CurrentUser, filter, onSuccess);
+                    break;
+            }
+
+        });
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="asset"></param>
+    /// <param name="genIndex"></param>
+    /// <param name="register"></param>
+    /// <returns></returns>
+    public uint GetAssetExponentialValue<T>(T asset, int genIndex, TotemDNARegister register)
+    {
+        string assetDna = _smartContract.GetAssetBinaryDNA(asset);
+
+        int startBitIndex = genIndex * 32;
+
+        Debug.Log("DNA length:" + assetDna.Length);
+        Debug.Log("Start bit: " + startBitIndex);
+        string expBin = assetDna.Substring(startBitIndex, 32);
+
+        string highExpVal = expBin.Substring(0, 16);
+        string lowExpVal = expBin.Substring(16);
+
+        switch(register)
+        {
+            case TotemDNARegister.LOW:
+                return System.Convert.ToUInt32(lowExpVal, 2);
+
+            case TotemDNARegister.HIGH:
+                return System.Convert.ToUInt32(highExpVal, 2);
+
+            default:
+                return 0;
+        }
+    }
+
+    public float GetAssetExponentialValueProbability(uint value)
+    {
+        return 1f - Mathf.Exp(-value / (float)ServicesEnv.AssetExponentialConstant);
+    }
 
     /// <summary>
     /// Returns Id of the asset
@@ -217,13 +288,12 @@ public class TotemCore
         _analytics = _servicesGameObject.AddComponent<TotemAnalytics>();
         _auth = _servicesGameObject.AddComponent<TotemAuth>();
         _smartContract = _servicesGameObject.AddComponent<TotemSmartContractManager>();
+        _payment = _servicesGameObject.AddComponent<TotemPayment>();
         _debug = _servicesGameObject.AddComponent<TotemDebug>();
 
         UnityThread.initUnityThread();
 
         MonoBehaviour.DontDestroyOnLoad(_servicesGameObject);
     }
-
-
-
 }
+

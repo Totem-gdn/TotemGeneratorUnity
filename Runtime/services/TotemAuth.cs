@@ -16,11 +16,26 @@ using NativeWebSocket;
 
 namespace TotemServices
 {
+    [Serializable]
+    public class SocketMessage
+    {
+        [JsonProperty("event")]
+        public string Event { get; set; }
+
+        public SocketRoomData data;
+    }
+
+    [Serializable]
+    public class SocketRoomData
+    {
+        public string room;
+    }
 
     public class TotemAuth : MonoBehaviour
     {
 
         #region Models
+
         private class IdToken
         {
             public int iat;
@@ -33,20 +48,6 @@ namespace TotemServices
             public string profileImage;
         }
 
-        [Serializable]
-        private class SocketMessage
-        {
-            [JsonProperty("event")]
-            public string Event { get; set; }
-
-            public SocketRoomData data;
-        }
-
-        [Serializable]
-        private class SocketRoomData
-        {
-            public string room;
-        }
         #endregion
 
         private const string redirectUrlQueryName = "success_url";
@@ -99,7 +100,7 @@ namespace TotemServices
             loginComplete = false;
 
 
-            string socketRoomId = GenerateSocketRoomId();
+            string socketRoomId = WebUtils.GenerateSocketRoomId();
             string query = $"?{socketEnabledQueryName}=true&{socketRoomIdQueryName}={socketRoomId}";
 #if !UNITY_EDITOR
             if (!string.IsNullOrEmpty(gameId))
@@ -107,8 +108,8 @@ namespace TotemServices
                 query += $"&{gameIdQueryName}={gameId}";
             }
 #endif
-#if UNITY_ANDROID || UNITY_IOS
-             query += $"&{redirectUrlQueryName}={LoadRedirectUrl()}";
+#if UNITY_ANDROID || UNITY_IOS && !UNITY_EDITOR
+            query += $"&{redirectUrlQueryName}={LoadRedirectUrl()}";
 #elif UNITY_WEBGL && !UNITY_EDITOR
             query += $"&{autoCloseQueryName}=true";
 #endif
@@ -299,11 +300,6 @@ namespace TotemServices
                 }
             };
 
-        }
-
-        private string GenerateSocketRoomId()
-        {
-            return Guid.NewGuid().ToString();
         }
     }
 }

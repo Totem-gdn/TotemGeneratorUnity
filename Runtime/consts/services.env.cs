@@ -42,19 +42,20 @@ namespace TotemConsts
 
         #region SmartContract
 
-        public const string SmartContractUrl = "https://matic-mumbai.chainstacklabs.com";
+        public const string SmartContractUrl = "https://rpc-mumbai.maticvigil.com";
         public const string SmartContractAvatars = "0x11dBDbF2e6D262c2fe7e73ace1A60c6862dC14dE";
         public const string SmartContractItems = "0xEc9C96eF9b90a950057EDbe40B42385f3b1cE78C";
         public const string SmartContractAvatarsFilterName = "totem-common-files/filters/totem-avatar";
         public const string SmartContractItemsFilterName = "totem-common-files/filters/totem-item";
+        public const int AssetExponentialConstant = 7057;
 
         #endregion
 
         #region Payment
 
         public const string PaymentSystem = "withpaper";
-        public const string PaymentAPIUrl = "https://dev-api.totem.gdn/payments";
-
+        public const string PaymentAPIUrl = "https://api.totem.gdn/payments";
+        public const string PaymentServiceUrl = "https://auth.totem.gdn/app-purchase/";
 
         #endregion
 

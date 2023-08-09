@@ -117,7 +117,27 @@ namespace TotemDemo
                 BuildAvatarList();
                 ShowAvatarRecords();
 
+                //Exp values
+                foreach (var avatar in avatars)
+                {
+                    string avatarId = totemCore.GetAssetId(avatar);
+                    var expValLow = totemCore.GetAssetExponentialValue(avatar, 31, TotemEnums.TotemDNARegister.LOW);
+                    var expValHigh = totemCore.GetAssetExponentialValue(avatar, 31, TotemEnums.TotemDNARegister.HIGH);
+                    var probability = totemCore.GetAssetExponentialValueProbability(expValLow);
+                    Debug.Log($"Avatar {avatarId} exp LOW: {expValLow} | exp HIGH: {expValHigh} | probability: {probability}");
+                }
+
+
+                //Purchase
+                //totemCore.PurchaseAsset<TotemDNADefaultAvatar>(TotemAssetType.avatar, TotemDNAFilter.DefaultAvatarFilter, (avatar) =>
+                //{
+                //    Debug.Log("New avatar!");
+                //    _userAvatars.Add(avatar);
+                //    BuildAvatarList();
+
+                //}, () => Debug.LogError("Failed to purchase asset"));
             });
+
 
             totemCore.GetUserItems<TotemDNADefaultItem>(user, TotemDNAFilter.DefaultItemFilter, (items) =>
             {

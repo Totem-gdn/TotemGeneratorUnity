@@ -47,7 +47,7 @@ namespace TotemServices
 
         public void RecordAction(TotemServicesAction action, string gameId, TotemUser user, string userEmail)
         {
-#if! UNITY_EDITOR && !UNITY_WEBGL
+#if !UNITY_EDITOR && !UNITY_WEBGL
             var key = new EthECKey(TotemUtils.Convert.HexToByteArray(user.PublicKey), false);
             string address = key.GetPublicAddress();
 

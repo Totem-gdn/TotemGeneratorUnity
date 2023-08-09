@@ -14,5 +14,11 @@ namespace TotemUtils
 
             return request;
         }
+
+
+        public static string GenerateSocketRoomId()
+        {
+            return System.Guid.NewGuid().ToString();
+        }
     }
 }
