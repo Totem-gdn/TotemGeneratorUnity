@@ -1,6 +1,6 @@
 {
   "name": "com.totem.totemcore",
-  "version": "5.3.0",
+  "version": "5.4.0",
   "displayName": "Totem Core for Unity",
   "description": "Totem plugin that enables interaction with Totem services and assets",
   "unity": "2021.3",
