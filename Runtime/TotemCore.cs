@@ -36,11 +36,16 @@ public class TotemCore
     /// Initialize DB and services
     /// </summary>
     /// <param name="gameId">Id of your game. Used for legacy records identification</param>
-    public TotemCore(string gameId, bool enableDebug = true)
+    public TotemCore(string gameId, string rpcUrl = "", bool enableDebug = true)
     {
         _gameId = gameId;
         _debugEnabled = enableDebug;
         CreateServicesGameObject();
+
+        if (!string.IsNullOrEmpty(rpcUrl))
+        {
+            SetRpcUrl(rpcUrl);
+        }
     }
 
     /// <summary>
@@ -275,6 +280,17 @@ public class TotemCore
     public string GetAssetId(object asset)
     {
         return _smartContract.GetAssetId(asset).ToString();
+    }
+
+    /// <summary>
+    /// Sets the Rpc Url for smart contract interactions
+    /// </summary>
+    /// <param name="url"></param>
+    public void SetRpcUrl(string url)
+    {
+        Assert.IsFalse(string.IsNullOrEmpty(url));
+
+        ServicesEnv.SmartContractUrl = url;
     }
 
 

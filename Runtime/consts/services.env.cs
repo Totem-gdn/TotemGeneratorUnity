@@ -42,7 +42,8 @@ namespace TotemConsts
 
         #region SmartContract
 
-        public const string SmartContractUrl = "https://rpc-mumbai.maticvigil.com";
+        public static string SmartContractUrl = "https://rpc.ankr.com/polygon_mumbai";
+
         public const string SmartContractAvatars = "0x11dBDbF2e6D262c2fe7e73ace1A60c6862dC14dE";
         public const string SmartContractItems = "0xEc9C96eF9b90a950057EDbe40B42385f3b1cE78C";
         public const string SmartContractAvatarsFilterName = "totem-common-files/filters/totem-avatar";
